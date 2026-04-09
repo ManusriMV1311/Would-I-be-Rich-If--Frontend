@@ -1,0 +1,70 @@
+'use client';
+
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { ScenarioCategory } from '@/types/scenario.types';
+import { ScenarioService } from '@/services/api';
+import CategoryFilter from '@/components/scenarios/CategoryFilter';
+import ScenarioGrid from '@/components/scenarios/ScenarioGrid';
+
+export default function ScenariosPage() {
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | 'all'>('all');
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['scenarios', selectedCategory],
+    queryFn: () =>
+      ScenarioService.getScenarios(
+        selectedCategory === 'all' ? undefined : selectedCategory
+      ),
+    staleTime: 5 * 60 * 1000, // 5 min client-side cache
+  });
+
+  const scenarios = data?.data ?? [];
+
+  const handleSelectScenario = (uuid: string) => {
+    router.push(`/result/${uuid}`);
+  };
+
+  return (
+    <main className="min-h-screen bg-background px-4 py-12 md:px-8 lg:px-16">
+      {/* Page header */}
+      <div className="max-w-6xl mx-auto mb-10">
+        <p className="text-brand text-sm font-bold uppercase tracking-[0.3em] mb-3">
+          Archive Records
+        </p>
+        <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter mb-4">
+          Explore Scenarios
+        </h1>
+        <p className="text-foreground/60 text-lg max-w-2xl leading-relaxed italic font-light">
+          Pick a "what if" moment and discover how it would have changed your life.
+        </p>
+      </div>
+
+      {/* Category Filter */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <CategoryFilter
+          selected={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+      </div>
+
+      {/* Error state */}
+      {isError && (
+        <div className="max-w-6xl mx-auto mb-8 p-4 rounded-xl bg-red-900/30 border border-red-800 text-red-300 text-sm">
+          ⚠️ Couldn't load scenarios. Please try again.
+        </div>
+      )}
+
+      {/* Scenario grid */}
+      <div className="max-w-6xl mx-auto">
+        <ScenarioGrid
+          scenarios={scenarios}
+          isLoading={isLoading}
+          onSelectScenario={handleSelectScenario}
+        />
+      </div>
+    </main>
+  );
+}

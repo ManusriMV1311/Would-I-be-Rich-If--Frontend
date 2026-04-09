@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--color-brand);
+  --color-brand-muted: var(--color-brand-muted);
+  --color-alternate: var(--color-alternate);
+  --color-real: var(--color-real);
+  --color-gap: var(--color-gap);
+  --color-card: var(--color-card);
+  --color-border: var(--color-border);
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif; /* Placeholder until distinct font added */
+  
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* ─── Light Mode (Legacy Parchment) ─────────────────────────────────────────── */
+:root {
+  --background: #FFFDF5;
+  --foreground: #122412;
+  --color-brand: #2D6A4F; /* Deep accent */
+  --color-brand-muted: #1A2E1A;
+  --color-alternate: #48C9B0; /* Turquoise */
+  --color-real: #F1C40F; /* Goldenrod */
+  --color-gap: #E74C3C; /* Soft Red */
+  --color-card: #F7F3E2;
+  --color-border: #E8E2CF;
+  
+  --vibrant-1: rgba(72, 201, 176, 0.15);
+  --vibrant-2: rgba(241, 196, 15, 0.1);
+  --vibrant-3: rgba(198, 255, 0, 0.1);
+}
+
+/* ─── Dark Mode (Onyx & Pulse) ──────────────────────────────────────────────── */
+.dark {
+  --background: #050505;
+  --foreground: #F2F2F2;
+  --color-brand: #C6FF00; /* Electric Lime */
+  --color-brand-muted: #8DBF00;
+  --color-alternate: #00F5A0;
+  --color-real: #FFB800;
+  --color-gap: #FF3B3B;
+  --color-card: #121212;
+  --color-border: #1E1E1E;
+}
+
+/* ─── Global Styles ─────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Tactile Texture Layer (Film Grain) */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+/* ─── Premium Visual Utilities ──────────────────────────────────────────────── */
+
+/* 3D Perspective Grid Logic */
+.perspective-grid {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.grid-plane {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: rotateX(60deg) translateZ(-100px);
+  mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+.light .grid-plane {
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.01) 1px, transparent 1px);
+}
+
+/* Refractive Glass Look */
+.glass-refraction {
+  backdrop-filter: blur(40px) saturate(180%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.light .glass-refraction {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+}
+
+/* Sentient Gradient Mesh */
+.mesh-gradient {
+  background-color: var(--background);
+  background-image: 
+  radial-gradient(at 0% 0%, var(--color-brand) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, var(--color-alternate) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, var(--color-real) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, var(--color-gap) 0px, transparent 50%);
+  filter: blur(80px);
+  opacity: 0.3; /* Increased for vibrancy */
+}
+
+/* Aura Bloom - Decorative colourful glows */
+.aura-bloom {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: -5;
+  mix-blend-mode: multiply;
+  animation: float-aura 15s infinite alternate ease-in-out;
+}
+
+.dark .aura-bloom {
+  mix-blend-mode: plus-lighter;
+  opacity: 0.15;
+}
+
+@keyframes float-aura {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(5%, 10%) scale(1.1); }
+}
+
+.dark .mesh-gradient {
+  opacity: 0.1;
+}
+
+/* Motion Utilities */
+.animate-ink-bleed {
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift {
+  @apply transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-2xl;
+}
+
+@keyframes drift {
+  from { transform: rotate(0deg) scale(1.5); }
+  to { transform: rotate(5deg) scale(1.8); }
+}
+
+.animate-drift {
+  animation: drift 20s infinite alternate;
+}
