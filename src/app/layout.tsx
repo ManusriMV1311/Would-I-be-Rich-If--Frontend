@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Providers from "../components/Providers";
-import ThemeProvider from "../components/ThemeProvider";
 import Navbar from "../components/Navbar";
 import ToastContainer from "../components/ui/ToastContainer";
 import GlobalOverlay from "../components/GlobalOverlay";
@@ -37,10 +36,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full antialiased scroll-smooth`}>
       <body className="relative bg-background text-foreground overflow-x-hidden">
 
-        {/* 🌗 THEME PROVIDER */}
-        <ThemeProvider />
-
-        {/* 🎨 FIXED BACKGROUND LAYERS - BEHIND EVERYTHING */}
+        {/*  FIXED BACKGROUND LAYERS - BEHIND EVERYTHING */}
         <div className="fixed inset-0 -z-50 pointer-events-none">
           <SplineBackground />
         </div>
@@ -52,7 +48,7 @@ export default function RootLayout({
         {/* 📱 MAIN CONTENT WRAPPER - ABOVE BACKGROUNDS */}
         <div className="relative z-0 flex flex-col min-h-screen">
           <Providers>
-            <Navbar className="relative z-30" />
+            <Navbar />
             <main className="flex-1 relative z-10">
               {children}
             </main>

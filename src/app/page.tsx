@@ -25,7 +25,7 @@ const itemVariants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' },
+    transition: { duration: 0.8, ease: 'easeOut' as const },
   },
 };
 
@@ -35,7 +35,7 @@ const floatingVariants = {
     transition: {
       duration: 6,
       repeat: Infinity,
-      ease: 'easeInOut',
+      ease: 'easeInOut' as const,
     },
   },
 };
@@ -330,8 +330,8 @@ function CTASection() {
               Stop wondering. Start calculating.
             </h2>
             <p className="text-lg text-foreground/60 max-w-2xl mx-auto mb-10">
-              Join thousands of people who've discovered the harsh truth about their financial
-              decisions. It's free, it's instant, and it's brutally honest.
+              Join thousands of people who&apos;ve discovered the harsh truth about their financial
+              decisions. It&apos;s free, it&apos;s instant, and it&apos;s brutally honest.
             </p>
 
             {/* CTA Button */}
