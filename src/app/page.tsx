@@ -134,17 +134,6 @@ function HeroSection() {
           </Link>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <div className="text-xs uppercase tracking-widest text-foreground/40 font-semibold">
-            Scroll
-          </div>
-          <div className="w-1 h-8 rounded-full bg-gradient-to-b from-brand to-transparent" />
-        </motion.div>
       </div>
     </motion.section>
   );
@@ -273,7 +262,7 @@ function FeaturesSection() {
             Premium Features,
             <br />
             <span className="bg-gradient-to-r from-brand to-cyan-400 bg-clip-text text-transparent">
-              Zero Fluff
+              Real Insights
             </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
