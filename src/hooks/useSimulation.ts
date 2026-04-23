@@ -1,21 +1,26 @@
 import { useMutation } from '@tanstack/react-query';
-import { SimulationService } from '@/services/api';
+import { simulateLumpSum, simulateDCA } from '@/services/api';
 import { SimulationResultData } from '@/types/scenario.types';
 
+/**
+ * Custom simulation input (matches backend)
+ */
 export interface CustomSimulationParams {
-  sim_type: 'lump_sum';
+  sim_type: 'lump_sum' | 'dca';
   asset: string;
-  initial_amount: number;
+  initial_amount?: number;
+  monthly_investment?: number;
   start_date: string;
 }
 
 /**
- * useSimulation — triggers a pre-built scenario simulation.
- * Returns { mutate, isPending, data, error }.
+ * Placeholder for scenario-based simulation (if needed later)
  */
 export function useSimulation() {
   return useMutation({
-    mutationFn: (uuid: string) => SimulationService.simulateScenario(uuid),
+    mutationFn: async (uuid: string) => {
+      throw new Error('Scenario-based simulation not implemented yet');
+    },
     onError: (err) => {
       console.error('[useSimulation] failed:', err);
     },
@@ -23,8 +28,7 @@ export function useSimulation() {
 }
 
 /**
- * useCustomSimulation — runs a custom user-defined simulation.
- * Accepts ticker, amount, and start date validated upstream by Zod.
+ * REAL custom simulation (connected to backend)
  */
 export function useCustomSimulation() {
   return useMutation<
@@ -33,45 +37,98 @@ export function useCustomSimulation() {
     CustomSimulationParams
   >({
     mutationFn: async (params: CustomSimulationParams) => {
-      // For now resolves through the mock service.
-      // Replace with Axios POST /api/v1/simulate/custom when backend is live.
-      await new Promise((r) => setTimeout(r, 1800)); // simulate latency
-      return {
-        success: true,
-        data: {
-          result_id: `res_custom_${Date.now()}`,
-          scenario: {
-            uuid: 'custom',
-            title: `What if I bought $${params.initial_amount} of ${params.asset}?`,
-            category: 'stocks' as const,
+      try {
+        let result;
+
+        if (params.sim_type === 'lump_sum') {
+          result = await simulateLumpSum({
+            ticker: params.asset,
+            start_date: params.start_date,
+            amount: params.initial_amount || 0,
+          });
+        } else {
+          result = await simulateDCA({
+            ticker: params.asset,
+            start_date: params.start_date,
+            monthly_investment: params.monthly_investment || 0,
+          });
+        }
+
+        // 🔥 Transform backend → frontend format
+        return {
+          success: true,
+          data: {
+            result_id: `res_${Date.now()}`,
+            scenario: {
+              uuid: 'custom',
+              title: `What if I invested in ${params.asset}?`,
+              category: 'stocks',
+            },
+
+            alternate_you: {
+              value:
+                params.sim_type === 'lump_sum'
+                  ? result.final
+                  : result.data[result.data.length - 1].portfolio,
+              label: 'Alternate You',
+              description: `${params.asset} investment since ${params.start_date}`,
+            },
+
+            real_you: {
+              value:
+                params.sim_type === 'lump_sum'
+                  ? result.initial
+                  : result.data[result.data.length - 1].invested,
+              label: 'Real You',
+              description: 'No investment',
+            },
+
+            difference:
+              params.sim_type === 'lump_sum'
+                ? result.profit
+                : result.data[result.data.length - 1].portfolio -
+                result.data[result.data.length - 1].invested,
+
+            growth_pct:
+              params.sim_type === 'lump_sum'
+                ? result.growth_percent
+                : (
+                  ((result.data[result.data.length - 1].portfolio -
+                    result.data[result.data.length - 1].invested) /
+                    result.data[result.data.length - 1].invested) *
+                  100
+                ),
+
+            is_positive:
+              params.sim_type === 'lump_sum'
+                ? result.profit > 0
+                : result.data[result.data.length - 1].portfolio >
+                result.data[result.data.length - 1].invested,
+
+            chart_data:
+              params.sim_type === 'lump_sum'
+                ? result.chart_data
+                : result.data.map((d: any) => ({
+                  date: d.date,
+                  value: d.portfolio,
+                })),
+
+            commentary: 'Real simulation based on historical market data.',
+            cached: false,
+            duration_ms: 0,
+            computed_at: new Date().toISOString(),
           },
-          alternate_you: {
-            value: params.initial_amount * 4.7,
-            label: 'Alternate You',
-            description: `$${params.initial_amount} in ${params.asset} since ${params.start_date}`,
-          },
-          real_you: {
-            value: params.initial_amount,
-            label: 'Real You',
-            description: 'Kept the cash',
-          },
-          difference: params.initial_amount * 3.7,
-          growth_pct: 370,
-          is_positive: true,
-          chart_data: [
-            { date: params.start_date.slice(0, 7), value: params.initial_amount },
-            { date: '2020-01', value: params.initial_amount * 1.8 },
-            { date: '2023-01', value: params.initial_amount * 3.1 },
-            { date: new Date().toISOString().slice(0, 7), value: params.initial_amount * 4.7 },
-          ],
-          commentary: `Not bad for someone who almost bought another pair of sneakers instead.`,
-          cached: false,
-          duration_ms: 1800,
-          computed_at: new Date().toISOString(),
-        },
-        error: null,
-      };
+          error: null,
+        };
+      } catch (err) {
+        return {
+          success: false,
+          data: null,
+          error: err,
+        };
+      }
     },
+
     onError: (err) => {
       console.error('[useCustomSimulation] failed:', err);
     },

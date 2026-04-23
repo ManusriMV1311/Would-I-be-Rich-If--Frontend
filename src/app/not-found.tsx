@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-background flex flex-col items-center justify-center text-center px-6">
+    <main className="min-h-screen flex flex-col items-center justify-center text-center px-6">
 
       {/* Glitch animation number */}
       <div className="relative mb-6 select-none" aria-hidden="true">
@@ -21,10 +21,10 @@ export default function NotFound() {
         ⏱️💥
       </div>
 
-      <h1 className="text-3xl font-bold text-white mb-3">
+      <h1 className="text-3xl font-bold text-foreground mb-3">
         Your time machine broke
       </h1>
-      <p className="text-slate-400 text-base mb-10 max-w-sm leading-relaxed">
+      <p className="text-foreground/60 text-base mb-10 max-w-sm leading-relaxed">
         This page doesn't exist — or may have already been lost to the space-time continuum.
         Let's get you back to safety.
       </p>
@@ -47,10 +47,10 @@ export default function NotFound() {
           id="not-found-explore"
           className="
             inline-flex items-center justify-center gap-2
-            rounded-full border border-slate-700 px-7 py-3.5
-            text-slate-300 font-semibold text-sm
-            hover:border-slate-500 hover:text-white transition-colors
-            bg-slate-800/50
+            rounded-full border border-foreground/20 px-7 py-3.5
+            text-foreground/70 font-semibold text-sm
+            hover:border-brand/50 hover:text-brand transition-colors
+            bg-foreground/5
           "
         >
           Explore Scenarios

@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { useCustomSimulation } from '@/hooks/useSimulation';
 import { useUIStore } from '@/store/uiStore';
 import { TrendingUp, Loader2, AlertCircle } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Zod Validation Schema ────────────────────────────────────────────────────
 const TICKER_REGEX = /^[A-Z0-9.\-]{1,10}$/;
@@ -92,6 +94,113 @@ const inputClass = (hasError: boolean) => `
   }
 `;
 
+// ─── Custom UI Components ─────────────────────────────────────────────────────
+const ASSET_GROUPS = [
+  {
+    label: "Cryptocurrency",
+    options: [
+      { value: "BTC-USD", label: "Bitcoin (BTC-USD)" },
+      { value: "ETH-USD", label: "Ethereum (ETH-USD)" },
+      { value: "SOL-USD", label: "Solana (SOL-USD)" },
+      { value: "DOGE-USD", label: "Dogecoin (DOGE-USD)" },
+    ]
+  },
+  {
+    label: "Stocks (Equities)",
+    options: [
+      { value: "AAPL", label: "Apple (AAPL)" },
+      { value: "MSFT", label: "Microsoft (MSFT)" },
+      { value: "NVDA", label: "NVIDIA (NVDA)" },
+      { value: "TSLA", label: "Tesla (TSLA)" },
+      { value: "AMZN", label: "Amazon (AMZN)" },
+      { value: "META", label: "Meta (META)" },
+      { value: "GOOGL", label: "Alphabet (GOOGL)" },
+    ]
+  },
+  {
+    label: "Index ETFs",
+    options: [
+      { value: "SPY", label: "S&P 500 ETF (SPY)" },
+      { value: "QQQ", label: "Nasdaq 100 ETF (QQQ)" },
+      { value: "VTI", label: "Total Stock Market ETF (VTI)" },
+      { value: "VOO", label: "Vanguard S&P 500 (VOO)" },
+    ]
+  }
+];
+
+function CustomAssetSelect({ value, onChange, hasError }: { 
+  value: string; 
+  onChange: (val: string) => void;
+  hasError: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedLabel = ASSET_GROUPS.flatMap(g => g.options).find(o => o.value === value)?.label || "Select an Asset...";
+  
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <div 
+        className={`${inputClass(hasError)} flex items-center justify-between cursor-pointer`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className={value ? "text-foreground" : "text-foreground/40"}>
+          {selectedLabel}
+        </span>
+        <motion.svg 
+          animate={{ rotate: isOpen ? 180 : 0 }} 
+          className="w-4 h-4 fill-current text-foreground/50 transition-colors" 
+          viewBox="0 0 20 20"
+        >
+          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </motion.svg>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="absolute z-50 top-full mt-2 w-full max-h-[320px] overflow-y-auto rounded-2xl border border-border bg-card/95 backdrop-blur-xl shadow-2xl p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+          >
+            {ASSET_GROUPS.map((group, i) => (
+              <div key={group.label} className={i > 0 ? "mt-4" : ""}>
+                <div className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-brand mb-1">
+                  {group.label}
+                </div>
+                {group.options.map(opt => (
+                  <div
+                    key={opt.value}
+                    className={`
+                      px-3 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200
+                      ${value === opt.value ? 'bg-brand/20 text-brand' : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground hover:translate-x-1'}
+                    `}
+                    onClick={() => {
+                      onChange(opt.value);
+                      setIsOpen(false);
+                    }}
+                  >
+                    {opt.label}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function CustomSimulatorPage() {
   const router = useRouter();
@@ -102,6 +211,7 @@ export default function CustomSimulatorPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isValid },
   } = useForm<FormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -135,7 +245,7 @@ export default function CustomSimulatorPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background px-4 py-12 md:px-8 lg:px-16">
+    <main className="min-h-screen px-4 py-12 md:px-8 lg:px-16">
       <div className="max-w-2xl mx-auto">
 
         {/* ── Header ── */}
@@ -162,28 +272,16 @@ export default function CustomSimulatorPage() {
 
           {/* Ticker */}
           <FormField
-            label="Asset Ticker"
+            label="Asset"
             id="asset"
-            hint="e.g. AAPL, BTC-USD, SPY, TSLA, NVDA"
+            hint="Select your targeted asset"
             error={errors.asset?.message}
           >
-            <div className="relative">
-              <input
-                id="asset"
-                type="text"
-                autoComplete="off"
-                aria-describedby={errors.asset ? 'asset-error' : 'asset-hint'}
-                aria-invalid={!!errors.asset}
-                placeholder="BTC-USD"
-                className={inputClass(!!errors.asset)}
-                {...register('asset', {
-                  setValueAs: (v: string) => v.toUpperCase().trim(),
-                })}
-              />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500 font-mono">
-                {watchedValues.asset?.toUpperCase() || ''}
-              </span>
-            </div>
+            <CustomAssetSelect
+              value={watchedValues.asset}
+              onChange={(val) => setValue('asset', val, { shouldValidate: true })}
+              hasError={!!errors.asset}
+            />
           </FormField>
 
           {/* Amount */}
@@ -194,7 +292,7 @@ export default function CustomSimulatorPage() {
             error={errors.initial_amount?.message}
           >
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">$</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
               <input
                 id="initial_amount"
                 type="number"
@@ -236,17 +334,17 @@ export default function CustomSimulatorPage() {
               className="rounded-xl border border-brand/25 bg-brand/10 px-5 py-4"
             >
               <p className="text-sm text-brand font-semibold mb-1">✅ Ready to simulate</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-foreground/60">
                 Investing{' '}
-                <strong className="text-slate-200">
+                <strong className="text-foreground/90">
                   ${watchedValues.initial_amount?.toLocaleString()}
                 </strong>
                 {' '}in{' '}
-                <strong className="text-slate-200">
+                <strong className="text-foreground/90">
                   {watchedValues.asset?.toUpperCase()}
                 </strong>
                 {' '}starting{' '}
-                <strong className="text-slate-200">{watchedValues.start_date}</strong>
+                <strong className="text-foreground/90">{watchedValues.start_date}</strong>
               </p>
             </div>
           )}
@@ -262,7 +360,7 @@ export default function CustomSimulatorPage() {
               rounded-full py-4 font-bold text-base
               transition-all duration-300
               ${isPending || !isValid
-                ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                ? 'bg-foreground/10 text-foreground/40 cursor-not-allowed'
                 : 'bg-brand text-white hover:bg-brand/90 shadow-lg shadow-brand/25 hover:shadow-brand/40'
               }
             `}
@@ -285,14 +383,14 @@ export default function CustomSimulatorPage() {
         {/* Tips */}
         <div className="mt-12 p-8 rounded-2xl bg-brand/[0.02] border border-border">
           <p className="text-[10px] font-black text-brand uppercase tracking-[0.4em] mb-4">
-            Ticker Reference
+            Custom Build Options
           </p>
           <ul className="text-xs text-foreground/40 space-y-2.5 font-medium italic">
             {[
-              'Stocks: AAPL, MSFT, NVDA, TSLA',
-              'Crypto: BTC-USD, ETH-USD, SOL-USD',
-              'Index ETFs: SPY, QQQ, VTI, VOO',
-              'Use Yahoo Finance format (e.g. BTC-USD not BTCUSD)',
+              'You can accurately backtest against the exact daily closing prices',
+              'We cross-reference the exact split-adjusted values for accurate outcomes',
+              'Dates automatically map to the closest valid trading session',
+              'ETFs provide standard index benchmarking without direct ticker lookup',
             ].map((tip) => (
               <li key={tip} className="flex items-start gap-3">
                 <span className="text-brand" aria-hidden="true">›</span>

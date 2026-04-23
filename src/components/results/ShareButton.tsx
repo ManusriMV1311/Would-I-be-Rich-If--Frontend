@@ -26,11 +26,10 @@ export default function ShareButton({ resultId }: ShareButtonProps) {
       onClick={handleShare}
       aria-label={copied ? 'Link copied to clipboard!' : 'Copy share link to clipboard'}
       className={`
-        inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-sm
-        transition-all duration-300 ease-out
+        flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300
         ${copied
           ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 scale-95'
-          : 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 hover:text-white hover:bg-slate-700'
+          : 'bg-card text-foreground/70 border border-border hover:border-foreground/30 hover:text-foreground hover:bg-foreground/5'
         }
       `}
     >

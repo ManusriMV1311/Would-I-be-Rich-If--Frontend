@@ -3,32 +3,45 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+
 import { ScenarioCategory } from '@/types/scenario.types';
-import { ScenarioService } from '@/services/api';
 import CategoryFilter from '@/components/scenarios/CategoryFilter';
 import ScenarioGrid from '@/components/scenarios/ScenarioGrid';
 
+// ✅ Use mock data (until backend scenarios API exists)
+import { mockScenarios } from '@/services/mockData';
+
 export default function ScenariosPage() {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] =
+    useState<ScenarioCategory | 'all'>('all');
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['scenarios', selectedCategory],
-    queryFn: () =>
-      ScenarioService.getScenarios(
-        selectedCategory === 'all' ? undefined : selectedCategory
-      ),
-    staleTime: 5 * 60 * 1000, // 5 min client-side cache
+    queryFn: async () => {
+      // Simulate API delay (optional, for UX consistency)
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Filter scenarios locally
+      if (selectedCategory === 'all') {
+        return mockScenarios;
+      }
+
+      return mockScenarios.filter(
+        (s) => s.category === selectedCategory
+      );
+    },
+    staleTime: 5 * 60 * 1000,
   });
 
-  const scenarios = data?.data ?? [];
+  const scenarios = data ?? [];
 
   const handleSelectScenario = (uuid: string) => {
-    router.push(`/result/${uuid}`);
+    router.push(`/result/${uuid}?asset=BTC-USD&amount=500&start=2015-01-01`)
   };
 
   return (
-    <main className="min-h-screen bg-background px-4 py-12 md:px-8 lg:px-16">
+    <main className="min-h-screen px-4 py-12 md:px-8 lg:px-16">
       {/* Page header */}
       <div className="max-w-6xl mx-auto mb-10">
         <p className="text-brand text-sm font-bold uppercase tracking-[0.3em] mb-3">

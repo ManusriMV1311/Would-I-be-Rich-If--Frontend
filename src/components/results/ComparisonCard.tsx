@@ -15,7 +15,7 @@ export default function ComparisonCard({ label, description, value, variant }: C
 
   return (
     <div
-      className="flex flex-col gap-3 p-8 rounded-3xl border border-border bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-foreground/10"
+      className="flex flex-col gap-2 p-5 rounded-3xl border border-border bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-foreground/10"
       role="region"
       aria-label={label}
     >
@@ -24,7 +24,7 @@ export default function ComparisonCard({ label, description, value, variant }: C
         <p className={`text-[10px] font-black uppercase tracking-[0.3em] ${labelColor}`}>{label}</p>
       </div>
       <p
-        className="text-4xl font-black text-foreground tabular-nums tracking-tighter"
+        className="text-3xl font-black text-foreground tabular-nums tracking-tighter"
         aria-live="polite"
       >
         {formatCurrency(value)}
