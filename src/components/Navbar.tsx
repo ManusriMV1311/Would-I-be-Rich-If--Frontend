@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, TrendingUp, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 import { useEffect } from 'react';
 
@@ -39,8 +39,8 @@ export default function Navbar() {
           className="flex items-center gap-2 group transition-transform hover:scale-[1.02] active:scale-[0.98]"
           aria-label="Would I Be Rich If Home — Return to start"
         >
-          <span className="flex items-center justify-center w-8 h-8 rounded bg-brand/10 border border-brand/30 group-hover:border-brand/60 transition-colors">
-            <TrendingUp size={16} className="text-brand" aria-hidden="true" />
+          <span className="flex items-center justify-center w-8 h-8 rounded-full border border-brand/30 group-hover:border-brand/60 transition-colors overflow-hidden shadow-sm shadow-brand/20">
+            <img src="/logo.jpg" alt="Would I Be Rich If...?" className="w-full h-full object-cover" aria-hidden="true" />
           </span>
           <span className="font-extrabold text-foreground tracking-tight text-lg leading-none">
             Would I Be{' '}

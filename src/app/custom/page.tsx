@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { Suspense } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useCustomSimulation } from '@/hooks/useSimulation';
@@ -201,11 +202,15 @@ function CustomAssetSelect({ value, onChange, hasError }: {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function CustomSimulatorPage() {
+// ─── Main Form Components ───────────────────────────────────────────────────
+function CustomSimulatorForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { addToast } = useUIStore();
   const { mutate: runSimulation, isPending } = useCustomSimulation();
+
+  const initialAsset = searchParams.get('asset') || '';
+  const initialStart = searchParams.get('start') || '2015-01-01';
 
   const {
     register,
@@ -214,13 +219,12 @@ export default function CustomSimulatorPage() {
     setValue,
     formState: { errors, isValid },
   } = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(customSimSchema) as any,
     mode: 'onChange',
     defaultValues: {
-      asset: '',
-      initial_amount: 1000,
-      start_date: '2015-01-01',
+      asset: initialAsset,
+      initial_amount: undefined, // Leave empty deliberately!
+      start_date: initialStart,
     },
   });
 
@@ -232,13 +236,15 @@ export default function CustomSimulatorPage() {
       {
         onSuccess: (res) => {
           if (res.success && res.data) {
-            router.push(`/result/${res.data.result_id}`);
+            router.push(`/result/${res.data.result_id}?asset=${data.asset}&amount=${data.initial_amount}&start=${data.start_date}`);
           } else {
-            addToast('Simulation failed — try again.', 'error');
+            const errMsg = res.error instanceof Error ? res.error.message : String(res.error || 'Simulation failed — try again.');
+            addToast(errMsg, 'error');
           }
         },
-        onError: () => {
-          addToast('Something went wrong. Please try again.', 'error');
+        onError: (err) => {
+          const errMsg = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+          addToast(errMsg, 'error');
         },
       }
     );
@@ -402,5 +408,13 @@ export default function CustomSimulatorPage() {
 
       </div>
     </main>
+  );
+}
+
+export default function CustomSimulatorPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 size={32} className="animate-spin text-brand" /></div>}>
+      <CustomSimulatorForm />
+    </Suspense>
   );
 }

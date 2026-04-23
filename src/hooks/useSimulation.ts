@@ -68,7 +68,7 @@ export function useCustomSimulation() {
             alternate_you: {
               value:
                 params.sim_type === 'lump_sum'
-                  ? result.final
+                  ? result.alternate_value
                   : result.data[result.data.length - 1].portfolio,
               label: 'Alternate You',
               description: `${params.asset} investment since ${params.start_date}`,
@@ -77,7 +77,7 @@ export function useCustomSimulation() {
             real_you: {
               value:
                 params.sim_type === 'lump_sum'
-                  ? result.initial
+                  ? result.real_value
                   : result.data[result.data.length - 1].invested,
               label: 'Real You',
               description: 'No investment',
@@ -85,13 +85,13 @@ export function useCustomSimulation() {
 
             difference:
               params.sim_type === 'lump_sum'
-                ? result.profit
+                ? result.difference
                 : result.data[result.data.length - 1].portfolio -
                 result.data[result.data.length - 1].invested,
 
             growth_pct:
               params.sim_type === 'lump_sum'
-                ? result.growth_percent
+                ? result.growth_percentage
                 : (
                   ((result.data[result.data.length - 1].portfolio -
                     result.data[result.data.length - 1].invested) /
@@ -101,7 +101,7 @@ export function useCustomSimulation() {
 
             is_positive:
               params.sim_type === 'lump_sum'
-                ? result.profit > 0
+                ? result.difference > 0
                 : result.data[result.data.length - 1].portfolio >
                 result.data[result.data.length - 1].invested,
 

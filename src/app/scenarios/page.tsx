@@ -37,7 +37,14 @@ export default function ScenariosPage() {
   const scenarios = data ?? [];
 
   const handleSelectScenario = (uuid: string) => {
-    router.push(`/result/${uuid}?asset=BTC-USD&amount=500&start=2015-01-01`)
+    const scenario = scenarios.find((s) => s.uuid === uuid);
+    if (!scenario) return;
+    
+    const asset = scenario.params?.asset || scenario.params?.investment_asset || 'BTC-USD';
+    const amount = scenario.params?.initial_amount || scenario.params?.monthly_amount || 500;
+    const start = scenario.params?.start_date || '2015-01-01';
+
+    router.push(`/custom?asset=${asset}&start=${start}`);
   };
 
   return (

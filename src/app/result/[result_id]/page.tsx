@@ -8,20 +8,26 @@ import { useEffect } from 'react';
 export default function ResultPage() {
   const params = useSearchParams();
 
-  const asset = params.get('asset') || 'BTC-USD';
-  const amount = Number(params.get('amount')) || 500;
-  const start = params.get('start') || '2015-01-01';
+  const asset = params.get('asset');
+  const amount = Number(params.get('amount'));
+  const start = params.get('start');
 
   const { mutate, data, isPending, isError } = useCustomSimulation();
 
   useEffect(() => {
-    mutate({
-      sim_type: 'lump_sum',
-      asset,
-      initial_amount: amount,
-      start_date: start,
-    });
+    if (asset && amount && start) {
+      mutate({
+        sim_type: 'lump_sum',
+        asset,
+        initial_amount: amount,
+        start_date: start,
+      });
+    }
   }, [asset, amount, start, mutate]);
+
+  if (!asset || !amount || !start) {
+    return <div className="text-red-400 font-bold text-center mt-20">Simulation parameters missing from URL boundary!</div>;
+  }
 
   if (isPending) {
     return (

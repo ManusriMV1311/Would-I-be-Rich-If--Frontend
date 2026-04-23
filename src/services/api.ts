@@ -14,7 +14,8 @@ export async function simulateLumpSum(input: {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch lump sum simulation");
+    const errorData = await res.json().catch(() => null);
+    throw new Error(errorData?.detail || "Failed to fetch lump sum simulation");
   }
 
   return res.json();
@@ -34,7 +35,8 @@ export async function simulateDCA(input: {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch DCA simulation");
+    const errorData = await res.json().catch(() => null);
+    throw new Error(errorData?.detail || "Failed to fetch DCA simulation");
   }
 
   return res.json();
