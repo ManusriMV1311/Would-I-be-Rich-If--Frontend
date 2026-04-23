@@ -5,9 +5,10 @@ import ResultView from '@/components/results/ResultView';
 import { useCustomSimulation } from '@/hooks/useSimulation';
 import { useEffect } from 'react';
 
-export default function ResultPage() {
-  const params = useSearchParams();
+import { Suspense } from 'react';
 
+function ResultContent() {
+  const params = useSearchParams();
   const asset = params.get('asset');
   const amount = Number(params.get('amount'));
   const start = params.get('start');
@@ -42,4 +43,12 @@ export default function ResultPage() {
   }
 
   return <ResultView data={data.data} />;
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div className="flex h-[50vh] items-center justify-center text-foreground font-medium">Loading Result Data...</div>}>
+      <ResultContent />
+    </Suspense>
+  );
 }
