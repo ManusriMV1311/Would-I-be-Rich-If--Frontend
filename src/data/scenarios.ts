@@ -310,9 +310,9 @@ export const getAllDropdownGroups = () => {
   return SCENARIO_CONFIG.map(category => ({
     label: category.name,
     options: category.scenarios
-      .filter(s => s.params.asset)
+      .filter(s => s.params.asset || s.params.investment_asset)
       .map(s => ({
-        value: s.params.asset || '',
+        value: (s.params.asset || s.params.investment_asset) || '',
         label: s.title,
       })),
   }));

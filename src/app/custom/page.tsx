@@ -26,16 +26,14 @@ const customSimSchema = z.object({
     .refine((v) => TICKER_REGEX.test(v), {
       message: 'Only letters, numbers, dots, and dashes (e.g. AAPL, BTC-USD)',
     }),
-  initial_amount: z
-    .number()
-    .min(1, 'Minimum $1')
-    .max(10_000_000, 'Maximum $10,000,000')
-    .optional(),
-  monthly_investment: z
-    .number()
-    .min(1, 'Minimum $1')
-    .max(1_000_000, 'Maximum $1,000,000')
-    .optional(),
+  initial_amount: z.preprocess(
+    (v) => (v === '' || v === null ? undefined : v),
+    z.number().min(1, 'Minimum $1').max(10_000_000, 'Maximum $10,000,000').optional()
+  ),
+  monthly_investment: z.preprocess(
+    (v) => (v === '' || v === null ? undefined : v),
+    z.number().min(1, 'Minimum $1').max(1_000_000, 'Maximum $1,000,000').optional()
+  ),
   start_date: z
     .string()
     .min(1, 'Start date is required')
@@ -311,7 +309,15 @@ function CustomSimulatorForm() {
                   key={type}
                   type="button"
                   id={`sim-type-${type}`}
-                  onClick={() => setSimType(type)}
+                  onClick={() => {
+                    setSimType(type);
+                    // Clear the other field to avoid hidden validation errors
+                    if (type === 'lump_sum') {
+                      setValue('monthly_investment', undefined);
+                    } else {
+                      setValue('initial_amount', undefined);
+                    }
+                  }}
                   className={`
                     py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200
                     ${simType === type
