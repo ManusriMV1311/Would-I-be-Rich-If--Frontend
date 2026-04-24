@@ -227,6 +227,16 @@ function CustomSimulatorForm() {
 
   const watchedValues = watch();
 
+  // The submit button is active when the relevant amount field is filled
+  // for the active sim type, plus asset and start date are present.
+  const canSubmit = !isPending
+    && !!watchedValues.asset
+    && !!watchedValues.start_date
+    && (simType === 'lump_sum'
+      ? (!!watchedValues.initial_amount && watchedValues.initial_amount > 0)
+      : (!!watchedValues.monthly_investment && watchedValues.monthly_investment > 0)
+    );
+
   const onSubmit = (data: FormData) => {
     const isValid = simType === 'lump_sum'
       ? (data.initial_amount && data.initial_amount > 0)
@@ -437,13 +447,13 @@ function CustomSimulatorForm() {
           <button
             id="custom-simulator-submit"
             type="submit"
-            disabled={isPending || !isValid}
-            aria-disabled={isPending || !isValid}
+            disabled={!canSubmit}
+            aria-disabled={!canSubmit}
             className={`
               w-full flex items-center justify-center gap-3
               rounded-full py-4 font-bold text-base
               transition-all duration-300
-              ${isPending || !isValid
+              ${!canSubmit
                 ? 'bg-foreground/10 text-foreground/40 cursor-not-allowed'
                 : 'bg-brand text-white hover:bg-brand/90 shadow-lg shadow-brand/25 hover:shadow-brand/40'
               }
