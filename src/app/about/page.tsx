@@ -1,6 +1,5 @@
 'use client';
 
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
@@ -37,8 +36,14 @@ const stagger = {
 };
 
 export default function AboutPage() {
+  const [mounted, setMounted] = React.useState(false);
+  
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <main className="min-h-screen bg-background overflow-hidden">
+    <main className="min-h-screen bg-transparent overflow-hidden">
       
       {/* ── 1. HERO SECTION ── */}
       <section className="relative h-[90vh] flex items-center justify-center px-4">
@@ -61,7 +66,7 @@ export default function AboutPage() {
               Rewrite Your <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-emerald-400">Financial Past</span>
             </h1>
-            <p className="text-xl md:text-2xl text-foreground/60 font-light italic mb-12 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-foreground/80 font-light italic mb-12 max-w-2xl mx-auto">
               A financial time machine that shows what could have been, powered by real market history.
             </p>
             
@@ -85,7 +90,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 2. CONCEPT SECTION (INTERACTIVE CARDS) ── */}
-      <section id="concept" className="py-32 px-4 bg-card/30 border-y border-border">
+      <section id="concept" className="py-32 px-4 border-y border-border">
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">The Three Pillars</h2>
@@ -126,13 +131,13 @@ export default function AboutPage() {
                 key={card.title}
                 variants={fadeIn}
                 whileHover={{ y: -10, scale: 1.02 }}
-                className={`p-10 rounded-[40px] bg-card border ${card.border} transition-all duration-500 shadow-2xl shadow-black/20`}
+                className={`p-10 rounded-[40px] bg-card/50 backdrop-blur-md border ${card.border} transition-all duration-500 shadow-2xl shadow-black/20`}
               >
                 <div className={`w-16 h-16 rounded-2xl ${card.color} flex items-center justify-center mb-8`}>
                   {card.icon}
                 </div>
                 <h3 className="text-2xl font-black mb-4">{card.title}</h3>
-                <p className="text-foreground/50 leading-relaxed italic font-light">{card.description}</p>
+                <p className="text-foreground/70 leading-relaxed italic font-light">{card.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -144,7 +149,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-24">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">The Protocol</h2>
-            <p className="text-foreground/50 italic font-light">Simple steps to reveal your alternate future.</p>
+            <p className="text-foreground/70 italic font-light">Simple steps to reveal your alternate future.</p>
           </motion.div>
 
           <div className="relative">
@@ -170,7 +175,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-black mb-3 text-foreground">{item.title}</h3>
-                    <p className="text-lg text-foreground/50 italic font-light">{item.desc}</p>
+                    <p className="text-lg text-foreground/70 italic font-light">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -193,14 +198,14 @@ export default function AboutPage() {
                   <div className="p-2 rounded-lg bg-brand/10 text-brand mt-1"><Target size={20} /></div>
                   <div>
                     <p className="font-bold text-lg mb-1">Opportunity Cost</p>
-                    <p className="text-foreground/50 italic text-sm">Every dollar spent is a dollar that could have been working for you.</p>
+                    <p className="text-foreground/70 italic text-sm">Every dollar spent is a dollar that could have been working for you.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="p-2 rounded-lg bg-brand/10 text-brand mt-1"><TrendingUp size={20} /></div>
                   <div>
                     <p className="font-bold text-lg mb-1">Power of Compounding</p>
-                    <p className="text-foreground/50 italic text-sm">Time is the most powerful asset in the world of finance.</p>
+                    <p className="text-foreground/70 italic text-sm">Time is the most powerful asset in the world of finance.</p>
                   </div>
                 </div>
               </div>
@@ -209,31 +214,31 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 gap-4">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="aspect-square rounded-[40px] bg-card border border-border p-8 flex flex-col justify-end shadow-2xl"
+                className="aspect-square rounded-[40px] bg-card/50 backdrop-blur-md border border-border p-8 flex flex-col justify-end shadow-2xl"
               >
                 <p className="text-4xl font-black text-brand mb-2">60+</p>
-                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Real Scenarios</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/60">Real Scenarios</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 className="aspect-square rounded-[40px] bg-brand text-white p-8 flex flex-col justify-end shadow-2xl shadow-brand/20"
               >
-                <p className="text-4xl font-black mb-2">100%</p>
-                <p className="text-[10px] uppercase font-black tracking-widest opacity-60">Historical Accuracy</p>
+                <p className="text-4xl font-black mb-2 text-white">100%</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-white/80">Historical Accuracy</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="aspect-square rounded-[40px] bg-card border border-border p-8 flex flex-col justify-end shadow-2xl"
+                className="aspect-square rounded-[40px] bg-card/50 backdrop-blur-md border border-border p-8 flex flex-col justify-end shadow-2xl"
               >
                 <p className="text-4xl font-black text-brand mb-2">∞</p>
-                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Possibilities</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/60">Possibilities</p>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 className="aspect-square rounded-[40px] bg-real text-white p-8 flex flex-col justify-end shadow-2xl shadow-real/20"
               >
-                <p className="text-4xl font-black mb-2">Real</p>
-                <p className="text-[10px] uppercase font-black tracking-widest opacity-60">Market Data</p>
+                <p className="text-4xl font-black mb-2 text-white">Real</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-white/80">Market Data</p>
               </motion.div>
             </div>
           </div>
@@ -245,7 +250,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeIn} className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Precision Engineering</h2>
-            <p className="text-foreground/50 italic font-light">The features that power your financial time travel.</p>
+            <p className="text-foreground/70 italic font-light">The features that power your financial time travel.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -262,7 +267,7 @@ export default function AboutPage() {
               >
                 <div className="text-brand mb-6 group-hover:scale-110 transition-transform">{feature.icon}</div>
                 <h4 className="font-bold mb-2">{feature.title}</h4>
-                <p className="text-sm text-foreground/50 font-light italic">{feature.desc}</p>
+                <p className="text-sm text-foreground/70 font-light italic">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -275,7 +280,7 @@ export default function AboutPage() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
           
           <motion.div {...fadeIn}>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8 text-white">
               Start Exploring Your <br /> Alternate Future
             </h2>
             <Link
@@ -291,9 +296,9 @@ export default function AboutPage() {
 
       {/* Footer Disclaimer */}
       <footer className="py-12 px-4 border-t border-border">
-        <div className="max-w-4xl mx-auto text-center opacity-30 text-[10px] font-bold uppercase tracking-widest space-y-4">
-          <p>Educational and entertainment purposes only. Not financial advice.</p>
-          <p>© {new Date().getFullYear()} Would I Be Rich If...? All rights reserved.</p>
+        <div className="max-w-4xl mx-auto text-center opacity-70 text-[10px] font-bold uppercase tracking-widest space-y-4">
+          <p className="text-foreground">Educational and entertainment purposes only. Not financial advice.</p>
+          <p className="text-foreground">© {mounted ? new Date().getFullYear() : '2026'} Would I Be Rich If...? All rights reserved.</p>
         </div>
       </footer>
 

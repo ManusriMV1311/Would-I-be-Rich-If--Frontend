@@ -200,7 +200,13 @@ function CustomAssetSelect({ value, onChange, hasError }: {
 function CustomSimulatorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
   const { addToast, currency } = useUIStore();
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isINR = currency === 'INR';
   const currencySymbol = isINR ? '₹' : '$';
 
@@ -232,6 +238,14 @@ function CustomSimulatorForm() {
       start_date: initialStart,
     },
   });
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-brand" />
+      </div>
+    );
+  }
 
   const watchedValues = watch();
 

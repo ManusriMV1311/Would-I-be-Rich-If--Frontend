@@ -33,11 +33,7 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
       onClick={handleClick}
       onKeyDown={(e) => e.key === 'Enter' && handleClick()}
       className="
-        group relative flex flex-col gap-4 p-6 rounded-2xl cursor-pointer
-        bg-card border border-border
-        hover:border-brand/40 hover:bg-brand/[0.02]
-        hover:shadow-2xl hover:shadow-brand/5
-        transition-all duration-500 ease-out
+        glass-card p-8 h-full flex flex-col hover-lift group cursor-pointer
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
       "
     >
@@ -54,7 +50,7 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
             {meta.label}
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-foreground/5 text-foreground/50 border border-border">
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-foreground/5 text-foreground/70 border border-border">
             {scenario.region === 'global' ? <Globe size={10} /> : <Flag size={10} />}
             {scenario.region}
           </span>
@@ -67,7 +63,7 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
         </div>
 
         {/* Popularity indicator */}
-        <span className="hidden xs:flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight text-foreground/40">
+        <span className="hidden xs:flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight text-foreground/60">
           <Users size={12} aria-hidden="true" />
           {formatRunCount(scenario.run_count)}
         </span>
@@ -78,10 +74,10 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
         <h3 className="text-xl font-black text-foreground tracking-tight group-hover:text-brand transition-colors duration-300 mb-1">
           {scenario.name}
         </h3>
-        <p className="text-sm font-bold text-foreground/80 leading-tight mb-2">
+        <p className="text-sm font-bold text-foreground/90 leading-tight mb-2">
           {scenario.title}
         </p>
-        <p className="text-xs text-foreground/50 leading-relaxed italic font-light line-clamp-2">
+        <p className="text-xs text-foreground/70 leading-relaxed italic font-light line-clamp-2">
           {scenario.description}
         </p>
       </div>
@@ -90,7 +86,7 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
       {scenario.tags && scenario.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {scenario.tags.map(tag => (
-            <span key={tag} className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-foreground/5 text-foreground/40 border border-foreground/5">
+            <span key={tag} className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-foreground/10 text-foreground/70 border border-foreground/5">
               #{tag}
             </span>
           ))}
@@ -99,7 +95,7 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
 
       {/* CTA Row */}
       <div className="flex items-center justify-between pt-4 border-t border-border/50">
-        <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+        <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/50">
           <TrendingUp size={12} aria-hidden="true" />
           {scenario.sim_type.replace('_', ' ')}
         </span>

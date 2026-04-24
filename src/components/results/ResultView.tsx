@@ -107,7 +107,7 @@ export default function ResultView({ data }: ResultViewProps) {
         )}
 
         {/* Comparison Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
           <ComparisonCard
             label={result.alternate_you?.label || "Alternate You"}
             description={result.alternate_you?.description || "If you had invested"}
@@ -122,31 +122,31 @@ export default function ResultView({ data }: ResultViewProps) {
             variant="real"
           />
 
-          <div className="p-8 rounded-3xl bg-card border border-border flex flex-col justify-center items-center text-center group hover:border-brand/40 transition-all duration-500 shadow-xl shadow-brand/5">
-            <p className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-4">The Wealth Gap</p>
+          <div className="glass-card p-10 flex flex-col justify-center items-center text-center hover-lift border-white/50 shadow-2xl shadow-brand/5">
+            <p className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.4em] mb-6">The Wealth Gap</p>
 
-            <div className={`flex items-center gap-3 ${gapColor} mb-2`}>
-              <GapIcon size={28} className="group-hover:scale-125 transition-transform" />
-              <span className="text-4xl font-black tracking-tighter">
+            <div className={`flex items-center gap-4 ${gapColor} mb-3`}>
+              <GapIcon size={32} className="animate-pulse" />
+              <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-brand to-alternate">
                 {formatCurrency(result.difference, currency, true)}
               </span>
             </div>
 
-            <p className={`${gapColor} font-bold text-lg`}>
-              {formatGrowth(result.growth_pct)} growth
+            <p className={`${gapColor} font-black text-xl tracking-tight`}>
+              {formatGrowth(result.growth_pct)} Growth
             </p>
 
-            <p className="text-sm text-foreground/40 mt-6 italic font-medium max-w-[200px]">
+            <p className="text-sm text-text-secondary mt-8 italic font-medium max-w-[200px] leading-relaxed">
               "{result.commentary}"
             </p>
           </div>
         </div>
 
         {/* Chart Section */}
-        <div className="mb-12 rounded-3xl overflow-hidden border border-border bg-card/30 backdrop-blur-sm p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-black uppercase tracking-widest text-foreground/40 flex items-center gap-2">
-              <TrendingUp size={18} /> Asset Growth Visualization
+        <div className="glass-card mb-16 overflow-hidden p-8 border-white/50 shadow-2xl shadow-black/[0.02]">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-foreground/40 flex items-center gap-3">
+              <TrendingUp size={20} className="text-brand" /> Asset Growth Visualization
             </h3>
           </div>
           <ResultChart chartData={result.chart_data} />

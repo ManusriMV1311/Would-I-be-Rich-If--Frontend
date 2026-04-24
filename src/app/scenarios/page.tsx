@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 import { ScenarioCategory } from '@/types/scenario.types';
 import CategoryFilter from '@/components/scenarios/CategoryFilter';
@@ -14,9 +15,14 @@ import { useUIStore } from '@/store/uiStore';
 
 export default function ScenariosPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const { region } = useUIStore();
   const [selectedCategory, setSelectedCategory] =
     useState<ScenarioCategory | 'all'>('all');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['scenarios', selectedCategory, region],
@@ -56,13 +62,13 @@ export default function ScenariosPage() {
     <main className="min-h-screen px-4 py-12 md:px-8 lg:px-16">
       {/* Page header */}
       <div className="max-w-6xl mx-auto mb-10">
-        <p className="text-brand text-sm font-bold uppercase tracking-[0.3em] mb-3">
+        <p className="text-brand text-sm font-black uppercase tracking-[0.4em] mb-3">
           Archive Records
         </p>
         <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter mb-4">
           Explore Scenarios
         </h1>
-        <p className="text-foreground/60 text-lg max-w-2xl leading-relaxed italic font-light">
+        <p className="text-foreground/80 text-lg max-w-2xl leading-relaxed italic font-light">
           Pick a "what if" moment and discover how it would have changed your life.
         </p>
       </div>
@@ -84,11 +90,17 @@ export default function ScenariosPage() {
 
       {/* Scenario grid */}
       <div className="max-w-6xl mx-auto">
-        <ScenarioGrid
-          scenarios={scenarios}
-          isLoading={isLoading}
-          onSelectScenario={handleSelectScenario}
-        />
+        {!mounted ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 size={32} className="animate-spin text-brand" />
+          </div>
+        ) : (
+          <ScenarioGrid
+            scenarios={scenarios}
+            isLoading={isLoading}
+            onSelectScenario={handleSelectScenario}
+          />
+        )}
       </div>
     </main>
   );
