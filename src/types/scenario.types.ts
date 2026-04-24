@@ -1,8 +1,19 @@
 export type ScenarioCategory = 
   | 'crypto' 
-  | 'spending' 
-  | 'real_estate' 
   | 'stocks' 
+  | 'indian_stocks'
+  | 'etfs'
+  | 'commodities'
+  | 'real_estate' 
+  | 'indices'
+  | 'forex'
+  | 'tech'
+  | 'ai'
+  | 'meme'
+  | 'ipo'
+  | 'pandemic'
+  | 'trending'
+  | 'spending'
   | 'life' 
   | 'debt' 
   | 'macro';
@@ -38,6 +49,7 @@ export interface Scenario {
   params: ScenarioParams;
   run_count: number;
   is_active: boolean;
+  trending?: boolean;
 }
 
 export interface ChartDataPoint {

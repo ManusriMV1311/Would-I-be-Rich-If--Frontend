@@ -1,63 +1,21 @@
 import { Scenario, SimulationResultData } from '../types/scenario.types';
+import { SCENARIO_CONFIG } from '../data/scenarios';
 
-export const mockScenarios: Scenario[] = [
-  {
-    id: 1,
-    uuid: 'uuid-btc-2015',
-    title: 'What if I bought Bitcoin in 2015?',
-    description: 'See the impact of investing early in the world\'s most famous cryptocurrency.',
-    category: 'crypto',
-    sim_type: 'lump_sum',
-    params: {
-      asset: 'BTC-USD',
-      initial_amount: 500,
-      start_date: '2015-01-01',
-      end_date: 'today'
-    },
-    run_count: 54320,
+export const mockScenarios: Scenario[] = SCENARIO_CONFIG.flatMap((group, index) => 
+  group.scenarios.map((s, sIndex) => ({
+    ...s,
+    id: index * 100 + sIndex + 1,
+    run_count: Math.floor(Math.random() * 50000) + 1000,
     is_active: true
-  },
-  {
-    id: 2,
-    uuid: 'uuid-coffee-money',
-    title: 'What if I invested my daily coffee money?',
-    description: 'Instead of $5 latte every day, what if you put it into the S&P 500?',
-    category: 'spending',
-    sim_type: 'recurring_dca',
-    params: {
-      monthly_amount: 150,
-      investment_asset: 'SPY',
-      start_date: '2010-01-01',
-      frequency: 'monthly'
-    },
-    run_count: 82012,
-    is_active: true
-  },
-  {
-    id: 3,
-    uuid: 'uuid-austin-house',
-    title: 'Buying a house in Austin in 2015',
-    description: 'Did you miss the Texas real estate boom?',
-    category: 'real_estate',
-    sim_type: 'real_estate',
-    params: {
-      city: 'Austin',
-      purchase_price: 300000,
-      down_pct: 0.20,
-      appreciation_pct: 0.80,
-      mortgage_rate: 0.04
-    },
-    run_count: 12450,
-    is_active: true
-  }
-];
+  }))
+);
 
-export const mockCategories = [
-  { id: 'crypto', name: 'Crypto', scenarioCount: 1, icon: 'Bitcoin' },
-  { id: 'spending', name: 'Spending Habits', scenarioCount: 1, icon: 'Coffee' },
-  { id: 'real_estate', name: 'Real Estate', scenarioCount: 1, icon: 'Home' },
-  { id: 'stocks', name: 'Stock Market', scenarioCount: 0, icon: 'TrendingUp' },
-];
+export const mockCategories = SCENARIO_CONFIG.map(group => ({
+  id: group.categoryId,
+  name: group.name,
+  scenarioCount: group.scenarios.length,
+  icon: group.icon
+}));
 
 export const mockSimulationResult: SimulationResultData = {
   result_id: "res_7f3a2b",

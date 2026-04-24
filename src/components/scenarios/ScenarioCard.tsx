@@ -47,17 +47,24 @@ export default function ScenarioCard({ scenario, onSelect }: ScenarioCardProps) 
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
       "
     >
-      {/* Category Badge */}
+      {/* Category Badge + Trending */}
       <div className="flex items-center justify-between">
-        <span
-          className={`
-            inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full
-            ${meta.bgColor} ${meta.color} shadow-sm backdrop-blur-sm
-          `}
-        >
-          <span role="img" aria-label={meta.label}>{meta.emoji}</span>
-          {meta.label}
-        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span
+            className={`
+              inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full
+              ${meta.bgColor} ${meta.color} shadow-sm backdrop-blur-sm
+            `}
+          >
+            <span role="img" aria-label={meta.label}>{meta.emoji}</span>
+            {meta.label}
+          </span>
+          {scenario.trending && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-brand/20 text-brand border border-brand/30 animate-pulse">
+              🔥 Hot
+            </span>
+          )}
+        </div>
 
         {/* Popularity indicator */}
         <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight text-foreground/40">

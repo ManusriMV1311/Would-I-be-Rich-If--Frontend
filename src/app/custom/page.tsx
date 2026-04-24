@@ -12,7 +12,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Zod Validation Schema ────────────────────────────────────────────────────
-const TICKER_REGEX = /^[A-Z0-9.\-]{1,10}$/;
+const TICKER_REGEX = /^[A-Z0-9.\-=^]{1,15}$/;
 const MIN_DATE = new Date('2000-01-01');
 const MAX_DATE = new Date();
 MAX_DATE.setDate(MAX_DATE.getDate() - 1); // yesterday max
@@ -24,7 +24,7 @@ const customSimSchema = z.object({
   asset: z
     .string()
     .min(1, 'Ticker is required')
-    .max(10, 'Max 10 characters')
+    .max(15, 'Max 15 characters')
     .transform((v) => v.toUpperCase().trim())
     .refine((v) => TICKER_REGEX.test(v), {
       message: 'Only letters, numbers, dots, and dashes (e.g. AAPL, BTC-USD)',
@@ -96,38 +96,8 @@ const inputClass = (hasError: boolean) => `
 `;
 
 // ─── Custom UI Components ─────────────────────────────────────────────────────
-const ASSET_GROUPS = [
-  {
-    label: "Cryptocurrency",
-    options: [
-      { value: "BTC-USD", label: "Bitcoin (BTC-USD)" },
-      { value: "ETH-USD", label: "Ethereum (ETH-USD)" },
-      { value: "SOL-USD", label: "Solana (SOL-USD)" },
-      { value: "DOGE-USD", label: "Dogecoin (DOGE-USD)" },
-    ]
-  },
-  {
-    label: "Stocks (Equities)",
-    options: [
-      { value: "AAPL", label: "Apple (AAPL)" },
-      { value: "MSFT", label: "Microsoft (MSFT)" },
-      { value: "NVDA", label: "NVIDIA (NVDA)" },
-      { value: "TSLA", label: "Tesla (TSLA)" },
-      { value: "AMZN", label: "Amazon (AMZN)" },
-      { value: "META", label: "Meta (META)" },
-      { value: "GOOGL", label: "Alphabet (GOOGL)" },
-    ]
-  },
-  {
-    label: "Index ETFs",
-    options: [
-      { value: "SPY", label: "S&P 500 ETF (SPY)" },
-      { value: "QQQ", label: "Nasdaq 100 ETF (QQQ)" },
-      { value: "VTI", label: "Total Stock Market ETF (VTI)" },
-      { value: "VOO", label: "Vanguard S&P 500 (VOO)" },
-    ]
-  }
-];
+import { getAllDropdownGroups } from '@/data/scenarios';
+const ASSET_GROUPS = getAllDropdownGroups();
 
 function CustomAssetSelect({ value, onChange, hasError }: { 
   value: string; 
@@ -135,7 +105,16 @@ function CustomAssetSelect({ value, onChange, hasError }: {
   hasError: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const selectedLabel = ASSET_GROUPS.flatMap(g => g.options).find(o => o.value === value)?.label || "Select an Asset...";
+  
+  const filteredGroups = ASSET_GROUPS.map(group => ({
+    ...group,
+    options: group.options.filter(opt => 
+      opt.label.toLowerCase().includes(search.toLowerCase()) || 
+      opt.value.toLowerCase().includes(search.toLowerCase())
+    )
+  })).filter(group => group.options.length > 0);
   
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -173,7 +152,19 @@ function CustomAssetSelect({ value, onChange, hasError }: {
             transition={{ duration: 0.2 }}
             className="absolute z-50 top-full mt-2 w-full max-h-[320px] overflow-y-auto rounded-2xl border border-border bg-card/95 backdrop-blur-xl shadow-2xl p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
           >
-            {ASSET_GROUPS.map((group, i) => (
+            <div className="sticky top-0 bg-card/95 backdrop-blur-xl pb-2 z-10 pt-1 px-1">
+              <input
+                type="text"
+                placeholder="Search assets..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full bg-card/50 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-brand/40"
+              />
+            </div>
+            {filteredGroups.length === 0 ? (
+              <div className="px-3 py-4 text-center text-xs text-foreground/40">No assets found</div>
+            ) : filteredGroups.map((group, i) => (
               <div key={group.label} className={i > 0 ? "mt-4" : ""}>
                 <div className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-brand mb-1">
                   {group.label}
