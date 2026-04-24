@@ -8,8 +8,8 @@ import { ScenarioCategory } from '@/types/scenario.types';
 import CategoryFilter from '@/components/scenarios/CategoryFilter';
 import ScenarioGrid from '@/components/scenarios/ScenarioGrid';
 
-// ✅ Use mock data (until backend scenarios API exists)
-import { mockScenarios } from '@/services/mockData';
+// ✅ Use real scenario configuration
+import { ALL_SCENARIOS } from '@/data/scenarios';
 
 export default function ScenariosPage() {
   const router = useRouter();
@@ -24,10 +24,10 @@ export default function ScenariosPage() {
 
       // Filter scenarios locally
       if (selectedCategory === 'all') {
-        return mockScenarios;
+        return ALL_SCENARIOS;
       }
 
-      return mockScenarios.filter(
+      return ALL_SCENARIOS.filter(
         (s) => s.category === selectedCategory
       );
     },

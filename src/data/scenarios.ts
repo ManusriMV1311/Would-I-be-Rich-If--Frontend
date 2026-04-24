@@ -317,3 +317,13 @@ export const getAllDropdownGroups = () => {
       })),
   }));
 };
+
+// Flattened list for the scenarios page
+export const ALL_SCENARIOS = SCENARIO_CONFIG.flatMap((cat, catIdx) => 
+  cat.scenarios.map((s, sIdx) => ({
+    ...s,
+    id: (catIdx + 1) * 100 + sIdx, // Generate a unique numeric ID
+    run_count: Math.floor(Math.random() * 1000) + 500, // Visual fluff
+    is_active: true
+  })) as Scenario[]
+);
