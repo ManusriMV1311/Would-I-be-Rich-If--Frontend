@@ -91,7 +91,7 @@ export function useCustomSimulation() {
               description:
                 params.sim_type === 'lump_sum'
                   ? `Cash left uninvested since ${params.start_date}`
-                  : `Total invested: $${realValue.toLocaleString()}`,
+                  : `Total cash invested over time`,
             },
             difference,
             growth_pct: growthPct,
