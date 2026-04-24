@@ -26,6 +26,10 @@ interface UIState {
   // ─── Currency ─────────────────────────────────────────────
   currency: 'USD' | 'INR';
   setCurrency: (c: 'USD' | 'INR') => void;
+
+  // ─── Region (Global vs India) ─────────────────────────────
+  region: 'global' | 'india';
+  setRegion: (r: 'global' | 'india') => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -54,13 +58,21 @@ export const useUIStore = create<UIState>()(
       // Currency (defaults to USD)
       currency: 'USD',
       setCurrency: (c) => set({ currency: c }),
+
+      // Region (defaults to global)
+      region: 'global',
+      setRegion: (r) => set({ 
+        region: r,
+        currency: r === 'india' ? 'INR' : 'USD'
+      }),
     }),
     {
       name: 'wibr-ui-storage',
-      // Persist theme and currency
+      // Persist theme, currency and region
       partialize: (state) => ({ 
         isDark: state.isDark,
-        currency: state.currency 
+        currency: state.currency,
+        region: state.region
       }),
     }
   )

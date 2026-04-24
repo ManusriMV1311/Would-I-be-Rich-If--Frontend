@@ -7,6 +7,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 import { useEffect } from 'react';
 import CurrencyToggle from '@/components/ui/CurrencyToggle';
+import RegionToggle from '@/components/ui/RegionToggle';
 
 const NAV_LINKS = [
   { href: '/scenarios',  label: 'Scenarios' },
@@ -52,7 +53,7 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav ── */}
-        <ul className="hidden sm:flex items-center gap-1" role="list">
+        <ul className="hidden lg:flex items-center gap-1" role="list">
           {NAV_LINKS.map(({ href, label }) => {
             const isActive = pathname === href;
             return (
@@ -77,6 +78,7 @@ export default function Navbar() {
 
         {/* ── Desktop CTA & Theme ── */}
         <div className="hidden sm:flex items-center gap-3">
+          <RegionToggle />
           <CurrencyToggle />
           
           <button
@@ -90,7 +92,7 @@ export default function Navbar() {
           <Link
             href="/scenarios"
             className="
-              inline-flex items-center gap-1.5 rounded-full
+              hidden md:inline-flex items-center gap-1.5 rounded-full
               bg-brand px-6 py-2 text-sm font-bold text-background
               hover:opacity-90 transition-all duration-300 translate-y-0 hover:-translate-y-0.5
               shadow-lg shadow-brand/10
@@ -102,6 +104,7 @@ export default function Navbar() {
 
         {/* ── Mobile hamburger & Theme ── */}
         <div className="flex sm:hidden items-center gap-2">
+          <RegionToggle />
           <CurrencyToggle />
           
           <button

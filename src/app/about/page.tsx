@@ -211,7 +211,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.05 }}
                 className="aspect-square rounded-[40px] bg-card border border-border p-8 flex flex-col justify-end shadow-2xl"
               >
-                <p className="text-4xl font-black text-brand mb-2">25+</p>
+                <p className="text-4xl font-black text-brand mb-2">60+</p>
                 <p className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Real Scenarios</p>
               </motion.div>
               <motion.div 
@@ -252,7 +252,7 @@ export default function AboutPage() {
             {[
               { title: "Real-time Data", desc: "Live market prices synced with historical archives.", icon: <Globe size={24} /> },
               { title: "Historical Simulations", desc: "Deep-dive into decades of market volatility.", icon: <BarChart3 size={24} /> },
-              { title: "Multi-Asset Classes", desc: "Crypto, Stocks, ETFs, and Lifestyle categories.", icon: <Layers size={24} /> },
+              { title: "Multi-Asset Classes", desc: "Crypto, Stocks, ETFs, Govt Schemes, and Lifestyle.", icon: <Layers size={24} /> },
               { title: "Custom Scenarios", desc: "Build any simulation with your specific variables.", icon: <Target size={24} /> }
             ].map((feature, i) => (
               <motion.div

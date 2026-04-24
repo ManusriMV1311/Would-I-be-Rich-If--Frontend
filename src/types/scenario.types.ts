@@ -5,13 +5,18 @@ export type ScenarioCategory =
   | 'stocks' 
   | 'life' 
   | 'debt' 
-  | 'macro';
+  | 'macro'
+  | 'govt_schemes'
+  | 'cultural'
+  | 'career';
 
 export type SimulationType = 
   | 'lump_sum' 
   | 'recurring_dca' 
   | 'real_estate' 
   | 'inflation';
+
+export type Region = 'global' | 'india';
 
 export interface ScenarioParams {
   asset?: string;
@@ -32,12 +37,19 @@ export interface Scenario {
   id: number;
   uuid: string;
   title: string;
+  name: string; // Concise display name
   description: string;
   category: ScenarioCategory;
   sim_type: SimulationType;
   params: ScenarioParams;
   run_count: number;
   is_active: boolean;
+  region: Region;
+  context?: {
+    story: string; // Short narrative
+    hook: string; // Emotional engagement
+  };
+  tags: string[]; // e.g., ["Demonetization", "Tax Free", "High Growth"]
   trending?: boolean;
 }
 

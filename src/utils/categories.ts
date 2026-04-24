@@ -17,6 +17,9 @@ export const CATEGORY_META: CategoryMeta[] = [
   { id: 'life',         label: 'Life Decisions',  emoji: '🎯', color: 'text-white',       bgColor: 'bg-indigo-600' },
   { id: 'debt',         label: 'Debt',            emoji: '💳', color: 'text-white',       bgColor: 'bg-rose-600' },
   { id: 'macro',        label: 'Macro Events',    emoji: '🌍', color: 'text-white',       bgColor: 'bg-sky-600' },
+  { id: 'govt_schemes', label: 'Govt Schemes',    emoji: '🛡️', color: 'text-white',       bgColor: 'bg-violet-600' },
+  { id: 'cultural',     label: 'Cultural & Life', emoji: '🎉', color: 'text-white',       bgColor: 'bg-pink-600' },
+  { id: 'career',       label: 'Career',          emoji: '💼', color: 'text-white',       bgColor: 'bg-teal-600' },
 ];
 
 export function getCategoryMeta(id: ScenarioCategory | 'all'): CategoryMeta {

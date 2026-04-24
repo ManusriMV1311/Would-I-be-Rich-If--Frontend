@@ -10,26 +10,30 @@ import ScenarioGrid from '@/components/scenarios/ScenarioGrid';
 
 // ✅ Use real scenario configuration
 import { ALL_SCENARIOS } from '@/data/scenarios';
+import { useUIStore } from '@/store/uiStore';
 
 export default function ScenariosPage() {
   const router = useRouter();
+  const { region } = useUIStore();
   const [selectedCategory, setSelectedCategory] =
     useState<ScenarioCategory | 'all'>('all');
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['scenarios', selectedCategory],
+    queryKey: ['scenarios', selectedCategory, region],
     queryFn: async () => {
       // Simulate API delay (optional, for UX consistency)
       await new Promise((r) => setTimeout(r, 300));
 
       // Filter scenarios locally
-      if (selectedCategory === 'all') {
-        return ALL_SCENARIOS;
+      let filtered = ALL_SCENARIOS.filter(s => s.region === region);
+
+      if (selectedCategory !== 'all') {
+        filtered = filtered.filter(
+          (s) => s.category === selectedCategory
+        );
       }
 
-      return ALL_SCENARIOS.filter(
-        (s) => s.category === selectedCategory
-      );
+      return filtered;
     },
     staleTime: 5 * 60 * 1000,
   });
