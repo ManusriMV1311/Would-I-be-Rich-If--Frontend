@@ -28,11 +28,11 @@ const customSimSchema = z.object({
     }),
   initial_amount: z.preprocess(
     (v) => (v === '' || v === null ? undefined : v),
-    z.number().min(1, 'Minimum $1').max(10_000_000, 'Maximum $10,000,000').optional()
+    z.number().min(1, 'Minimum 1').max(1_000_000_000, 'Maximum 1 Billion').optional()
   ),
   monthly_investment: z.preprocess(
     (v) => (v === '' || v === null ? undefined : v),
-    z.number().min(1, 'Minimum $1').max(1_000_000, 'Maximum $1,000,000').optional()
+    z.number().min(1, 'Minimum 1').max(100_000_000, 'Maximum 100 Million').optional()
   ),
   start_date: z
     .string()
@@ -199,12 +199,22 @@ function CustomAssetSelect({ value, onChange, hasError }: {
 function CustomSimulatorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { addToast } = useUIStore();
+  const { addToast, currency } = useUIStore();
+  const isINR = currency === 'INR';
+  const currencySymbol = isINR ? '₹' : '$';
+
   const { mutate: runSimulation, isPending } = useCustomSimulation();
   const [simType, setSimType] = useState<'lump_sum' | 'dca'>('lump_sum');
 
   const initialAsset = searchParams.get('asset') || '';
   const initialStart = searchParams.get('start') || '2015-01-01';
+  const urlSim = searchParams.get('sim');
+  const urlAmount = Number(searchParams.get('amount')) || undefined;
+
+  const [simType, setSimType] = useState<'lump_sum' | 'dca'>(urlSim === 'dca' ? 'dca' : 'lump_sum');
+
+  // Convert incoming USD amount to local currency for display
+  const displayAmount = urlAmount ? (isINR ? urlAmount * USD_TO_INR : urlAmount) : undefined;
 
   const {
     register,
@@ -217,8 +227,8 @@ function CustomSimulatorForm() {
     mode: 'onChange',
     defaultValues: {
       asset: initialAsset,
-      initial_amount: undefined,
-      monthly_investment: undefined,
+      initial_amount: simType === 'lump_sum' ? displayAmount : undefined,
+      monthly_investment: simType === 'dca' ? displayAmount : undefined,
       start_date: initialStart,
     },
   });
@@ -242,24 +252,28 @@ function CustomSimulatorForm() {
 
     if (!isValid) {
       addToast(
-        simType === 'lump_sum' ? 'Please enter an initial investment amount.' : 'Please enter a monthly investment amount.',
+        simType === 'lump_sum' ? `Please enter an initial investment amount in ${currency}.` : `Please enter a monthly investment amount in ${currency}.`,
         'error'
       );
       return;
     }
 
+    // Convert to USD for the backend
+    const initialUSD = data.initial_amount && isINR ? data.initial_amount / USD_TO_INR : data.initial_amount;
+    const monthlyUSD = data.monthly_investment && isINR ? data.monthly_investment / USD_TO_INR : data.monthly_investment;
+
     runSimulation(
       {
         sim_type: simType,
         asset: data.asset,
-        initial_amount: data.initial_amount,
-        monthly_investment: data.monthly_investment,
+        initial_amount: initialUSD,
+        monthly_investment: monthlyUSD,
         start_date: data.start_date,
       },
       {
         onSuccess: (res) => {
           if (res.success && res.data) {
-            const amountParam = simType === 'lump_sum' ? data.initial_amount : data.monthly_investment;
+            const amountParam = simType === 'lump_sum' ? initialUSD : monthlyUSD;
             router.push(`/result/${res.data.result_id}?asset=${data.asset}&amount=${amountParam}&start=${data.start_date}&sim=${simType}`);
           } else {
             const errMsg = res.error instanceof Error ? res.error.message : String(res.error || 'Simulation failed. Please try again.');
@@ -354,20 +368,20 @@ function CustomSimulatorForm() {
             <FormField
               label="Initial Investment"
               id="initial_amount"
-              hint="Between $1 and $10,000,000"
+              hint={`Between ${currencySymbol}1 and ${currencySymbol}${isINR ? '830,000,000' : '10,000,000'}`}
               error={errors.initial_amount?.message}
             >
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">{currencySymbol}</span>
                 <input
                   id="initial_amount"
                   type="number"
                   min={1}
-                  max={10000000}
+                  max={isINR ? 830000000 : 10000000}
                   step={1}
                   aria-describedby={errors.initial_amount ? 'initial_amount-error' : 'initial_amount-hint'}
                   aria-invalid={!!errors.initial_amount}
-                  placeholder="1000"
+                  placeholder={isINR ? "83000" : "1000"}
                   className={`${inputClass(!!errors.initial_amount)} pl-8`}
                   {...register('initial_amount', { valueAsNumber: true })}
                 />
@@ -377,20 +391,20 @@ function CustomSimulatorForm() {
             <FormField
               label="Monthly Investment"
               id="monthly_investment"
-              hint="Amount invested every month (between $1 and $1,000,000)"
+              hint={`Amount invested every month (between ${currencySymbol}1 and ${currencySymbol}${isINR ? '83,000,000' : '1,000,000'})`}
               error={errors.monthly_investment?.message}
             >
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">{currencySymbol}</span>
                 <input
                   id="monthly_investment"
                   type="number"
                   min={1}
-                  max={1000000}
+                  max={isINR ? 83000000 : 1000000}
                   step={1}
                   aria-describedby={errors.monthly_investment ? 'monthly_investment-error' : 'monthly_investment-hint'}
                   aria-invalid={!!errors.monthly_investment}
-                  placeholder="200"
+                  placeholder={isINR ? "16600" : "200"}
                   className={`${inputClass(!!errors.monthly_investment)} pl-8`}
                   {...register('monthly_investment', { valueAsNumber: true })}
                 />
@@ -430,7 +444,7 @@ function CustomSimulatorForm() {
               <p className="text-xs text-foreground/60">
                 {simType === 'lump_sum' ? (
                   <>Investing{' '}
-                    <strong className="text-foreground/90">${watchedValues.initial_amount?.toLocaleString()}</strong>
+                    <strong className="text-foreground/90">{currencySymbol}{watchedValues.initial_amount?.toLocaleString()}</strong>
                     {' '}in{' '}
                     <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
                     {' '}starting{' '}
@@ -438,7 +452,7 @@ function CustomSimulatorForm() {
                   </>
                 ) : (
                   <>Investing{' '}
-                    <strong className="text-foreground/90">${watchedValues.monthly_investment?.toLocaleString()}/month</strong>
+                    <strong className="text-foreground/90">{currencySymbol}{watchedValues.monthly_investment?.toLocaleString()}/month</strong>
                     {' '}in{' '}
                     <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
                     {' '}starting{' '}

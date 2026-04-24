@@ -43,8 +43,9 @@ export default function ScenariosPage() {
     const asset = scenario.params?.asset || scenario.params?.investment_asset || 'BTC-USD';
     const amount = scenario.params?.initial_amount || scenario.params?.monthly_amount || 500;
     const start = scenario.params?.start_date || '2015-01-01';
+    const sim = scenario.sim_type === 'recurring_dca' ? 'dca' : 'lump_sum';
 
-    router.push(`/custom?asset=${asset}&start=${start}`);
+    router.push(`/custom?asset=${asset}&start=${start}&amount=${amount}&sim=${sim}`);
   };
 
   return (

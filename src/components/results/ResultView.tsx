@@ -5,6 +5,7 @@ import ResultChart from '@/components/results/ResultChart';
 import ShareButton from '@/components/results/ShareButton';
 import { formatCurrency, formatGrowth } from '@/utils/formatCurrency';
 import { getCategoryMeta } from '@/utils/categories';
+import { useUIStore } from '@/store/uiStore';
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,6 +14,7 @@ interface ResultViewProps {
 }
 
 export default function ResultView({ data }: ResultViewProps) {
+  const { currency } = useUIStore();
   if (!data) {
     return (
       <main className="w-full flex items-center justify-center text-foreground py-20">
@@ -73,7 +75,7 @@ export default function ResultView({ data }: ResultViewProps) {
             <div className={`flex items-center gap-2 ${gapColor}`}>
               <GapIcon size={18} />
               <span className="text-2xl font-bold">
-                {formatCurrency(result.difference, true)}
+                {formatCurrency(result.difference, currency, true)}
               </span>
             </div>
 

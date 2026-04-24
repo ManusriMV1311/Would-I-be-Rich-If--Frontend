@@ -39,6 +39,7 @@ export function useCustomSimulation() {
     CustomSimulationParams
   >({
     mutationFn: async (params: CustomSimulationParams) => {
+      console.log('[useCustomSimulation] running with:', params);
       try {
         let result: any;
 
@@ -46,21 +47,21 @@ export function useCustomSimulation() {
           result = await simulateLumpSum({
             ticker: params.asset,
             start_date: params.start_date,
-            amount: params.initial_amount || 0,
+            amount: Number(params.initial_amount) || 0,
           });
         } else {
           result = await simulateDCA({
             ticker: params.asset,
             start_date: params.start_date,
-            monthly_investment: params.monthly_investment || 0,
+            monthly_investment: Number(params.monthly_investment) || 0,
           });
         }
 
         // Both endpoints now return the same normalized shape from backend
-        const alternateValue: number = result.alternate_value ?? 0;
-        const realValue: number = result.real_value ?? 0;
-        const difference: number = result.difference ?? alternateValue - realValue;
-        const growthPct: number = result.growth_percentage ?? 0;
+        const alternateValue: number = Number(result.alternate_value) || 0;
+        const realValue: number = Number(result.real_value) || 0;
+        const difference: number = Number(result.difference) || (alternateValue - realValue);
+        const growthPct: number = Number(result.growth_percentage) || 0;
         const isPositive: boolean = difference > 0;
 
         // Commentary comes from the backend commentary engine
@@ -104,6 +105,7 @@ export function useCustomSimulation() {
           error: null,
         };
       } catch (err) {
+        console.error('[useCustomSimulation] catch block:', err);
         return {
           success: false,
           data: null,

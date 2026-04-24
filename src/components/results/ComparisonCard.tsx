@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useUIStore } from '@/store/uiStore';
 
 interface ComparisonCardProps {
   label: string;
@@ -8,6 +9,7 @@ interface ComparisonCardProps {
 }
 
 export default function ComparisonCard({ label, description, value, variant }: ComparisonCardProps) {
+  const { currency } = useUIStore();
   const isAlternate = variant === 'alternate';
 
   const labelColor  = isAlternate ? 'text-alternate' : 'text-real';
@@ -27,7 +29,7 @@ export default function ComparisonCard({ label, description, value, variant }: C
         className="text-3xl font-black text-foreground tabular-nums tracking-tighter"
         aria-live="polite"
       >
-        {formatCurrency(value)}
+        {formatCurrency(value, currency)}
       </p>
       <p className="text-xs text-foreground/40 leading-relaxed mt-auto italic font-medium">
         {description}

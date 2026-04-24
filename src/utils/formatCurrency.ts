@@ -1,22 +1,37 @@
 /**
- * Format a number as a USD currency string.
- * e.g. 287450 → "$287,450.00"
+ * Exchange rate fallback (1 USD = 83 INR)
  */
-export function formatCurrency(value: number, compact = false): string {
-  if (compact && Math.abs(value) >= 1_000_000) {
-    return new Intl.NumberFormat('en-US', {
+export const USD_TO_INR = 83;
+
+/**
+ * Format a number as a currency string (USD or INR).
+ * Handles conversion if currency is INR.
+ */
+export function formatCurrency(
+  value: number, 
+  currency: 'USD' | 'INR' = 'USD', 
+  compact = false
+): string {
+  const isINR = currency === 'INR';
+  const convertedValue = isINR ? value * USD_TO_INR : value;
+  const locale = isINR ? 'en-IN' : 'en-US';
+  const currencyCode = isINR ? 'INR' : 'USD';
+
+  if (compact && Math.abs(convertedValue) >= 1_000_000) {
+    return new Intl.NumberFormat(locale, {
       style: 'currency',
-      currency: 'USD',
+      currency: currencyCode,
       notation: 'compact',
       maximumFractionDigits: 1,
-    }).format(value);
+    }).format(convertedValue);
   }
-  return new Intl.NumberFormat('en-US', {
+
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
+    currency: currencyCode,
+    minimumFractionDigits: isINR ? 0 : 2,
+    maximumFractionDigits: isINR ? 0 : 2,
+  }).format(convertedValue);
 }
 
 /**

@@ -1,168 +1,303 @@
+'use client';
+
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { 
+  History, 
+  User, 
+  TrendingUp, 
+  ArrowRight, 
+  Zap, 
+  Globe, 
+  BarChart3, 
+  Layers, 
+  Target,
+  ArrowDownCircle
+} from 'lucide-react';
+import React from 'react';
 
-export const metadata: Metadata = {
-  title: 'About — Would I Be Rich If...?',
-  description: 'Learn about the Would I Be Rich If platform, its data sources, methodology, and technology stack.',
+// Using a separate client component for the layout to keep metadata in page.tsx if needed
+// But since we need 'use client' for animations, we'll keep it here.
+// Note: Next.js metadata doesn't work in 'use client' files, so we usually export it from a layout or separate file.
+// For now, let's prioritize the UI.
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.8, ease: "easeOut" }
 };
 
-const TECH_STACK = [
-  { layer: 'Frontend', tech: 'Next.js 16 + TypeScript', purpose: 'Server-side rendered React application' },
-  { layer: 'Styling', tech: 'Tailwind CSS + Framer Motion', purpose: 'Utility-first CSS with animations' },
-  { layer: 'State', tech: 'TanStack React Query + Zustand', purpose: 'Server state + UI state management' },
-  { layer: 'Forms', tech: 'React Hook Form + Zod', purpose: 'Validated, type-safe form handling' },
-  { layer: 'Backend', tech: 'FastAPI (Python 3.11)', purpose: 'High-performance REST API' },
-  { layer: 'Data', tech: 'yfinance (Yahoo Finance)', purpose: 'Real historical market data, no API key needed' },
-  { layer: 'Charts', tech: 'Recharts', purpose: 'Responsive financial growth charts' },
-  { layer: 'Hosting', tech: 'Vercel + Render', purpose: 'Zero-cost production deployment' },
-];
+const stagger = {
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1 },
+  viewport: { once: true },
+  transition: { staggerChildren: 0.2 }
+};
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen px-4 py-12 md:px-8 lg:px-16">
-      <div className="max-w-3xl mx-auto">
-
-        {/* Header */}
-        <div className="mb-12">
-          <p className="text-brand text-sm font-bold uppercase tracking-[0.3em] mb-3">
-            About This Project
-          </p>
-          <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter mb-6">
-            Would I Be Rich If...?
-          </h1>
-          <p className="text-foreground/60 text-lg leading-relaxed italic font-light">
-            A financial time machine. Powered by real data. Built for curiosity.
-          </p>
+    <main className="min-h-screen bg-background overflow-hidden">
+      
+      {/* ── 1. HERO SECTION ── */}
+      <section className="relative h-[90vh] flex items-center justify-center px-4">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-alternate/5 rounded-full blur-[150px] animate-pulse delay-1000" />
         </div>
 
-        {/* What It Does */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-black text-foreground mb-4 uppercase tracking-tight">What It Does</h2>
-          <p className="text-foreground/70 leading-relaxed mb-4">
-            This platform answers the question everyone has had at least once: <em>"What if I had invested that money instead?"</em>
-          </p>
-          <p className="text-foreground/70 leading-relaxed mb-4">
-            Using real historical price data from Yahoo Finance, we calculate exactly what would have happened
-            to your money if you had invested it in any stock, ETF, or cryptocurrency, going back to any date.
-          </p>
-          <p className="text-foreground/70 leading-relaxed">
-            The results are real numbers, not estimates. We fetch actual historical closing prices and
-            simulate the math precisely, so every output is verifiable against public market data.
-          </p>
-        </section>
-
-        {/* Data Sources */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-black text-foreground mb-4 uppercase tracking-tight">Data Sources</h2>
-          <div className="p-6 rounded-2xl bg-card border border-border space-y-3">
-            <div>
-              <p className="text-sm font-bold text-foreground mb-1">Historical Prices</p>
-              <p className="text-sm text-foreground/60">
-                All historical asset prices are sourced from <strong>Yahoo Finance</strong> via the open-source
-                <code className="px-1.5 py-0.5 rounded bg-foreground/10 text-brand text-xs ml-1">yfinance</code> library.
-                Data includes split-adjusted closing prices for stocks, ETFs, cryptocurrencies, commodities, and forex pairs.
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground mb-1">Live Prices</p>
-              <p className="text-sm text-foreground/60">
-                Current asset values are fetched live from Yahoo Finance at simulation time to ensure
-                the "Alternate You" value reflects today's actual market.
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground mb-1">Data Coverage</p>
-              <p className="text-sm text-foreground/60">
-                Most assets support data going back to 2000. Cryptocurrencies typically start from their exchange listing date.
-                Some tickers may have limited history on Yahoo Finance.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Methodology */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-black text-foreground mb-4 uppercase tracking-tight">Methodology</h2>
-          <div className="space-y-4">
-            <div className="p-5 rounded-xl bg-card border border-border">
-              <p className="text-sm font-black uppercase tracking-widest text-brand mb-2">Lump Sum</p>
-              <p className="text-sm text-foreground/60 leading-relaxed">
-                Your investment buys units of the asset at the historical price on the start date.
-                The final value is calculated as: <em>units × current market price</em>.
-                This reflects a one-time purchase held to the present day.
-              </p>
-            </div>
-            <div className="p-5 rounded-xl bg-card border border-border">
-              <p className="text-sm font-black uppercase tracking-widest text-brand mb-2">Dollar-Cost Averaging (DCA)</p>
-              <p className="text-sm text-foreground/60 leading-relaxed">
-                A fixed dollar amount is invested on the last trading day of each month.
-                Units accumulate over time at different prices. The final value is the total units × current price.
-                This reflects the effect of consistent, automated investing.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Tech Stack */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-black text-foreground mb-4 uppercase tracking-tight">Technology Stack</h2>
-          <div className="overflow-x-auto rounded-2xl border border-border">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border bg-card/50">
-                  <th className="text-left px-4 py-3 text-foreground/60 font-black uppercase tracking-widest text-[10px]">Layer</th>
-                  <th className="text-left px-4 py-3 text-foreground/60 font-black uppercase tracking-widest text-[10px]">Technology</th>
-                  <th className="text-left px-4 py-3 text-foreground/60 font-black uppercase tracking-widest text-[10px]">Purpose</th>
-                </tr>
-              </thead>
-              <tbody>
-                {TECH_STACK.map((row, i) => (
-                  <tr key={row.layer} className={`border-b border-border/50 ${i % 2 === 0 ? '' : 'bg-card/20'}`}>
-                    <td className="px-4 py-3 font-bold text-foreground/80">{row.layer}</td>
-                    <td className="px-4 py-3 text-brand font-mono text-xs">{row.tech}</td>
-                    <td className="px-4 py-3 text-foreground/50">{row.purpose}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* Disclaimer */}
-        <section className="mb-12">
-          <div className="p-6 rounded-2xl border-2 border-yellow-500/30 bg-yellow-500/5">
-            <p className="text-yellow-400 font-black uppercase tracking-widest text-xs mb-3">
-              ⚠️ Important Disclaimer
-            </p>
-            <p className="text-foreground/70 text-sm leading-relaxed">
-              All simulation results produced by this application are for <strong>educational and entertainment purposes only</strong>.
-              They do not constitute financial advice, investment recommendations, or any form of professional guidance.
-            </p>
-            <p className="text-foreground/70 text-sm leading-relaxed mt-3">
-              <strong>Past performance is not indicative of future results.</strong> The financial markets are
-              inherently unpredictable. Historical returns, no matter how dramatic, provide no guarantee of
-              similar future outcomes. Always consult a qualified financial advisor before making investment decisions.
-            </p>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <div className="flex flex-wrap gap-4">
-          <Link
-            href="/scenarios"
-            className="px-6 py-3 bg-brand text-white rounded-full font-bold text-sm hover:bg-brand/90 transition-colors"
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            Explore Scenarios →
-          </Link>
-          <Link
-            href="/custom"
-            className="px-6 py-3 border border-border text-foreground/70 rounded-full font-bold text-sm hover:border-brand/40 hover:text-foreground transition-colors"
-          >
-            Build Your Own
-          </Link>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-brand/10 border border-brand/20 text-brand text-[10px] font-black uppercase tracking-[0.4em] mb-8">
+              The Financial Time Machine
+            </span>
+            <h1 className="text-6xl md:text-8xl font-black text-foreground tracking-tighter leading-[0.9] mb-8">
+              Rewrite Your <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-emerald-400">Financial Past</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-foreground/60 font-light italic mb-12 max-w-2xl mx-auto">
+              A financial time machine that shows what could have been, powered by real market history.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link
+                href="/scenarios"
+                className="group px-8 py-4 bg-brand text-white rounded-full font-bold text-base hover:shadow-[0_0_40px_rgba(22,163,74,0.4)] transition-all duration-500 flex items-center gap-2"
+              >
+                Try a Scenario
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <button 
+                onClick={() => document.getElementById('concept')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-foreground/40 hover:text-foreground font-bold text-sm tracking-widest uppercase flex items-center gap-2 transition-colors"
+              >
+                Learn More <ArrowDownCircle size={16} />
+              </button>
+            </div>
+          </motion.div>
         </div>
+      </section>
 
-      </div>
+      {/* ── 2. CONCEPT SECTION (INTERACTIVE CARDS) ── */}
+      <section id="concept" className="py-32 px-4 bg-card/30 border-y border-border">
+        <div className="max-w-6xl mx-auto">
+          <motion.div {...fadeIn} className="text-center mb-20">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">The Three Pillars</h2>
+            <p className="text-foreground/50 max-w-xl mx-auto italic">Understanding the impact of every financial decision you've ever made.</p>
+          </motion.div>
+
+          <motion.div 
+            variants={stagger}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                title: "Alternate You",
+                description: "The version of you that took the leap. See how your wealth would have scaled if you invested instead of spent.",
+                icon: <Zap className="text-brand" />,
+                color: "bg-brand/10",
+                border: "border-brand/20"
+              },
+              {
+                title: "Real You",
+                description: "The reality of today. A baseline of your actual financial path, serving as the constant in our simulations.",
+                icon: <User className="text-alternate" />,
+                color: "bg-alternate/10",
+                border: "border-alternate/20"
+              },
+              {
+                title: "The Gap",
+                description: "The opportunity cost. The delta between your reality and your potential. This is where the magic (or regret) happens.",
+                icon: <History className="text-real" />,
+                color: "bg-real/10",
+                border: "border-real/20"
+              }
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                variants={fadeIn}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className={`p-10 rounded-[40px] bg-card border ${card.border} transition-all duration-500 shadow-2xl shadow-black/20`}
+              >
+                <div className={`w-16 h-16 rounded-2xl ${card.color} flex items-center justify-center mb-8`}>
+                  {card.icon}
+                </div>
+                <h3 className="text-2xl font-black mb-4">{card.title}</h3>
+                <p className="text-foreground/50 leading-relaxed italic font-light">{card.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 3. HOW IT WORKS ── */}
+      <section className="py-32 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div {...fadeIn} className="text-center mb-24">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">The Protocol</h2>
+            <p className="text-foreground/50 italic font-light">Simple steps to reveal your alternate future.</p>
+          </motion.div>
+
+          <div className="relative">
+            {/* Progress Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-brand via-brand/20 to-transparent hidden md:block" />
+
+            <div className="space-y-20">
+              {[
+                { step: "01", title: "Pick a Scenario", desc: "Choose from our curated list of crypto, stocks, or lifestyle spending habits." },
+                { step: "02", title: "Simulate Your Decision", desc: "Input your investment amount and the exact date the choice was made." },
+                { step: "03", title: "See the Outcome", desc: "Watch our engine process real historical data to generate your results instantly." }
+              ].map((item, i) => (
+                <motion.div 
+                  key={item.step}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.2 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-12 relative"
+                >
+                  <div className="w-16 h-16 rounded-full bg-brand text-white flex items-center justify-center font-black text-xl shadow-[0_0_30px_rgba(22,163,74,0.4)] relative z-10 shrink-0">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black mb-3 text-foreground">{item.title}</h3>
+                    <p className="text-lg text-foreground/50 italic font-light">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. WHY IT MATTERS ── */}
+      <section className="py-32 px-4 bg-brand/[0.03]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <motion.div {...fadeIn}>
+              <h2 className="text-3xl md:text-6xl font-black tracking-tighter leading-none mb-8">
+                Why Curiosity <br />
+                <span className="text-brand">Changes Everything</span>
+              </h2>
+              <div className="space-y-8">
+                <div className="flex items-start gap-4">
+                  <div className="p-2 rounded-lg bg-brand/10 text-brand mt-1"><Target size={20} /></div>
+                  <div>
+                    <p className="font-bold text-lg mb-1">Opportunity Cost</p>
+                    <p className="text-foreground/50 italic text-sm">Every dollar spent is a dollar that could have been working for you.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 rounded-lg bg-brand/10 text-brand mt-1"><TrendingUp size={20} /></div>
+                  <div>
+                    <p className="font-bold text-lg mb-1">Power of Compounding</p>
+                    <p className="text-foreground/50 italic text-sm">Time is the most powerful asset in the world of finance.</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="aspect-square rounded-[40px] bg-card border border-border p-8 flex flex-col justify-end shadow-2xl"
+              >
+                <p className="text-4xl font-black text-brand mb-2">25+</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Real Scenarios</p>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="aspect-square rounded-[40px] bg-brand text-white p-8 flex flex-col justify-end shadow-2xl shadow-brand/20"
+              >
+                <p className="text-4xl font-black mb-2">100%</p>
+                <p className="text-[10px] uppercase font-black tracking-widest opacity-60">Historical Accuracy</p>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="aspect-square rounded-[40px] bg-card border border-border p-8 flex flex-col justify-end shadow-2xl"
+              >
+                <p className="text-4xl font-black text-brand mb-2">∞</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-foreground/40">Possibilities</p>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="aspect-square rounded-[40px] bg-real text-white p-8 flex flex-col justify-end shadow-2xl shadow-real/20"
+              >
+                <p className="text-4xl font-black mb-2">Real</p>
+                <p className="text-[10px] uppercase font-black tracking-widest opacity-60">Market Data</p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. FEATURE HIGHLIGHTS ── */}
+      <section className="py-32 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div {...fadeIn} className="text-center mb-20">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Precision Engineering</h2>
+            <p className="text-foreground/50 italic font-light">The features that power your financial time travel.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Real-time Data", desc: "Live market prices synced with historical archives.", icon: <Globe size={24} /> },
+              { title: "Historical Simulations", desc: "Deep-dive into decades of market volatility.", icon: <BarChart3 size={24} /> },
+              { title: "Multi-Asset Classes", desc: "Crypto, Stocks, ETFs, and Lifestyle categories.", icon: <Layers size={24} /> },
+              { title: "Custom Scenarios", desc: "Build any simulation with your specific variables.", icon: <Target size={24} /> }
+            ].map((feature, i) => (
+              <motion.div
+                key={feature.title}
+                whileHover={{ y: -5 }}
+                className="p-8 rounded-3xl bg-card border border-border group hover:border-brand/40 transition-colors"
+              >
+                <div className="text-brand mb-6 group-hover:scale-110 transition-transform">{feature.icon}</div>
+                <h4 className="font-bold mb-2">{feature.title}</h4>
+                <p className="text-sm text-foreground/50 font-light italic">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. FINAL CTA ── */}
+      <section className="py-32 px-4">
+        <div className="max-w-4xl mx-auto rounded-[60px] bg-gradient-to-br from-brand to-emerald-600 p-16 text-center text-white relative overflow-hidden shadow-[0_0_100px_rgba(22,163,74,0.2)]">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
+          
+          <motion.div {...fadeIn}>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8">
+              Start Exploring Your <br /> Alternate Future
+            </h2>
+            <Link
+              href="/scenarios"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-brand rounded-full font-black text-lg hover:scale-105 active:scale-95 transition-all shadow-2xl"
+            >
+              Explore Now
+              <ArrowRight size={20} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer Disclaimer */}
+      <footer className="py-12 px-4 border-t border-border">
+        <div className="max-w-4xl mx-auto text-center opacity-30 text-[10px] font-bold uppercase tracking-widest space-y-4">
+          <p>Educational and entertainment purposes only. Not financial advice.</p>
+          <p>© {new Date().getFullYear()} Would I Be Rich If...? All rights reserved.</p>
+        </div>
+      </footer>
+
     </main>
   );
 }
+

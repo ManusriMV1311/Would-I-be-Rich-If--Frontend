@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 import { useEffect } from 'react';
+import CurrencyToggle from '@/components/ui/CurrencyToggle';
 
 const NAV_LINKS = [
   { href: '/scenarios',  label: 'Scenarios' },
@@ -76,6 +77,8 @@ export default function Navbar() {
 
         {/* ── Desktop CTA & Theme ── */}
         <div className="hidden sm:flex items-center gap-3">
+          <CurrencyToggle />
+          
           <button
             onClick={toggleTheme}
             className="p-2 rounded-full text-foreground/60 hover:text-brand hover:bg-brand/10 transition-all duration-300"
@@ -99,6 +102,8 @@ export default function Navbar() {
 
         {/* ── Mobile hamburger & Theme ── */}
         <div className="flex sm:hidden items-center gap-2">
+          <CurrencyToggle />
+          
           <button
             onClick={toggleTheme}
             className="p-2 rounded-full text-foreground/60 hover:text-brand hover:bg-brand/10 transition-colors"

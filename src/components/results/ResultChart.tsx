@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { ChartDataPoint } from '@/types/scenario.types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useUIStore } from '@/store/uiStore';
 
 interface ResultChartProps {
   chartData: ChartDataPoint[];
@@ -25,23 +26,25 @@ interface CustomTooltipProps {
   active?: boolean;
   payload?: TooltipPayloadEntry[];
   label?: string;
+  currency?: 'USD' | 'INR';
 }
 
 // Custom tooltip for accessibility + style
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+function CustomTooltip({ active, payload, label, currency = 'USD' }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
   const val = typeof payload[0].value === 'number' ? payload[0].value : 0;
   return (
     <div className="bg-card border border-border rounded-xl px-4 py-3 text-sm shadow-xl">
       <p className="text-foreground/50 mb-1">{label}</p>
       <p className="text-emerald-400 font-bold text-base">
-        {formatCurrency(val)}
+        {formatCurrency(val, currency)}
       </p>
     </div>
   );
 }
 
 export default function ResultChart({ chartData }: ResultChartProps) {
+  const { currency } = useUIStore();
   const startValue = chartData[0]?.value ?? 0;
 
   return (
@@ -72,14 +75,14 @@ export default function ResultChart({ chartData }: ResultChartProps) {
             axisLine={false}
           />
           <YAxis
-            tickFormatter={(v) => formatCurrency(v, true)}
+            tickFormatter={(v) => formatCurrency(v, currency, true)}
             tick={{ fill: 'var(--foreground)', fontWeight: 600, fontSize: 11 }}
             tickLine={false}
             axisLine={false}
             width={80}
           />
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip currency={currency} />} />
 
           {/* Baseline: initial investment */}
           <ReferenceLine

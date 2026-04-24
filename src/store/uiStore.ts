@@ -22,6 +22,10 @@ interface UIState {
   // ─── Loading overlay (for simulation in-progress) ─────────
   isSimulating: boolean;
   setSimulating: (v: boolean) => void;
+
+  // ─── Currency ─────────────────────────────────────────────
+  currency: 'USD' | 'INR';
+  setCurrency: (c: 'USD' | 'INR') => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -46,11 +50,18 @@ export const useUIStore = create<UIState>()(
       // Simulation loading state
       isSimulating: false,
       setSimulating: (v) => set({ isSimulating: v }),
+
+      // Currency (defaults to USD)
+      currency: 'USD',
+      setCurrency: (c) => set({ currency: c }),
     }),
     {
       name: 'wibr-ui-storage',
-      // Only persist the theme preference
-      partialize: (state) => ({ isDark: state.isDark }),
+      // Persist theme and currency
+      partialize: (state) => ({ 
+        isDark: state.isDark,
+        currency: state.currency 
+      }),
     }
   )
 );
