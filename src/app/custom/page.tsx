@@ -254,7 +254,7 @@ function CustomSimulatorForm() {
             const amountParam = simType === 'lump_sum' ? data.initial_amount : data.monthly_investment;
             router.push(`/result/${res.data.result_id}?asset=${data.asset}&amount=${amountParam}&start=${data.start_date}&sim=${simType}`);
           } else {
-            const errMsg = res.error instanceof Error ? res.error.message : String(res.error || 'Simulation failed — try again.');
+            const errMsg = res.error instanceof Error ? res.error.message : String(res.error || 'Simulation failed. Please try again.');
             addToast(errMsg, 'error');
           }
         },
@@ -280,7 +280,7 @@ function CustomSimulatorForm() {
           </h1>
           <p className="text-foreground/60 text-base leading-relaxed italic font-light max-w-xl">
             Pick any stock, ETF, or crypto. Set your amount and start date.
-            We'll show you what would have happened — in cold, hard dollars.
+            We will show you exactly what would have happened, in real dollars.
           </p>
         </div>
 

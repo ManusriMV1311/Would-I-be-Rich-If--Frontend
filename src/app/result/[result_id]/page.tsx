@@ -59,7 +59,7 @@ function ResultContent() {
         </p>
         {isSlow && (
           <p className="text-foreground/40 text-xs max-w-xs text-center">
-            Free-tier servers sometimes take 20–30 seconds to wake up. Hang tight — it's worth the wait.
+            Free-tier servers sometimes take 20 to 30 seconds to wake up. Hang tight, it is worth the wait.
           </p>
         )}
       </div>
@@ -71,7 +71,7 @@ function ResultContent() {
       ? data.error.message
       : typeof data?.error === 'string'
         ? data.error
-        : 'The simulation failed — please check the ticker and try again.';
+        : 'The simulation failed. Please check the ticker and try again.';
     return (
       <div className="flex flex-col items-center justify-center gap-4 mt-20 px-4 text-center">
         <p className="text-red-400 font-bold text-lg">Simulation Failed</p>

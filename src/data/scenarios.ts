@@ -57,7 +57,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-coffee-spy',
         title: 'What if I invested my daily coffee money?',
-        description: 'That $5 latte every day — what if you put it into the S&P 500 instead?',
+        description: 'That $5 latte every day. What if you put it into the S&P 500 instead?',
         category: 'spending',
         sim_type: 'recurring_dca',
         params: { investment_asset: 'SPY', monthly_amount: 150, start_date: '2010-01-01' },
@@ -239,7 +239,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'debt-credit-card-fee-spy',
         title: 'What if I avoided credit card fees and invested them?',
-        description: '$50/month in fees — rerouted to the market.',
+        description: '$50 a month in fees going to the bank. What if it went to the market instead?',
         category: 'debt',
         sim_type: 'recurring_dca',
         params: { investment_asset: 'SPY', monthly_amount: 50, start_date: '2012-01-01' },
@@ -247,7 +247,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'debt-mortgage-spy',
         title: 'What if I invested my mortgage down payment?',
-        description: '$60,000 earmarked for a house — what if it went to stocks?',
+        description: '$60,000 earmarked for a house. What if it went to stocks instead?',
         category: 'debt',
         sim_type: 'lump_sum',
         params: { asset: 'SPY', start_date: '2010-01-01', end_date: 'today' },

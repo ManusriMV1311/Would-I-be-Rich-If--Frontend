@@ -12,7 +12,7 @@ const TECH_STACK = [
   { layer: 'State', tech: 'TanStack React Query + Zustand', purpose: 'Server state + UI state management' },
   { layer: 'Forms', tech: 'React Hook Form + Zod', purpose: 'Validated, type-safe form handling' },
   { layer: 'Backend', tech: 'FastAPI (Python 3.11)', purpose: 'High-performance REST API' },
-  { layer: 'Data', tech: 'yfinance (Yahoo Finance)', purpose: 'Real historical market data — no API key needed' },
+  { layer: 'Data', tech: 'yfinance (Yahoo Finance)', purpose: 'Real historical market data, no API key needed' },
   { layer: 'Charts', tech: 'Recharts', purpose: 'Responsive financial growth charts' },
   { layer: 'Hosting', tech: 'Vercel + Render', purpose: 'Zero-cost production deployment' },
 ];
@@ -43,7 +43,7 @@ export default function AboutPage() {
           </p>
           <p className="text-foreground/70 leading-relaxed mb-4">
             Using real historical price data from Yahoo Finance, we calculate exactly what would have happened
-            to your money if you had invested it in any stock, ETF, or cryptocurrency — from any date in the past.
+            to your money if you had invested it in any stock, ETF, or cryptocurrency, going back to any date.
           </p>
           <p className="text-foreground/70 leading-relaxed">
             The results are real numbers, not estimates. We fetch actual historical closing prices and
@@ -140,7 +140,7 @@ export default function AboutPage() {
             </p>
             <p className="text-foreground/70 text-sm leading-relaxed mt-3">
               <strong>Past performance is not indicative of future results.</strong> The financial markets are
-              inherently unpredictable. Historical returns — no matter how dramatic — provide no guarantee of
+              inherently unpredictable. Historical returns, no matter how dramatic, provide no guarantee of
               similar future outcomes. Always consult a qualified financial advisor before making investment decisions.
             </p>
           </div>
