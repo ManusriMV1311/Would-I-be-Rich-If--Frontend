@@ -17,9 +17,6 @@ const MIN_DATE = new Date('2000-01-01');
 const MAX_DATE = new Date();
 MAX_DATE.setDate(MAX_DATE.getDate() - 1); // yesterday max
 
-// Use z.preprocess for the number field so that RHF's inferred
-// FormData type stays { asset: string; initial_amount: number; start_date: string }
-// while still coercing string→number from the HTML input.
 const customSimSchema = z.object({
   asset: z
     .string()
@@ -32,7 +29,13 @@ const customSimSchema = z.object({
   initial_amount: z
     .number()
     .min(1, 'Minimum $1')
-    .max(10_000_000, 'Maximum $10,000,000'),
+    .max(10_000_000, 'Maximum $10,000,000')
+    .optional(),
+  monthly_investment: z
+    .number()
+    .min(1, 'Minimum $1')
+    .max(1_000_000, 'Maximum $1,000,000')
+    .optional(),
   start_date: z
     .string()
     .min(1, 'Start date is required')
@@ -46,7 +49,8 @@ const customSimSchema = z.object({
 
 type FormData = {
   asset: string;
-  initial_amount: number;
+  initial_amount?: number;
+  monthly_investment?: number;
   start_date: string;
 };
 
@@ -199,6 +203,7 @@ function CustomSimulatorForm() {
   const searchParams = useSearchParams();
   const { addToast } = useUIStore();
   const { mutate: runSimulation, isPending } = useCustomSimulation();
+  const [simType, setSimType] = useState<'lump_sum' | 'dca'>('lump_sum');
 
   const initialAsset = searchParams.get('asset') || '';
   const initialStart = searchParams.get('start') || '2015-01-01';
@@ -214,7 +219,8 @@ function CustomSimulatorForm() {
     mode: 'onChange',
     defaultValues: {
       asset: initialAsset,
-      initial_amount: undefined, // Leave empty deliberately!
+      initial_amount: undefined,
+      monthly_investment: undefined,
       start_date: initialStart,
     },
   });
@@ -222,12 +228,31 @@ function CustomSimulatorForm() {
   const watchedValues = watch();
 
   const onSubmit = (data: FormData) => {
+    const isValid = simType === 'lump_sum'
+      ? (data.initial_amount && data.initial_amount > 0)
+      : (data.monthly_investment && data.monthly_investment > 0);
+
+    if (!isValid) {
+      addToast(
+        simType === 'lump_sum' ? 'Please enter an initial investment amount.' : 'Please enter a monthly investment amount.',
+        'error'
+      );
+      return;
+    }
+
     runSimulation(
-      { sim_type: 'lump_sum', ...data },
+      {
+        sim_type: simType,
+        asset: data.asset,
+        initial_amount: data.initial_amount,
+        monthly_investment: data.monthly_investment,
+        start_date: data.start_date,
+      },
       {
         onSuccess: (res) => {
           if (res.success && res.data) {
-            router.push(`/result/${res.data.result_id}?asset=${data.asset}&amount=${data.initial_amount}&start=${data.start_date}`);
+            const amountParam = simType === 'lump_sum' ? data.initial_amount : data.monthly_investment;
+            router.push(`/result/${res.data.result_id}?asset=${data.asset}&amount=${amountParam}&start=${data.start_date}&sim=${simType}`);
           } else {
             const errMsg = res.error instanceof Error ? res.error.message : String(res.error || 'Simulation failed — try again.');
             addToast(errMsg, 'error');
@@ -267,6 +292,33 @@ function CustomSimulatorForm() {
           className="flex flex-col gap-6"
         >
 
+          {/* ── Simulation Type Toggle ── */}
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[10px] font-black uppercase tracking-widest text-foreground/60">Simulation Type</p>
+            <div className="grid grid-cols-2 gap-2 p-1 bg-card/50 border border-border rounded-xl">
+              {(['lump_sum', 'dca'] as const).map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  id={`sim-type-${type}`}
+                  onClick={() => setSimType(type)}
+                  className={`
+                    py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200
+                    ${simType === type
+                      ? 'bg-brand text-white shadow-md shadow-brand/30'
+                      : 'text-foreground/40 hover:text-foreground'
+                    }
+                  `}
+                >
+                  {type === 'lump_sum' ? '💰 Lump Sum' : '📅 Monthly DCA'}
+                </button>
+              ))}
+            </div>
+            <p className="text-[10px] text-foreground/30 font-medium uppercase tracking-tight">
+              {simType === 'lump_sum' ? 'One-time investment at the start date' : 'Fixed monthly contribution over time'}
+            </p>
+          </div>
+
           {/* Ticker */}
           <FormField
             label="Asset"
@@ -281,29 +333,54 @@ function CustomSimulatorForm() {
             />
           </FormField>
 
-          {/* Amount */}
-          <FormField
-            label="Initial Investment"
-            id="initial_amount"
-            hint="Between $1 and $10,000,000"
-            error={errors.initial_amount?.message}
-          >
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
-              <input
-                id="initial_amount"
-                type="number"
-                min={1}
-                max={10000000}
-                step={1}
-                aria-describedby={errors.initial_amount ? 'initial_amount-error' : 'initial_amount-hint'}
-                aria-invalid={!!errors.initial_amount}
-                placeholder="1000"
-                className={`${inputClass(!!errors.initial_amount)} pl-8`}
-                {...register('initial_amount', { valueAsNumber: true })}
-              />
-            </div>
-          </FormField>
+          {/* Amount — conditional on sim type */}
+          {simType === 'lump_sum' ? (
+            <FormField
+              label="Initial Investment"
+              id="initial_amount"
+              hint="Between $1 and $10,000,000"
+              error={errors.initial_amount?.message}
+            >
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
+                <input
+                  id="initial_amount"
+                  type="number"
+                  min={1}
+                  max={10000000}
+                  step={1}
+                  aria-describedby={errors.initial_amount ? 'initial_amount-error' : 'initial_amount-hint'}
+                  aria-invalid={!!errors.initial_amount}
+                  placeholder="1000"
+                  className={`${inputClass(!!errors.initial_amount)} pl-8`}
+                  {...register('initial_amount', { valueAsNumber: true })}
+                />
+              </div>
+            </FormField>
+          ) : (
+            <FormField
+              label="Monthly Investment"
+              id="monthly_investment"
+              hint="Amount invested every month (between $1 and $1,000,000)"
+              error={errors.monthly_investment?.message}
+            >
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40 font-semibold">$</span>
+                <input
+                  id="monthly_investment"
+                  type="number"
+                  min={1}
+                  max={1000000}
+                  step={1}
+                  aria-describedby={errors.monthly_investment ? 'monthly_investment-error' : 'monthly_investment-hint'}
+                  aria-invalid={!!errors.monthly_investment}
+                  placeholder="200"
+                  className={`${inputClass(!!errors.monthly_investment)} pl-8`}
+                  {...register('monthly_investment', { valueAsNumber: true })}
+                />
+              </div>
+            </FormField>
+          )}
 
           {/* Start Date */}
           <FormField
@@ -325,23 +402,33 @@ function CustomSimulatorForm() {
           </FormField>
 
           {/* Live preview */}
-          {isValid && watchedValues.asset && watchedValues.initial_amount && (
+          {watchedValues.asset && watchedValues.start_date && (
+            (simType === 'lump_sum' && watchedValues.initial_amount && watchedValues.initial_amount > 0) ||
+            (simType === 'dca' && watchedValues.monthly_investment && watchedValues.monthly_investment > 0)
+          ) && (
             <div
               aria-live="polite"
               className="rounded-xl border border-brand/25 bg-brand/10 px-5 py-4"
             >
               <p className="text-sm text-brand font-semibold mb-1">✅ Ready to simulate</p>
               <p className="text-xs text-foreground/60">
-                Investing{' '}
-                <strong className="text-foreground/90">
-                  ${watchedValues.initial_amount?.toLocaleString()}
-                </strong>
-                {' '}in{' '}
-                <strong className="text-foreground/90">
-                  {watchedValues.asset?.toUpperCase()}
-                </strong>
-                {' '}starting{' '}
-                <strong className="text-foreground/90">{watchedValues.start_date}</strong>
+                {simType === 'lump_sum' ? (
+                  <>Investing{' '}
+                    <strong className="text-foreground/90">${watchedValues.initial_amount?.toLocaleString()}</strong>
+                    {' '}in{' '}
+                    <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
+                    {' '}starting{' '}
+                    <strong className="text-foreground/90">{watchedValues.start_date}</strong>
+                  </>
+                ) : (
+                  <>Investing{' '}
+                    <strong className="text-foreground/90">${watchedValues.monthly_investment?.toLocaleString()}/month</strong>
+                    {' '}in{' '}
+                    <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
+                    {' '}starting{' '}
+                    <strong className="text-foreground/90">{watchedValues.start_date}</strong>
+                  </>
+                )}
               </p>
             </div>
           )}

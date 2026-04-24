@@ -18,7 +18,7 @@ export interface CustomSimulationParams {
  */
 export function useSimulation() {
   return useMutation({
-    mutationFn: async (uuid: string) => {
+    mutationFn: async (_uuid: string) => {
       throw new Error('Scenario-based simulation not implemented yet');
     },
     onError: (err) => {
@@ -28,7 +28,9 @@ export function useSimulation() {
 }
 
 /**
- * REAL custom simulation (connected to backend)
+ * REAL custom simulation — connected to backend.
+ * Both lump_sum and dca now return the same normalized shape:
+ *   { result_id, alternate_value, real_value, difference, growth_percentage, chart_data, commentary }
  */
 export function useCustomSimulation() {
   return useMutation<
@@ -38,7 +40,7 @@ export function useCustomSimulation() {
   >({
     mutationFn: async (params: CustomSimulationParams) => {
       try {
-        let result;
+        let result: any;
 
         if (params.sim_type === 'lump_sum') {
           result = await simulateLumpSum({
@@ -54,66 +56,47 @@ export function useCustomSimulation() {
           });
         }
 
-        // 🔥 Transform backend → frontend format
+        // Both endpoints now return the same normalized shape from backend
+        const alternateValue: number = result.alternate_value ?? 0;
+        const realValue: number = result.real_value ?? 0;
+        const difference: number = result.difference ?? alternateValue - realValue;
+        const growthPct: number = result.growth_percentage ?? 0;
+        const isPositive: boolean = difference > 0;
+
+        // Commentary comes from the backend commentary engine
+        const commentary: string =
+          result.commentary || 'Real simulation based on historical market data.';
+
+        const resultId: string =
+          result.result_id || `res_${Date.now()}`;
+
         return {
           success: true,
           data: {
-            result_id: `res_${Date.now()}`,
+            result_id: resultId,
             scenario: {
               uuid: 'custom',
               title: `What if I invested in ${params.asset}?`,
               category: 'stocks',
             },
-
             alternate_you: {
-              value:
-                params.sim_type === 'lump_sum'
-                  ? result.alternate_value
-                  : result.data[result.data.length - 1].portfolio,
+              value: alternateValue,
               label: 'Alternate You',
               description: `${params.asset} investment since ${params.start_date}`,
             },
-
             real_you: {
-              value:
-                params.sim_type === 'lump_sum'
-                  ? result.real_value
-                  : result.data[result.data.length - 1].invested,
+              value: realValue,
               label: 'Real You',
-              description: 'No investment',
+              description:
+                params.sim_type === 'lump_sum'
+                  ? `Cash left uninvested since ${params.start_date}`
+                  : `Total invested: $${realValue.toLocaleString()}`,
             },
-
-            difference:
-              params.sim_type === 'lump_sum'
-                ? result.difference
-                : result.data[result.data.length - 1].portfolio -
-                result.data[result.data.length - 1].invested,
-
-            growth_pct:
-              params.sim_type === 'lump_sum'
-                ? result.growth_percentage
-                : (
-                  ((result.data[result.data.length - 1].portfolio -
-                    result.data[result.data.length - 1].invested) /
-                    result.data[result.data.length - 1].invested) *
-                  100
-                ),
-
-            is_positive:
-              params.sim_type === 'lump_sum'
-                ? result.difference > 0
-                : result.data[result.data.length - 1].portfolio >
-                result.data[result.data.length - 1].invested,
-
-            chart_data:
-              params.sim_type === 'lump_sum'
-                ? result.chart_data
-                : result.data.map((d: any) => ({
-                  date: d.date,
-                  value: d.portfolio,
-                })),
-
-            commentary: 'Real simulation based on historical market data.',
+            difference,
+            growth_pct: growthPct,
+            is_positive: isPositive,
+            chart_data: result.chart_data ?? [],
+            commentary,
             cached: false,
             duration_ms: 0,
             computed_at: new Date().toISOString(),

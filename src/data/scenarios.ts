@@ -6,6 +6,7 @@ export const SCENARIO_CONFIG: {
   icon: string;
   scenarios: (Omit<Scenario, 'id' | 'run_count' | 'is_active'>)[];
 }[] = [
+  // ── 1. CRYPTO ──────────────────────────────────────────────────────────────
   {
     categoryId: 'crypto',
     name: 'Cryptocurrency',
@@ -13,8 +14,8 @@ export const SCENARIO_CONFIG: {
     scenarios: [
       {
         uuid: 'crypto-btc-2015',
-        title: 'Invest in Bitcoin (2015)',
-        description: 'See the impact of investing early in the world\'s most famous cryptocurrency.',
+        title: 'What if I bought Bitcoin in 2015?',
+        description: 'See what happened if you invested at the very start of the crypto revolution.',
         category: 'crypto',
         sim_type: 'lump_sum',
         trending: true,
@@ -22,263 +23,297 @@ export const SCENARIO_CONFIG: {
       },
       {
         uuid: 'crypto-eth-2016',
-        title: 'Ethereum at launch',
-        description: 'What if you grabbed ETH when it was basically free?',
+        title: 'What if I bought Ethereum at launch?',
+        description: 'ETH was trading for cents. What if you got in early?',
         category: 'crypto',
         sim_type: 'lump_sum',
-        params: { asset: 'ETH-USD', start_date: '2016-01-01', end_date: 'today' },
+        params: { asset: 'ETH-USD', start_date: '2016-08-01', end_date: 'today' },
       },
       {
         uuid: 'crypto-sol-2020',
-        title: 'Solana early days',
-        description: 'Investing in the high-speed blockchain before the boom.',
+        title: 'What if I bought Solana in 2020?',
+        description: 'The high-speed blockchain that surprised everyone.',
         category: 'crypto',
         sim_type: 'lump_sum',
-        params: { asset: 'SOL-USD', start_date: '2020-04-11', end_date: 'today' },
-      }
-    ]
+        params: { asset: 'SOL-USD', start_date: '2020-09-01', end_date: 'today' },
+      },
+      {
+        uuid: 'crypto-doge-2020',
+        title: 'What if I HODLed Dogecoin from 2020?',
+        description: 'The meme coin that Elon made famous. Before he tweeted about it.',
+        category: 'crypto',
+        sim_type: 'lump_sum',
+        params: { asset: 'DOGE-USD', start_date: '2020-01-01', end_date: 'today' },
+      },
+    ],
   },
+
+  // ── 2. SPENDING HABITS ─────────────────────────────────────────────────────
   {
-    categoryId: 'stocks',
-    name: 'US Stocks',
-    icon: 'Briefcase',
+    categoryId: 'spending',
+    name: 'Spending Habits',
+    icon: 'Coffee',
     scenarios: [
       {
-        uuid: 'stocks-aapl-2007',
-        title: 'Apple (iPhone Launch)',
-        description: 'Investing the day Steve Jobs unveiled the original iPhone.',
+        uuid: 'spending-coffee-spy',
+        title: 'What if I invested my daily coffee money?',
+        description: 'That $5 latte every day — what if you put it into the S&P 500 instead?',
+        category: 'spending',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 150, start_date: '2010-01-01' },
+      },
+      {
+        uuid: 'spending-netflix-spy',
+        title: 'What if I invested my Netflix subscription?',
+        description: '$15/month of content vs $15/month in the stock market.',
+        category: 'spending',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 15, start_date: '2012-01-01' },
+      },
+      {
+        uuid: 'spending-lunch-aapl',
+        title: 'What if I skipped lunch and bought Apple stock?',
+        description: 'Packing lunch instead of buying it. Every. Single. Day.',
+        category: 'spending',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'AAPL', monthly_amount: 200, start_date: '2010-01-01' },
+      },
+      {
+        uuid: 'spending-uber-eats-spy',
+        title: 'What if I invested my Uber Eats spending?',
+        description: 'Delivery fees add up. So does compound interest.',
+        category: 'spending',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 80, start_date: '2018-01-01' },
+      },
+    ],
+  },
+
+  // ── 3. REAL ESTATE ─────────────────────────────────────────────────────────
+  {
+    categoryId: 'real_estate',
+    name: 'Real Estate',
+    icon: 'Home',
+    scenarios: [
+      {
+        uuid: 're-austin-2015',
+        title: 'What if I bought a house in Austin in 2015?',
+        description: 'Austin went from "affordable" to "expensive" in record time.',
+        category: 'real_estate',
+        sim_type: 'lump_sum',
+        params: { asset: 'HOMZ', start_date: '2015-01-01', end_date: 'today' },
+      },
+      {
+        uuid: 're-reit-2009',
+        title: 'What if I bought REITs at the 2009 crash bottom?',
+        description: 'Real estate investment trusts at historic lows.',
+        category: 'real_estate',
+        sim_type: 'lump_sum',
+        params: { asset: 'VNQ', start_date: '2009-03-09', end_date: 'today' },
+      },
+      {
+        uuid: 're-iyr-2010',
+        title: 'What if I invested in US Real Estate ETF in 2010?',
+        description: 'The housing market bounced hard after the crash.',
+        category: 'real_estate',
+        sim_type: 'lump_sum',
+        params: { asset: 'IYR', start_date: '2010-01-01', end_date: 'today' },
+      },
+    ],
+  },
+
+  // ── 4. STOCK MARKET ────────────────────────────────────────────────────────
+  {
+    categoryId: 'stocks',
+    name: 'Stock Market',
+    icon: 'TrendingUp',
+    scenarios: [
+      {
+        uuid: 'stocks-aapl-2005',
+        title: 'What if I bought Apple stock in 2005?',
+        description: 'Before the iPhone, before the App Store, before the trillion-dollar valuation.',
         category: 'stocks',
         sim_type: 'lump_sum',
         trending: true,
-        params: { asset: 'AAPL', start_date: '2007-01-09', end_date: 'today' },
+        params: { asset: 'AAPL', start_date: '2005-01-03', end_date: 'today' },
+      },
+      {
+        uuid: 'stocks-nvda-2015',
+        title: 'What if I bought NVIDIA before the AI boom?',
+        description: 'When they were just a GPU company for gamers.',
+        category: 'stocks',
+        sim_type: 'lump_sum',
+        trending: true,
+        params: { asset: 'NVDA', start_date: '2015-01-02', end_date: 'today' },
       },
       {
         uuid: 'stocks-tsla-2010',
-        title: 'Tesla IPO',
-        description: 'Backing Elon Musk when Tesla went public.',
+        title: 'What if I bought Tesla at IPO?',
+        description: 'The electric car company everyone said would fail.',
         category: 'stocks',
         sim_type: 'lump_sum',
         params: { asset: 'TSLA', start_date: '2010-06-29', end_date: 'today' },
       },
       {
         uuid: 'stocks-amzn-1997',
-        title: 'Amazon IPO',
-        description: 'Buying the "Everything Store" when it only sold books.',
+        title: 'What if I bought Amazon at IPO?',
+        description: 'Just a bookstore. On the internet. In 1997.',
         category: 'stocks',
         sim_type: 'lump_sum',
         params: { asset: 'AMZN', start_date: '1997-05-15', end_date: 'today' },
-      }
-    ]
-  },
-  {
-    categoryId: 'indian_stocks',
-    name: 'Indian Stocks',
-    icon: 'Globe',
-    scenarios: [
-      {
-        uuid: 'india-reliance-2005',
-        title: 'Reliance Industries (2005)',
-        description: 'Investing in India\'s largest conglomerate.',
-        category: 'indian_stocks',
-        sim_type: 'lump_sum',
-        params: { asset: 'RELIANCE.NS', start_date: '2005-01-01', end_date: 'today' },
       },
       {
-        uuid: 'india-tcs-2004',
-        title: 'TCS IPO (2004)',
-        description: 'Backing India\'s IT boom.',
-        category: 'indian_stocks',
-        sim_type: 'lump_sum',
-        params: { asset: 'TCS.NS', start_date: '2004-08-25', end_date: 'today' },
-      },
-      {
-        uuid: 'india-infy-1999',
-        title: 'Infosys (1999)',
-        description: 'The golden age of Indian IT services.',
-        category: 'indian_stocks',
-        sim_type: 'lump_sum',
-        params: { asset: 'INFY.NS', start_date: '1999-03-11', end_date: 'today' },
-      }
-    ]
-  },
-  {
-    categoryId: 'etfs',
-    name: 'Index ETFs',
-    icon: 'PieChart',
-    scenarios: [
-      {
-        uuid: 'etf-spy-2009',
-        title: 'S&P 500 Bottom (2009)',
-        description: 'Buying the market exactly at the 2008-09 financial crisis bottom.',
-        category: 'etfs',
+        uuid: 'stocks-spy-2009',
+        title: 'What if I bought S&P 500 at the 2009 bottom?',
+        description: 'The greatest market recovery in modern history.',
+        category: 'stocks',
         sim_type: 'lump_sum',
         params: { asset: 'SPY', start_date: '2009-03-09', end_date: 'today' },
       },
       {
-        uuid: 'etf-qqq-2010',
-        title: 'Nasdaq 100 (2010)',
-        description: 'A bet on the modern technology sector.',
-        category: 'etfs',
+        uuid: 'stocks-msft-2010',
+        title: 'What if I bought Microsoft in 2010?',
+        description: 'Everyone thought they were past their prime. They were not.',
+        category: 'stocks',
         sim_type: 'lump_sum',
-        params: { asset: 'QQQ', start_date: '2010-01-01', end_date: 'today' },
+        params: { asset: 'MSFT', start_date: '2010-01-04', end_date: 'today' },
       },
-      {
-        uuid: 'etf-vti-2015',
-        title: 'Total Stock Market (2015)',
-        description: 'Owning a piece of every public US company.',
-        category: 'etfs',
-        sim_type: 'lump_sum',
-        params: { asset: 'VTI', start_date: '2015-01-01', end_date: 'today' },
-      }
-    ]
+    ],
   },
+
+  // ── 5. LIFE DECISIONS ──────────────────────────────────────────────────────
   {
-    categoryId: 'commodities',
-    name: 'Commodities',
-    icon: 'Database',
+    categoryId: 'life',
+    name: 'Life Decisions',
+    icon: 'Target',
     scenarios: [
       {
-        uuid: 'comm-gold-2000',
-        title: 'Gold at the Millennium',
-        description: 'Investing in the ultimate safe haven in the year 2000.',
-        category: 'commodities',
+        uuid: 'life-tuition-spy',
+        title: 'What if I had invested my college tuition?',
+        description: '$30,000/year. What if the market taught you instead?',
+        category: 'life',
         sim_type: 'lump_sum',
-        params: { asset: 'GC=F', start_date: '2000-01-01', end_date: 'today' },
+        params: { asset: 'SPY', start_date: '2010-09-01', end_date: 'today' },
       },
       {
-        uuid: 'comm-oil-2020',
-        title: 'Crude Oil (2020)',
-        description: 'Buying oil during the historic pandemic crash.',
-        category: 'commodities',
+        uuid: 'life-wedding-aapl',
+        title: 'What if I invested my wedding budget?',
+        description: 'The average US wedding costs $30,000. In Apple stock.',
+        category: 'life',
         sim_type: 'lump_sum',
-        params: { asset: 'CL=F', start_date: '2020-04-20', end_date: 'today' },
-      }
-    ]
-  },
-  {
-    categoryId: 'forex',
-    name: 'Forex',
-    icon: 'DollarSign',
-    scenarios: [
-      {
-        uuid: 'forex-eurusd-2008',
-        title: 'EUR/USD in 2008',
-        description: 'Tracking the Euro against the Dollar since the financial crisis.',
-        category: 'forex',
-        sim_type: 'lump_sum',
-        params: { asset: 'EURUSD=X', start_date: '2008-01-01', end_date: 'today' },
+        params: { asset: 'AAPL', start_date: '2012-06-01', end_date: 'today' },
       },
       {
-        uuid: 'forex-usdinr-2010',
-        title: 'USD/INR in 2010',
-        description: 'The depreciation of the Indian Rupee over a decade.',
-        category: 'forex',
-        sim_type: 'lump_sum',
-        params: { asset: 'USDINR=X', start_date: '2010-01-01', end_date: 'today' },
-      }
-    ]
-  },
-  {
-    categoryId: 'indices',
-    name: 'Market Indices',
-    icon: 'TrendingUp',
-    scenarios: [
-      {
-        uuid: 'index-gspc-2000',
-        title: 'S&P 500 Index (2000)',
-        description: 'Direct tracking of the S&P 500 index from the dot-com bubble peak.',
-        category: 'indices',
-        sim_type: 'lump_sum',
-        params: { asset: '^GSPC', start_date: '2000-03-24', end_date: 'today' },
+        uuid: 'life-vacation-vti',
+        title: 'What if I invested my annual vacation budget?',
+        description: '$5,000/year in Cancún vs $5,000/year in a total market ETF.',
+        category: 'life',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'VTI', monthly_amount: 417, start_date: '2015-01-01' },
       },
       {
-        uuid: 'index-nsei-2008',
-        title: 'NIFTY 50 (2008)',
-        description: 'India\'s benchmark index after the global financial crisis.',
-        category: 'indices',
-        sim_type: 'lump_sum',
-        params: { asset: '^NSEI', start_date: '2008-01-01', end_date: 'today' },
-      }
-    ]
+        uuid: 'life-car-payment-spy',
+        title: 'What if I invested my car payments instead?',
+        description: '$400/month lease vs $400/month in the S&P 500.',
+        category: 'life',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 400, start_date: '2014-01-01' },
+      },
+    ],
   },
+
+  // ── 6. DEBT ────────────────────────────────────────────────────────────────
   {
-    categoryId: 'ai',
-    name: 'AI Boom',
-    icon: 'Cpu',
+    categoryId: 'debt',
+    name: 'Debt',
+    icon: 'CreditCard',
     scenarios: [
       {
-        uuid: 'ai-nvda-2015',
-        title: 'NVIDIA (Pre-AI boom)',
-        description: 'Before LLMs, they were just making graphics cards for gamers.',
-        category: 'ai',
+        uuid: 'debt-student-loan-spy',
+        title: 'What if I invested my student loan interest payments?',
+        description: '$300/month that went to the bank instead of the market.',
+        category: 'debt',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 300, start_date: '2010-09-01' },
+      },
+      {
+        uuid: 'debt-credit-card-fee-spy',
+        title: 'What if I avoided credit card fees and invested them?',
+        description: '$50/month in fees — rerouted to the market.',
+        category: 'debt',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 50, start_date: '2012-01-01' },
+      },
+      {
+        uuid: 'debt-mortgage-spy',
+        title: 'What if I invested my mortgage down payment?',
+        description: '$60,000 earmarked for a house — what if it went to stocks?',
+        category: 'debt',
+        sim_type: 'lump_sum',
+        params: { asset: 'SPY', start_date: '2010-01-01', end_date: 'today' },
+      },
+      {
+        uuid: 'debt-car-loan-interest-spy',
+        title: 'What if I invested my car loan interest?',
+        description: 'Every dollar of interest you paid someone else\'s bank.',
+        category: 'debt',
+        sim_type: 'recurring_dca',
+        params: { investment_asset: 'SPY', monthly_amount: 75, start_date: '2015-01-01' },
+      },
+    ],
+  },
+
+  // ── 7. MACRO EVENTS ────────────────────────────────────────────────────────
+  {
+    categoryId: 'macro',
+    name: 'Macro Events',
+    icon: 'Globe',
+    scenarios: [
+      {
+        uuid: 'macro-covid-crash-spy',
+        title: 'What if I bought the market on the COVID crash day?',
+        description: 'March 23, 2020. The single best buying opportunity of the decade.',
+        category: 'macro',
         sim_type: 'lump_sum',
         trending: true,
-        params: { asset: 'NVDA', start_date: '2015-01-01', end_date: 'today' },
+        params: { asset: 'SPY', start_date: '2020-03-23', end_date: 'today' },
       },
       {
-        uuid: 'ai-msft-2019',
-        title: 'Microsoft (OpenAI partnership)',
-        description: 'When Microsoft first invested $1B into OpenAI.',
-        category: 'ai',
+        uuid: 'macro-08-crash-spy',
+        title: 'What if I bought stocks at the 2008 crash?',
+        description: 'Fear was everywhere. The opportunity was massive.',
+        category: 'macro',
         sim_type: 'lump_sum',
-        params: { asset: 'MSFT', start_date: '2019-07-22', end_date: 'today' },
-      }
-    ]
+        params: { asset: 'SPY', start_date: '2008-11-20', end_date: 'today' },
+      },
+      {
+        uuid: 'macro-dotcom-bust-qqq',
+        title: 'What if I bought tech after the dot-com bust?',
+        description: '2002: tech was dead. Or so everyone thought.',
+        category: 'macro',
+        sim_type: 'lump_sum',
+        params: { asset: 'QQQ', start_date: '2002-10-10', end_date: 'today' },
+      },
+      {
+        uuid: 'macro-fed-rate-gold',
+        title: 'What if I bought Gold when the Fed started printing?',
+        description: 'QE, ZIRP, and the flight to safety assets.',
+        category: 'macro',
+        sim_type: 'lump_sum',
+        params: { asset: 'GLD', start_date: '2008-09-15', end_date: 'today' },
+      },
+    ],
   },
-  {
-    categoryId: 'pandemic',
-    name: 'Pandemic Era',
-    icon: 'Activity',
-    scenarios: [
-      {
-        uuid: 'pan-zm-2020',
-        title: 'Zoom (March 2020)',
-        description: 'Buying Zoom when the world locked down.',
-        category: 'pandemic',
-        sim_type: 'lump_sum',
-        params: { asset: 'ZM', start_date: '2020-03-01', end_date: 'today' },
-      },
-      {
-        uuid: 'pan-pfe-2020',
-        title: 'Pfizer (Vaccine Race)',
-        description: 'Betting on the vaccine manufacturer.',
-        category: 'pandemic',
-        sim_type: 'lump_sum',
-        params: { asset: 'PFE', start_date: '2020-11-09', end_date: 'today' },
-      }
-    ]
-  },
-  {
-    categoryId: 'meme',
-    name: 'Meme Assets',
-    icon: 'Smile',
-    scenarios: [
-      {
-        uuid: 'meme-gme-2021',
-        title: 'GameStop (Before the squeeze)',
-        description: 'Getting in on GME before WallStreetBets sent it to the moon.',
-        category: 'meme',
-        sim_type: 'lump_sum',
-        params: { asset: 'GME', start_date: '2020-12-01', end_date: 'today' },
-      },
-      {
-        uuid: 'meme-doge-2020',
-        title: 'Dogecoin (2020)',
-        description: 'Buying the joke coin before Elon Musk tweeted about it.',
-        category: 'meme',
-        sim_type: 'lump_sum',
-        params: { asset: 'DOGE-USD', start_date: '2020-01-01', end_date: 'today' },
-      }
-    ]
-  }
 ];
 
 export const getAllDropdownGroups = () => {
   return SCENARIO_CONFIG.map(category => ({
     label: category.name,
-    options: category.scenarios.map(s => ({
-      value: s.params.asset || '',
-      label: s.title
-    })).filter(o => o.value !== '')
+    options: category.scenarios
+      .filter(s => s.params.asset)
+      .map(s => ({
+        value: s.params.asset || '',
+        label: s.title,
+      })),
   }));
 };

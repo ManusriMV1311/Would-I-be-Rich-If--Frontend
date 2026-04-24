@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 const NAV_LINKS = [
   { href: '/scenarios',  label: 'Scenarios' },
   { href: '/custom',     label: 'Build My Own' },
+  { href: '/about',      label: 'About' },
 ];
 
 export default function Navbar() {
