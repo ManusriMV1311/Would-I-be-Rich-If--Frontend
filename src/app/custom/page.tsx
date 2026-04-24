@@ -10,6 +10,7 @@ import { useUIStore } from '@/store/uiStore';
 import { TrendingUp, Loader2, AlertCircle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { USD_TO_INR } from '@/utils/formatCurrency';
 
 // ─── Zod Validation Schema ────────────────────────────────────────────────────
 const TICKER_REGEX = /^[A-Z0-9.\-=^]{1,15}$/;
@@ -204,7 +205,6 @@ function CustomSimulatorForm() {
   const currencySymbol = isINR ? '₹' : '$';
 
   const { mutate: runSimulation, isPending } = useCustomSimulation();
-  const [simType, setSimType] = useState<'lump_sum' | 'dca'>('lump_sum');
 
   const initialAsset = searchParams.get('asset') || '';
   const initialStart = searchParams.get('start') || '2015-01-01';
