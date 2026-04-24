@@ -1,11 +1,11 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
+console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
 
 export async function simulateLumpSum(input: {
   ticker: string;
   start_date: string;
   amount: number;
 }) {
-  const res = await fetch(`${BASE_URL}/simulate/lump-sum`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/simulate/lump-sum`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export async function simulateDCA(input: {
   start_date: string;
   monthly_investment: number;
 }) {
-  const res = await fetch(`${BASE_URL}/simulate/dca`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/simulate/dca`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
