@@ -107,7 +107,7 @@ export default function ResultView({ data }: ResultViewProps) {
         )}
 
         {/* Comparison Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <ComparisonCard
             label={result.alternate_you?.label || "Alternate You"}
             description={result.alternate_you?.description || "If you had invested"}
@@ -122,13 +122,13 @@ export default function ResultView({ data }: ResultViewProps) {
             variant="real"
           />
 
-          <div className="glass-card p-10 flex flex-col justify-center items-center text-center hover-lift border-white/50 shadow-2xl shadow-brand/5">
-            <p className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.4em] mb-6">The Wealth Gap</p>
+          <div className="glass-card px-10 py-12 flex flex-col justify-center items-center text-center hover-lift border-white/50 shadow-2xl shadow-brand/5 overflow-hidden">
+            <p className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.4em] mb-4">The Wealth Gap</p>
 
-            <div className={`flex items-center gap-4 ${gapColor} mb-3`}>
-              <GapIcon size={32} className="animate-pulse" />
-              <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-brand to-alternate">
-                {formatCurrency(result.difference, currency, true)}
+            <div className={`flex items-center justify-center gap-3 ${gapColor} mb-4 w-full`}>
+              <GapIcon size={24} className="animate-pulse flex-shrink-0" />
+              <span className="text-3xl sm:text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-brand to-alternate leading-none">
+                {formatCurrency(result.difference, currency, false)}
               </span>
             </div>
 
@@ -136,7 +136,7 @@ export default function ResultView({ data }: ResultViewProps) {
               {formatGrowth(result.growth_pct)} Growth
             </p>
 
-            <p className="text-sm text-text-secondary mt-8 italic font-medium max-w-[200px] leading-relaxed">
+            <p className="text-sm text-text-secondary mt-10 italic font-medium max-w-[200px] leading-relaxed">
               "{result.commentary}"
             </p>
           </div>

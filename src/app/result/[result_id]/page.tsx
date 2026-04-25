@@ -23,7 +23,7 @@ function ResultContent() {
       setIsSlow(false);
       return;
     }
-    const timer = setTimeout(() => setIsSlow(true), 3000);
+    const timer = setTimeout(() => setIsSlow(true), 2000);
     return () => clearTimeout(timer);
   }, [isPending]);
 

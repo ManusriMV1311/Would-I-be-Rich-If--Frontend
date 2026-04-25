@@ -819,15 +819,25 @@ export const SCENARIO_CONFIG: {
 ];
 
 export const getAllDropdownGroups = () => {
-  return SCENARIO_CONFIG.map(category => ({
-    label: category.name,
-    options: category.scenarios
-      .filter(s => s.params.asset || s.params.investment_asset)
-      .map(s => ({
-        value: (s.params.asset || s.params.investment_asset) || '',
-        label: s.name,
-      })),
-  }));
+  return SCENARIO_CONFIG.map(category => {
+    // Deduplicate options by asset ticker to prevent duplicate keys
+    const uniqueOptionsMap = new Map();
+    
+    category.scenarios.forEach(s => {
+      const ticker = (s.params.asset || s.params.investment_asset);
+      if (ticker && !uniqueOptionsMap.has(ticker)) {
+        uniqueOptionsMap.set(ticker, {
+          value: ticker,
+          label: s.name,
+        });
+      }
+    });
+
+    return {
+      label: category.name,
+      options: Array.from(uniqueOptionsMap.values()),
+    };
+  });
 };
 
 // Flattened list for the scenarios page
