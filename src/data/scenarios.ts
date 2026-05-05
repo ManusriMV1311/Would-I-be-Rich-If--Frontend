@@ -16,7 +16,7 @@ export const SCENARIO_CONFIG: {
         uuid: 'crypto-btc-2015',
         name: 'Bitcoin (2015)',
         title: 'What if I bought Bitcoin in 2015?',
-        description: 'See what happened if you invested at the very start of the crypto revolution.',
+        description: 'See what happened if you simulated the path at the very start of the crypto revolution.',
         category: 'crypto',
         region: 'global',
         sim_type: 'lump_sum',
@@ -145,7 +145,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-chai-india',
         name: 'Daily Cutting Chai',
-        title: 'What if I invested my daily cutting chai money?',
+        title: 'What if I put my daily cutting chai money into the market?',
         description: '₹15-20 a day. Sounds small, but compound interest is a beast.',
         category: 'spending',
         region: 'india',
@@ -155,13 +155,13 @@ export const SCENARIO_CONFIG: {
           story: "That evening chai break is a ritual. But what if the money grew instead?",
           hook: "You've been drinking your future wealth, one sip at a time."
         },
-        tags: ["Micro-Investing", "Desi Habit"]
+        tags: ["Micro-Allocating", "Desi Habit"]
       },
       {
         uuid: 'spending-swiggy-india',
         name: 'Weekend Swiggy/Zomato',
         title: 'What if I skipped a Swiggy order every week?',
-        description: 'Investing ₹500 every weekend into the Indian stock market.',
+        description: 'Allocating ₹500 every weekend into the Indian stock market.',
         category: 'spending',
         region: 'india',
         sim_type: 'recurring_dca',
@@ -175,7 +175,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-coffee-spy',
         name: 'Daily Latte',
-        title: 'What if I invested my daily coffee money?',
+        title: 'What if I put my daily coffee money into the market?',
         description: '$5 a day into the S&P 500.',
         category: 'spending',
         region: 'global',
@@ -190,7 +190,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-netflix-spy',
         name: 'Netflix vs Stocks',
-        title: 'What if I invested my Netflix subscription?',
+        title: 'What if I put my Netflix subscription into the market?',
         description: '$15/month in the stock market.',
         category: 'spending',
         region: 'global',
@@ -205,7 +205,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-uber-eats-spy',
         name: 'Delivery Fees',
-        title: 'What if I invested my Uber Eats spending?',
+        title: 'What if I put my Uber Eats spending into the market?',
         description: 'Delivery fees add up. So does compound interest.',
         category: 'spending',
         region: 'global',
@@ -220,14 +220,14 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-recharge-india',
         name: 'Mobile Data Recharge',
-        title: 'What if I invested my monthly mobile recharge?',
-        description: 'Investing ₹250/month since the 4G revolution began.',
+        title: 'What if I put my monthly mobile recharge into the market?',
+        description: 'Allocating ₹250/month since the 4G revolution began.',
         category: 'spending',
         region: 'india',
         sim_type: 'recurring_dca',
         params: { investment_asset: 'INFY.NS', monthly_amount: 250, start_date: '2016-01-01' },
         context: {
-          story: "Jio changed the game. Data became cheaper, but what if you invested the difference?",
+          story: "Jio changed the game. Data became cheaper, but what if you put the difference into the market?",
           hook: "The data you consumed for memes could have built a serious portfolio."
         },
         tags: ["Digital India", "Small Capital"]
@@ -235,8 +235,8 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-fuel-india',
         name: 'Petrol Price Hikes',
-        title: 'What if I invested the fuel price hike amount?',
-        description: 'Investing the extra ₹1000/month spent on rising fuel costs.',
+        title: 'What if I put the fuel price hike amount?',
+        description: 'Allocating the extra ₹1000/month spent on rising fuel costs.',
         category: 'spending',
         region: 'india',
         sim_type: 'recurring_dca',
@@ -267,7 +267,7 @@ export const SCENARIO_CONFIG: {
         params: { asset: 'RELIANCE.NS', start_date: '2010-01-01', end_date: 'today', appreciation_pct: 12 },
         context: {
           story: "Owning a home in South Bombay is the ultimate status symbol.",
-          hook: "Even if you didn't buy the flat, investing that capital would have been insane."
+          hook: "Even if you didn't buy the flat, allocating that capital would have been insane."
         },
         tags: ["Premium", "Landlord"]
       },
@@ -343,7 +343,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'stocks-tcs-ipo',
         name: 'TCS IPO (2004)',
-        title: 'What if I invested in the TCS IPO?',
+        title: 'What if I put money into the TCS IPO?',
         description: 'India\'s IT giant from the very beginning.',
         category: 'stocks',
         region: 'india',
@@ -420,7 +420,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'stocks-nifty-2010',
         name: 'Nifty 50 Index',
-        title: 'What if I just invested in the Nifty 50?',
+        title: 'What if I just put money into the Nifty 50?',
         description: 'The top 50 companies in India.',
         category: 'stocks',
         region: 'india',
@@ -480,7 +480,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'stocks-irctc-ipo',
         name: 'IRCTC IPO',
-        title: 'What if I invested in the IRCTC IPO?',
+        title: 'What if I put money into the IRCTC IPO?',
         description: 'The monopoly of Indian Railways ticketing.',
         category: 'stocks',
         region: 'india',
@@ -550,7 +550,7 @@ export const SCENARIO_CONFIG: {
         uuid: 'govt-ppf-2010',
         name: 'PPF (Tax Free)',
         title: 'What if I maxed out my PPF since 2010?',
-        description: 'Investing ₹1.5 Lakh every year into the Public Provident Fund.',
+        description: 'Allocating ₹1.5 Lakh every year into the Public Provident Fund.',
         category: 'govt_schemes',
         region: 'india',
         sim_type: 'recurring_dca',
@@ -564,7 +564,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'govt-nps-2015',
         name: 'NPS (Retirement)',
-        title: 'What if I invested in NPS?',
+        title: 'What if I put money into NPS?',
         description: 'The National Pension System with equity exposure.',
         category: 'govt_schemes',
         region: 'india',
@@ -603,8 +603,8 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'debt-edu-loan-india',
         name: 'Education Loan (India)',
-        title: 'What if I invested my education loan EMI?',
-        description: 'Repaying a ₹10 Lakh loan vs investing that amount.',
+        title: 'What if I put my education loan EMI into the market?',
+        description: 'Repaying a ₹10 Lakh loan vs allocating that amount.',
         category: 'debt',
         region: 'india',
         sim_type: 'recurring_dca',
@@ -618,7 +618,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'debt-credit-card-india',
         name: 'Credit Card Minimums',
-        title: 'What if I invested my credit card interest?',
+        title: 'What if I put my credit card interest into the market?',
         description: 'Paying only the minimum due is the most expensive mistake.',
         category: 'debt',
         region: 'india',
@@ -633,7 +633,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'debt-student-loan-spy',
         name: 'Student Loan (US)',
-        title: 'What if I invested my student loan interest?',
+        title: 'What if I put my student loan interest into the market?',
         description: '$300/month that went to the bank instead of the market.',
         category: 'debt',
         region: 'global',
@@ -672,7 +672,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'cultural-wedding-jewelry',
         name: 'Wedding Jewelry',
-        title: 'What if I invested in Gold Jewelry early?',
+        title: 'What if I put money into Gold Jewelry early?',
         description: 'Buying gold jewelry vs gold ETFs.',
         category: 'cultural',
         region: 'india',
@@ -687,8 +687,8 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'cultural-wedding-india',
         name: 'Big Fat Indian Wedding',
-        title: 'What if I invested my wedding budget in Nifty?',
-        description: 'The average Indian wedding cost ₹15 Lakhs. What if you invested it?',
+        title: 'What if I put my wedding budget in Nifty into the market?',
+        description: 'The average Indian wedding cost ₹15 Lakhs. What if you put it into the market?',
         category: 'cultural',
         region: 'india',
         sim_type: 'lump_sum',
@@ -702,8 +702,8 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'career-first-salary',
         name: 'First Salary',
-        title: 'What if I invested my entire first salary?',
-        description: 'Investing that first paycheck in 2015 into the market.',
+        title: 'What if I put my entire first salary into the market?',
+        description: 'Allocating that first paycheck in 2015 into the market.',
         category: 'career',
         region: 'india',
         sim_type: 'lump_sum',
@@ -717,7 +717,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'life-tuition-spy',
         name: 'College Tuition',
-        title: 'What if I had invested my college tuition?',
+        title: 'What if I had put my college tuition?',
         description: '$30,000/year. What if the market taught you instead?',
         category: 'life',
         region: 'global',
@@ -787,7 +787,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'macro-gst-2017',
         name: 'GST Rollout',
-        title: 'What if I invested during the GST rollout?',
+        title: 'What if I put money in during the GST rollout?',
         description: 'July 1, 2017. One nation, one tax.',
         category: 'macro',
         region: 'india',
@@ -824,7 +824,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-0-2dc706',
         name: 'Daily Swiggy/Zomato',
-        title: "What if I invested my daily Swiggy/Zomato spending?",
+        title: "What if I put my daily Swiggy/Zomato spending?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -835,7 +835,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-1-7c2cf3',
         name: 'Weekend Pub Hopping',
-        title: "What if I invested my weekend pub hopping budget?",
+        title: "What if I put my weekend pub hopping budget?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -857,7 +857,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-3-006f83',
         name: 'Streaming Subscriptions',
-        title: "What if I invested my Netflix and Spotify subscription fees?",
+        title: "What if I put my Netflix and Spotify subscription fees?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'global',
@@ -868,7 +868,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-4-237b22',
         name: 'Cigarette Spending',
-        title: "What if I invested the money I spend on cigarettes?",
+        title: "What if I put the money I spend on cigarettes?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -879,7 +879,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-5-57d7f5',
         name: 'Annual iPhone Upgrade',
-        title: "What if I invested the cost of buying the latest iPhone every year?",
+        title: "What if I put the cost of buying the latest iPhone every year?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'global',
@@ -890,7 +890,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-6-1b19b9',
         name: 'Fast Fashion Budget',
-        title: "What if my fast-fashion Myntra/Zara budget was invested?",
+        title: "What if my fast-fashion Myntra/Zara budget was put into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -901,7 +901,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-7-94dfbe',
         name: 'Salon & Grooming',
-        title: "What if I invested my monthly salon and grooming budget?",
+        title: "What if I put my monthly salon and grooming budget?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -923,7 +923,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-9-6c5999',
         name: 'Uber/Ola vs Metro',
-        title: "What if I took the metro and invested my Uber/Ola budget?",
+        title: "What if I took the metro and put my Uber/Ola budget?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -934,7 +934,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-10-79de6a',
         name: 'Weekend Movies',
-        title: "What if I invested my weekend movie and popcorn budget?",
+        title: "What if I put my weekend movie and popcorn budget?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -945,7 +945,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-11-047117',
         name: 'Gaming Microtransactions',
-        title: "What if my online gaming microtransactions were invested?",
+        title: "What if my online gaming microtransactions were put into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'global',
@@ -967,7 +967,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-spending-13-3400a0',
         name: 'Chai & Sutta ritual',
-        title: "What if I invested my daily cutting chai and sutta money?",
+        title: "What if I put my daily cutting chai and sutta money?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'spending',
         region: 'india',
@@ -1029,7 +1029,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-govt_schemes-3-1297b9',
         name: 'PM Kisan yearly payouts',
-        title: "What if my PM Kisan yearly payouts were invested in agriculture stocks?",
+        title: "What if my PM Kisan yearly payouts were put into the market agriculture stocks?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'govt_schemes',
         region: 'india',
@@ -1062,7 +1062,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-govt_schemes-6-529554',
         name: 'POMIS Scheme',
-        title: "What if my POMIS (Post Office Scheme) was invested in banking?",
+        title: "What if my POMIS (Post Office Scheme) was put into the market banking?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'govt_schemes',
         region: 'india',
@@ -1084,7 +1084,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-govt_schemes-8-0b97c9',
         name: 'Traditional LIC Premium',
-        title: "What if my traditional LIC Premium was invested in the market?",
+        title: "What if my traditional LIC Premium was put into the market the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'govt_schemes',
         region: 'india',
@@ -1113,7 +1113,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-cultural-0-faa2b0',
         name: 'Big Fat Indian Wedding',
-        title: "What if the Big Fat Indian Wedding budget was invested instead?",
+        title: "What if the Big Fat Indian Wedding budget was put into the marketstead?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'cultural',
         region: 'india',
@@ -1146,7 +1146,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-cultural-3-029c65',
         name: 'Childs First Birthday',
-        title: "What if the budget for my child's lavish first birthday was invested?",
+        title: "What if the budget for my child's lavish first birthday was put into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'cultural',
         region: 'india',
@@ -1157,7 +1157,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-cultural-4-f46ff8',
         name: 'Shagun Envelopes',
-        title: "What if all the 'Shagun' envelope money was invested over time?",
+        title: "What if all the 'Shagun' envelope money was put into the market over time?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'cultural',
         region: 'india',
@@ -1168,7 +1168,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-cultural-5-3a2a99',
         name: 'Diwali New Car',
-        title: "What if the Diwali new car budget was invested in auto stocks?",
+        title: "What if the Diwali new car budget was put into the market auto stocks?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'cultural',
         region: 'india',
@@ -1230,7 +1230,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-0-8412a2',
         name: 'I my very first salary cheque',
-        title: "What if I invested my very first salary cheque?",
+        title: "What if I put my very first salary cheque?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',
@@ -1241,7 +1241,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-1-19af72',
         name: 'Annual Diwali Bonus',
-        title: "What if my annual Diwali Bonus was invested every year?",
+        title: "What if my annual Diwali Bonus was put into the market every year?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',
@@ -1252,7 +1252,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-2-d11561',
         name: 'Appraisal Increment',
-        title: "What if I invested my entire appraisal increment amount?",
+        title: "What if I put my entire appraisal increment amount?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',
@@ -1263,7 +1263,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-3-08bcc1',
         name: 'MBA Fee vs QQQ',
-        title: "What if I skipped an expensive MBA and invested the fee?",
+        title: "What if I skipped an expensive MBA and put the fee into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'global',
@@ -1274,7 +1274,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-4-4814f1',
         name: 'Freelance Side Hustle',
-        title: "What if my freelance side-hustle income was consistently invested?",
+        title: "What if my freelance side-hustle income was consistently put into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'global',
@@ -1285,7 +1285,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-5-9fff8c',
         name: 'Income Tax Refund',
-        title: "What if I invested my income tax refund every year?",
+        title: "What if I put my income tax refund every year?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',
@@ -1307,7 +1307,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-7-19d4d0',
         name: 'Rent vs Buy EMI',
-        title: "What if I rented and invested the EMI difference?",
+        title: "What if I rented and put the EMI difference into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',
@@ -1318,7 +1318,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'gen-career-8-b86173',
         name: 'Wedding Registry Gifts',
-        title: "What if all my wedding registry cash gifts were invested?",
+        title: "What if all my wedding registry cash gifts were put into the market?",
         description: "Explore what happens if you had made this financial choice.",
         category: 'career',
         region: 'india',

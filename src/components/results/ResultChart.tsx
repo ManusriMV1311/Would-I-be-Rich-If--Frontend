@@ -89,7 +89,7 @@ export default function ResultChart({ chartData, currency = 'USD' }: ResultChart
             stroke="#d97706"
             strokeDasharray="5 5"
             strokeWidth={1.5}
-            label={{ value: 'Invested', fill: '#d97706', fontSize: 10, position: 'top', offset: 8 }}
+            label={{ value: 'Principal', fill: '#d97706', fontSize: 10, position: 'top', offset: 8 }}
           />
 
           <Line

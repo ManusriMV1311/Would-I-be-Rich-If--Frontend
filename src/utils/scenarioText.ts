@@ -21,7 +21,7 @@ export function generateScenarioText(
     if (simType === 'dca') {
       return `What if my monthly contribution went into ${assetLabel}?`;
     }
-    return `What if you had invested in ${assetLabel} back then?`;
+    return `What if you had put money into ${assetLabel} back then?`;
   }
 
   return null;

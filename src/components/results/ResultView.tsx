@@ -189,7 +189,7 @@ export default function ResultView({ data }: ResultViewProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <ComparisonCard
             label={result.alternate_you?.label || 'Alternate You'}
-            description={result.alternate_you?.description || 'If you had invested'}
+            description={result.alternate_you?.description || 'The simulated path'}
             value={result.alternate_you?.value || 0}
             variant="alternate"
             currency={displayCurrency}
@@ -205,7 +205,7 @@ export default function ResultView({ data }: ResultViewProps) {
             />
             {/* Baseline note below the Real You card */}
             <p className="text-[10px] text-foreground/30 font-medium px-2 flex items-center gap-1">
-              Baseline: cash invested (not reinvested)
+              Baseline: cash principal (not reinvested)
               <BaselineTooltip />
             </p>
           </div>

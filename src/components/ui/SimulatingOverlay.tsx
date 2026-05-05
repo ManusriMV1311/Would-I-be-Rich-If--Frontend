@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { TrendingUp } from 'lucide-react';
 
 const FUN_FACTS = [
-  '💡 $1 invested in Apple in 2000 is worth ~$780 today.',
+  '💡 $1 put into Apple in 2000 is worth ~$780 today.',
   '📈 The S&P 500 has returned ~10% per year on average since 1957.',
   '₿ Bitcoin went from $0.003 to over $60,000 — a 2,000,000,000% rise.',
   '🏡 Austin, TX home prices rose 80% between 2015 and 2022.',

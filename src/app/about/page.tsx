@@ -107,7 +107,7 @@ export default function AboutPage() {
             {[
               {
                 title: "Alternate You",
-                description: "The version of you that took the leap. See how your wealth would have scaled if you invested instead of spent.",
+                description: "The version of you that took the leap. See how your wealth would have scaled if you had taken this path instead of spent.",
                 icon: <Zap className="text-brand" />,
                 color: "bg-brand/10",
                 border: "border-brand/20"

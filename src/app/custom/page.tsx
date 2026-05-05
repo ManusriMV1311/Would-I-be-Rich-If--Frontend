@@ -455,7 +455,7 @@ function CustomSimulatorForm() {
           {simType === 'lump_sum' ? (
             <FormField
               storyLabel={dynamicSentence || undefined}
-              label={!dynamicSentence ? "Amount you invested" : undefined}
+              label={!dynamicSentence ? "Initial Amount" : undefined}
               id="initial_amount"
               hint={`Between ${currencySymbol}1 and ${currencySymbol}${isINR ? '830,000,000' : '10,000,000'}`}
               error={errors.initial_amount?.message}
@@ -481,7 +481,7 @@ function CustomSimulatorForm() {
               storyLabel={dynamicSentence || undefined}
               label={!dynamicSentence ? (isDaily ? "Daily spending" : "Monthly contribution") : undefined}
               id="monthly_investment"
-              hint={`Amount invested every month (between ${currencySymbol}1 and ${currencySymbol}${isINR ? '83,000,000' : '1,000,000'})`}
+              hint={`Amount added every month (between ${currencySymbol}1 and ${currencySymbol}${isINR ? '83,000,000' : '1,000,000'})`}
               error={errors.monthly_investment?.message}
             >
               <div className="relative">

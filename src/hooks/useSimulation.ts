@@ -111,7 +111,7 @@ export function useCustomSimulation() {
             alternate_you: {
               value: alternateValue,
               label: 'Alternate You',
-              description: `${params.asset} investment since ${params.start_date}`,
+              description: `${params.asset} simulation since ${params.start_date}`,
             },
             real_you: {
               value: realValue,
