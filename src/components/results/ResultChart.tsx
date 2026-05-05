@@ -11,11 +11,11 @@ import {
   ReferenceLine,
 } from 'recharts';
 import { ChartDataPoint } from '@/types/scenario.types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { useUIStore } from '@/store/uiStore';
+import { formatCurrencyDirect } from '@/utils/formatCurrency';
 
 interface ResultChartProps {
   chartData: ChartDataPoint[];
+  currency?: 'USD' | 'INR';
 }
 
 interface TooltipPayloadEntry {
@@ -37,14 +37,13 @@ function CustomTooltip({ active, payload, label, currency = 'USD' }: CustomToolt
     <div className="bg-card border border-border rounded-xl px-4 py-3 text-sm shadow-xl">
       <p className="text-foreground/50 mb-1">{label}</p>
       <p className="text-emerald-400 font-bold text-base">
-        {formatCurrency(val, currency)}
+        {formatCurrencyDirect(val, currency)}
       </p>
     </div>
   );
 }
 
-export default function ResultChart({ chartData }: ResultChartProps) {
-  const { currency } = useUIStore();
+export default function ResultChart({ chartData, currency = 'USD' }: ResultChartProps) {
   const startValue = chartData[0]?.value ?? 0;
 
   return (
@@ -75,7 +74,7 @@ export default function ResultChart({ chartData }: ResultChartProps) {
             axisLine={false}
           />
           <YAxis
-            tickFormatter={(v) => formatCurrency(v, currency, true)}
+            tickFormatter={(v) => formatCurrencyDirect(v, currency, true)}
             tick={{ fill: 'var(--foreground)', fontWeight: 600, fontSize: 11 }}
             tickLine={false}
             axisLine={false}

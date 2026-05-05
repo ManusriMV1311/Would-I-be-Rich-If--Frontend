@@ -7,23 +7,47 @@ export const USD_TO_INR = 83;
  * Format a number as a currency string (USD or INR).
  * Handles conversion if currency is INR.
  */
+/**
+ * Format a number as a currency string.
+ * INPUT: value is in USD. If currency is 'INR', converts USD → INR automatically.
+ * Use this for values coming straight from the backend without prior conversion.
+ */
 export function formatCurrency(
   value: number, 
   currency: 'USD' | 'INR' = 'USD', 
   compact = false
 ): string {
   const isINR = currency === 'INR';
+  // This function assumes the value is in USD; it converts to INR if needed
   const convertedValue = isINR ? value * USD_TO_INR : value;
+  return _formatNumber(convertedValue, currency, compact);
+}
+
+/**
+ * Format a number that is ALREADY in the target currency.
+ * Use this for values that have already been converted (e.g. from useSimulation hook).
+ * Does NOT multiply by exchange rate.
+ */
+export function formatCurrencyDirect(
+  value: number,
+  currency: 'USD' | 'INR' = 'USD',
+  compact = false
+): string {
+  return _formatNumber(value, currency, compact);
+}
+
+function _formatNumber(value: number, currency: 'USD' | 'INR', compact: boolean): string {
+  const isINR = currency === 'INR';
   const locale = isINR ? 'en-IN' : 'en-US';
   const currencyCode = isINR ? 'INR' : 'USD';
 
-  if (compact && Math.abs(convertedValue) >= 1_000_000) {
+  if (compact && Math.abs(value) >= 1_000_000) {
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: currencyCode,
       notation: 'compact',
       maximumFractionDigits: 1,
-    }).format(convertedValue);
+    }).format(value);
   }
 
   return new Intl.NumberFormat(locale, {
@@ -31,7 +55,7 @@ export function formatCurrency(
     currency: currencyCode,
     minimumFractionDigits: isINR ? 0 : 2,
     maximumFractionDigits: isINR ? 0 : 2,
-  }).format(convertedValue);
+  }).format(value);
 }
 
 /**

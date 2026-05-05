@@ -9,9 +9,10 @@ import { ScenarioCategory } from '@/types/scenario.types';
 import CategoryFilter from '@/components/scenarios/CategoryFilter';
 import ScenarioGrid from '@/components/scenarios/ScenarioGrid';
 
-// ✅ Use real scenario configuration
 import { ALL_SCENARIOS } from '@/data/scenarios';
 import { useUIStore } from '@/store/uiStore';
+import { detectCurrency } from '@/utils/currencyDetection';
+import { USD_TO_INR } from '@/utils/formatCurrency';
 
 export default function ScenariosPage() {
   const router = useRouter();
@@ -30,12 +31,29 @@ export default function ScenariosPage() {
       // Simulate API delay (optional, for UX consistency)
       await new Promise((r) => setTimeout(r, 300));
 
-      // Filter scenarios locally
-      let filtered = ALL_SCENARIOS.filter(s => s.region === region);
+      // Categories that are lifestyle/habitual — not strictly region-locked
+      const UNIVERSAL_CATEGORIES: (ScenarioCategory | 'all')[] = [
+        'govt_schemes', 'cultural', 'career', 'spending', 'life', 'debt'
+      ];
 
-      if (selectedCategory !== 'all') {
-        filtered = filtered.filter(
-          (s) => s.category === selectedCategory
+      const isUniversalCategory =
+        selectedCategory !== 'all' &&
+        UNIVERSAL_CATEGORIES.includes(selectedCategory);
+
+      let filtered: typeof ALL_SCENARIOS;
+
+      if (selectedCategory === 'all') {
+        // Show everything: region-specific + universal lifestyle scenarios
+        filtered = ALL_SCENARIOS.filter(
+          s => s.region === region || UNIVERSAL_CATEGORIES.includes(s.category)
+        );
+      } else if (isUniversalCategory) {
+        // Universal categories: skip region filter entirely
+        filtered = ALL_SCENARIOS.filter(s => s.category === selectedCategory);
+      } else {
+        // Region-locked categories (crypto, stocks, real_estate, macro)
+        filtered = ALL_SCENARIOS.filter(
+          s => s.region === region && s.category === selectedCategory
         );
       }
 
@@ -51,11 +69,18 @@ export default function ScenariosPage() {
     if (!scenario) return;
     
     const asset = scenario.params?.asset || scenario.params?.investment_asset || 'BTC-USD';
-    const amount = scenario.params?.initial_amount || scenario.params?.monthly_amount || 500;
+    const rawAmount = scenario.params?.initial_amount || scenario.params?.monthly_amount || 500;
     const start = scenario.params?.start_date || '2015-01-01';
     const sim = scenario.sim_type === 'recurring_dca' ? 'dca' : 'lump_sum';
 
-    router.push(`/custom?asset=${asset}&start=${start}&amount=${amount}&sim=${sim}`);
+    // URL amounts are always in USD. If the scenario amount is in INR, convert to USD first.
+    // custom/page.tsx will then convert back to INR for display.
+    const scenarioCurrency = detectCurrency(asset);
+    const amountInUSD = scenarioCurrency === 'INR'
+      ? rawAmount / USD_TO_INR
+      : rawAmount;
+
+    router.push(`/custom?asset=${asset}&start=${start}&amount=${amountInUSD}&sim=${sim}&scenario=${scenario.uuid}`);
   };
 
   return (

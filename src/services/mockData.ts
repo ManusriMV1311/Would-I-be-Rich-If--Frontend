@@ -37,6 +37,7 @@ export const mockSimulationResult: SimulationResultData = {
   difference: 286950.00, 
   growth_pct: 57390.0, 
   is_positive: true,
+  display_currency: 'USD',
   chart_data: [
     { date: "2015-01", value: 500.0 }, 
     { date: "2018-01", value: 15000.0 }, 

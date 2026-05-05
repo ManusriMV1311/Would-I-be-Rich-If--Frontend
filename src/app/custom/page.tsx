@@ -11,6 +11,8 @@ import { TrendingUp, Loader2, AlertCircle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { USD_TO_INR } from '@/utils/formatCurrency';
+import { detectCurrency } from '@/utils/currencyDetection';
+import { generateScenarioText } from '@/utils/scenarioText';
 
 // ─── Zod Validation Schema ────────────────────────────────────────────────────
 const TICKER_REGEX = /^[A-Z0-9.\-=^]{1,15}$/;
@@ -56,12 +58,14 @@ type FormData = {
 // ─── Input Component ──────────────────────────────────────────────────────────
 function FormField({
   label,
+  storyLabel,
   id,
   hint,
   error,
   children,
 }: {
-  label: string;
+  label?: string;
+  storyLabel?: string;
   id: string;
   hint?: string;
   error?: string;
@@ -69,9 +73,15 @@ function FormField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[10px] font-black uppercase tracking-widest text-foreground/60">
-        {label}
-      </label>
+      {storyLabel ? (
+        <label htmlFor={id} className="text-xl md:text-2xl font-bold text-brand leading-tight mb-2">
+          {storyLabel}
+        </label>
+      ) : label ? (
+        <label htmlFor={id} className="text-[10px] font-black uppercase tracking-widest text-foreground/60">
+          {label}
+        </label>
+      ) : null}
       {children}
       {hint && !error && (
         <p id={`${id}-hint`} className="text-[10px] text-foreground/30 font-medium uppercase tracking-tight">{hint}</p>
@@ -99,7 +109,7 @@ const inputClass = (hasError: boolean) => `
 `;
 
 // ─── Custom UI Components ─────────────────────────────────────────────────────
-import { getAllDropdownGroups } from '@/data/scenarios';
+import { getAllDropdownGroups, ALL_SCENARIOS, ASSET_NAMES } from '@/data/scenarios';
 const ASSET_GROUPS = getAllDropdownGroups();
 
 function CustomAssetSelect({ value, onChange, hasError }: { 
@@ -153,7 +163,7 @@ function CustomAssetSelect({ value, onChange, hasError }: {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute z-50 top-full mt-2 w-full max-h-[320px] overflow-y-auto rounded-2xl border border-border bg-card/95 backdrop-blur-xl shadow-2xl p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+            className="absolute z-50 top-full mt-2 w-full max-h-[320px] overflow-y-auto rounded-2xl border border-border bg-card/95 backdrop-blur-xl shadow-2xl p-2 scrollbar-thin scrollbar-thumb-foreground/10 hover:scrollbar-thumb-foreground/20 scrollbar-track-transparent"
           >
             <div className="sticky top-0 bg-card/95 backdrop-blur-xl pb-2 z-10 pt-1 px-1">
               <input
@@ -201,14 +211,11 @@ function CustomSimulatorForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
-  const { addToast, currency } = useUIStore();
+  const { addToast } = useUIStore();
   
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const isINR = currency === 'INR';
-  const currencySymbol = isINR ? '₹' : '$';
 
   const { mutate: runSimulation, isPending } = useCustomSimulation();
 
@@ -216,17 +223,23 @@ function CustomSimulatorForm() {
   const initialStart = searchParams.get('start') || '2015-01-01';
   const urlSim = searchParams.get('sim');
   const urlAmount = Number(searchParams.get('amount')) || undefined;
+  const scenarioUuid = searchParams.get('scenario');
 
   const [simType, setSimType] = useState<'lump_sum' | 'dca'>(urlSim === 'dca' ? 'dca' : 'lump_sum');
 
+  // Determine initial currency for URL params converting
+  const initialCurrency = detectCurrency(initialAsset);
+  const initialIsINR = initialCurrency === 'INR';
+
   // Convert incoming USD amount to local currency for display
-  const displayAmount = urlAmount ? (isINR ? urlAmount * USD_TO_INR : urlAmount) : undefined;
+  const displayAmount = urlAmount ? (initialIsINR ? urlAmount * USD_TO_INR : urlAmount) : undefined;
 
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(customSimSchema) as any,
@@ -239,6 +252,21 @@ function CustomSimulatorForm() {
     },
   });
 
+  // BUG FIX: Reset form state when scenario changes or is cleared
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const newSimType = urlSim === 'dca' ? 'dca' : 'lump_sum';
+    setSimType(newSimType);
+    
+    reset({
+      asset: searchParams.get('asset') || '',
+      start_date: searchParams.get('start') || '2015-01-01',
+      initial_amount: newSimType === 'lump_sum' ? displayAmount : undefined,
+      monthly_investment: newSimType === 'dca' ? displayAmount : undefined,
+    });
+  }, [searchParams, displayAmount, urlSim, reset, mounted]);
+
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -248,6 +276,25 @@ function CustomSimulatorForm() {
   }
 
   const watchedValues = watch();
+
+  // Determine local currency based on asset
+  const detectedCurrency = detectCurrency(watchedValues.asset || initialAsset);
+  const isINR = detectedCurrency === 'INR';
+  const currencySymbol = isINR ? '₹' : '$';
+
+  // Dynamic scenario text logic
+  const currentScenario = ALL_SCENARIOS.find(s => s.uuid === scenarioUuid);
+  const isScenarioMode = !!currentScenario;
+  const isDaily = currentScenario?.name.toLowerCase().includes('daily') || currentScenario?.title.toLowerCase().includes('daily');
+
+  // Detect if the scenario is framed in yearly terms so we can show helpful context
+  const isYearlyContext = !!(
+    currentScenario?.title.toLowerCase().includes('year') ||
+    currentScenario?.title.toLowerCase().includes('/year') ||
+    currentScenario?.title.toLowerCase().includes('annual')
+  );
+
+  const dynamicSentence = generateScenarioText(currentScenario, watchedValues.asset, simType);
 
   // The submit button is active when the relevant amount field is filled
   // for the active sim type, plus asset and start date are present.
@@ -266,7 +313,7 @@ function CustomSimulatorForm() {
 
     if (!isValid) {
       addToast(
-        simType === 'lump_sum' ? `Please enter an initial investment amount in ${currency}.` : `Please enter a monthly investment amount in ${currency}.`,
+        simType === 'lump_sum' ? `Please enter an initial investment amount in ${currencySymbol}.` : `Please enter a monthly investment amount in ${currencySymbol}.`,
         'error'
       );
       return;
@@ -338,6 +385,12 @@ function CustomSimulatorForm() {
                   type="button"
                   id={`sim-type-${type}`}
                   onClick={() => {
+                    if (isScenarioMode) {
+                      // Kicking user out of scenario mode completely to prevent mixing states
+                      router.push(`/custom?sim=${type}`);
+                      return;
+                    }
+
                     setSimType(type);
                     // Clear the other field to avoid hidden validation errors
                     if (type === 'lump_sum') {
@@ -363,24 +416,46 @@ function CustomSimulatorForm() {
             </p>
           </div>
 
-          {/* Ticker */}
-          <FormField
-            label="Asset"
-            id="asset"
-            hint="Select your targeted asset"
-            error={errors.asset?.message}
-          >
-            <CustomAssetSelect
-              value={watchedValues.asset}
-              onChange={(val) => setValue('asset', val, { shouldValidate: true })}
-              hasError={!!errors.asset}
-            />
-          </FormField>
+          {/* Asset Section */}
+          {isScenarioMode ? (
+            <div className="flex flex-col gap-2 p-4 bg-brand/10 border border-brand/20 rounded-2xl items-start">
+              <span className="px-2 py-1 bg-brand text-white text-[10px] font-black uppercase tracking-widest rounded">Scenario Active</span>
+              <p className="text-sm text-foreground/80 font-medium">
+                You are currently exploring a predefined story.
+              </p>
+              <button 
+                type="button" 
+                onClick={() => router.push('/custom')}
+                className="text-brand text-xs font-bold hover:underline"
+              >
+                Exit to Custom Build Mode →
+              </button>
+            </div>
+          ) : (
+            <FormField
+              label="Asset"
+              id="asset"
+              hint="Select your targeted asset"
+              error={errors.asset?.message}
+            >
+              <CustomAssetSelect
+                value={watchedValues.asset}
+                onChange={(val) => {
+                  setValue('asset', val, { shouldValidate: true });
+                  // Reset dependent amount state when asset changes to prevent stale data
+                  setValue('initial_amount', undefined);
+                  setValue('monthly_investment', undefined);
+                }}
+                hasError={!!errors.asset}
+              />
+            </FormField>
+          )}
 
           {/* Amount — conditional on sim type */}
           {simType === 'lump_sum' ? (
             <FormField
-              label="Initial Investment"
+              storyLabel={dynamicSentence || undefined}
+              label={!dynamicSentence ? "Amount you invested" : undefined}
               id="initial_amount"
               hint={`Between ${currencySymbol}1 and ${currencySymbol}${isINR ? '830,000,000' : '10,000,000'}`}
               error={errors.initial_amount?.message}
@@ -395,7 +470,7 @@ function CustomSimulatorForm() {
                   step={1}
                   aria-describedby={errors.initial_amount ? 'initial_amount-error' : 'initial_amount-hint'}
                   aria-invalid={!!errors.initial_amount}
-                  placeholder={isINR ? "83000" : "1000"}
+                  placeholder={dynamicSentence ? "Investment amount" : (isINR ? "83000" : "1000")}
                   className={`${inputClass(!!errors.initial_amount)} pl-8`}
                   {...register('initial_amount', { valueAsNumber: true })}
                 />
@@ -403,7 +478,8 @@ function CustomSimulatorForm() {
             </FormField>
           ) : (
             <FormField
-              label="Monthly Investment"
+              storyLabel={dynamicSentence || undefined}
+              label={!dynamicSentence ? (isDaily ? "Daily spending" : "Monthly contribution") : undefined}
               id="monthly_investment"
               hint={`Amount invested every month (between ${currencySymbol}1 and ${currencySymbol}${isINR ? '83,000,000' : '1,000,000'})`}
               error={errors.monthly_investment?.message}
@@ -418,11 +494,19 @@ function CustomSimulatorForm() {
                   step={1}
                   aria-describedby={errors.monthly_investment ? 'monthly_investment-error' : 'monthly_investment-hint'}
                   aria-invalid={!!errors.monthly_investment}
-                  placeholder={isINR ? "16600" : "200"}
+                  placeholder={dynamicSentence ? (isDaily ? "Daily amount" : "Monthly amount") : (isINR ? "16600" : "200")}
                   className={`${inputClass(!!errors.monthly_investment)} pl-8`}
                   {...register('monthly_investment', { valueAsNumber: true })}
                 />
               </div>
+              {/* Yearly context note — shown when the scenario is framed in yearly terms */}
+              {isYearlyContext && watchedValues.monthly_investment && watchedValues.monthly_investment > 0 && (
+                <p className="text-[11px] text-brand/80 font-semibold mt-1.5">
+                  {currencySymbol}{watchedValues.monthly_investment.toLocaleString()}/month
+                  {' '}≈{' '}
+                  {currencySymbol}{Math.round(watchedValues.monthly_investment * 12).toLocaleString()}/year
+                </p>
+              )}
             </FormField>
           )}
 
@@ -460,15 +544,18 @@ function CustomSimulatorForm() {
                   <>Investing{' '}
                     <strong className="text-foreground/90">{currencySymbol}{watchedValues.initial_amount?.toLocaleString()}</strong>
                     {' '}in{' '}
-                    <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
+                    <strong className="text-foreground/90">{ASSET_NAMES[watchedValues.asset || ''] || watchedValues.asset?.toUpperCase()}</strong>
                     {' '}starting{' '}
                     <strong className="text-foreground/90">{watchedValues.start_date}</strong>
                   </>
                 ) : (
                   <>Investing{' '}
-                    <strong className="text-foreground/90">{currencySymbol}{watchedValues.monthly_investment?.toLocaleString()}/month</strong>
+                    <strong className="text-foreground/90">
+                      {currencySymbol}{watchedValues.monthly_investment?.toLocaleString()}/month
+                      {isYearlyContext && ` (${currencySymbol}${Math.round((watchedValues.monthly_investment || 0) * 12).toLocaleString()}/year)`}
+                    </strong>
                     {' '}in{' '}
-                    <strong className="text-foreground/90">{watchedValues.asset?.toUpperCase()}</strong>
+                    <strong className="text-foreground/90">{ASSET_NAMES[watchedValues.asset || ''] || watchedValues.asset?.toUpperCase()}</strong>
                     {' '}starting{' '}
                     <strong className="text-foreground/90">{watchedValues.start_date}</strong>
                   </>

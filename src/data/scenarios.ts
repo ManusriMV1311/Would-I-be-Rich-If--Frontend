@@ -160,7 +160,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'spending-swiggy-india',
         name: 'Weekend Swiggy/Zomato',
-        title: 'What if I skipped one Swiggy order every week?',
+        title: 'What if I skipped a Swiggy order every week?',
         description: 'Investing ₹500 every weekend into the Indian stock market.',
         category: 'spending',
         region: 'india',
@@ -564,7 +564,7 @@ export const SCENARIO_CONFIG: {
       {
         uuid: 'govt-nps-2015',
         name: 'NPS (Retirement)',
-        title: 'What if I invested ₹50,000/year in NPS?',
+        title: 'What if I invested in NPS?',
         description: 'The National Pension System with equity exposure.',
         category: 'govt_schemes',
         region: 'india',
@@ -816,7 +816,585 @@ export const SCENARIO_CONFIG: {
       }
     ],
   },
+  {
+    categoryId: 'spending',
+    name: 'Daily Spends & Habits',
+    icon: 'Coffee',
+    scenarios: [
+      {
+        uuid: 'gen-spending-0-2dc706',
+        name: 'Daily Swiggy/Zomato',
+        title: "What if I invested my daily Swiggy/Zomato spending?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 9000, "investment_asset": "ZOMATO.NS", "start_date": "2021-07-23"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-1-7c2cf3',
+        name: 'Weekend Pub Hopping',
+        title: "What if I invested my weekend pub hopping budget?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 12000, "investment_asset": "UNITEDSPR.NS", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-2-22dc8c',
+        name: 'Daily Premium Coffee',
+        title: "What if my daily premium coffee went into the market?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'global',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 6000, "investment_asset": "SBUX", "start_date": "2016-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-3-006f83',
+        name: 'Streaming Subscriptions',
+        title: "What if I invested my Netflix and Spotify subscription fees?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'global',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 1000, "investment_asset": "NFLX", "start_date": "2016-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-4-237b22',
+        name: 'Cigarette Spending',
+        title: "What if I invested the money I spend on cigarettes?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 6000, "investment_asset": "ITC.NS", "start_date": "2010-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-5-57d7f5',
+        name: 'Annual iPhone Upgrade',
+        title: "What if I invested the cost of buying the latest iPhone every year?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'global',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 100000, "investment_asset": "AAPL", "start_date": "2018-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-6-1b19b9',
+        name: 'Fast Fashion Budget',
+        title: "What if my fast-fashion Myntra/Zara budget was invested?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 5000, "investment_asset": "TRENT.NS", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-7-94dfbe',
+        name: 'Salon & Grooming',
+        title: "What if I invested my monthly salon and grooming budget?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 3000, "investment_asset": "HINDUNILVR.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-8-1c1a63',
+        name: 'Gym Supplements',
+        title: "What if my expensive gym supplement stack went into stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 8000, "investment_asset": "SUNPHARMA.NS", "start_date": "2018-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-9-6c5999',
+        name: 'Uber/Ola vs Metro',
+        title: "What if I took the metro and invested my Uber/Ola budget?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 10000, "investment_asset": "TATAMOTORS.NS", "start_date": "2016-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-10-79de6a',
+        name: 'Weekend Movies',
+        title: "What if I invested my weekend movie and popcorn budget?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 2500, "investment_asset": "PVRINOX.NS", "start_date": "2014-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-11-047117',
+        name: 'Gaming Microtransactions',
+        title: "What if my online gaming microtransactions were invested?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'global',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 2000, "investment_asset": "MSFT", "start_date": "2017-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-12-184d88',
+        name: 'Impulse Amazon Purchases',
+        title: "What if my impulse Amazon purchases went to Amazon stock?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'global',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 7500, "investment_asset": "AMZN", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-13-3400a0',
+        name: 'Chai & Sutta ritual',
+        title: "What if I invested my daily cutting chai and sutta money?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 1500, "investment_asset": "NIFTYBEES.NS", "start_date": "2010-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-spending-14-0f905c',
+        name: 'Weekend Mall Hopping',
+        title: "What if my weekend mall-hopping budget went into retail stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'spending',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 6000, "investment_asset": "DMART.NS", "start_date": "2017-03-21"},
+        tags: ['New', 'Trending']
+      },
+    ]
+  },
+  {
+    categoryId: 'govt_schemes',
+    name: 'Government Schemes',
+    icon: 'Landmark',
+    scenarios: [
+      {
+        uuid: 'gen-govt_schemes-0-0da1ee',
+        name: 'PPF vs Index Funds',
+        title: "What if my PPF yearly contribution went into index funds?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 12500, "investment_asset": "^NSEI", "start_date": "2010-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-1-827a48',
+        name: 'Sukanya Samriddhi Yojana',
+        title: "What if Sukanya Samriddhi Yojana equivalent was put in IT stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 5000, "investment_asset": "TCS.NS", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-2-e7847d',
+        name: 'Voluntary EPF',
+        title: "What if my EPF voluntary contribution went to direct equity?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 10000, "investment_asset": "RELIANCE.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-3-1297b9',
+        name: 'PM Kisan yearly payouts',
+        title: "What if my PM Kisan yearly payouts were invested in agriculture stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 500, "investment_asset": "PIIND.NS", "start_date": "2018-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-4-2484c0',
+        name: 'NPS Tier 1',
+        title: "What if my NPS Tier 1 monthly contribution was purely in Nifty?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 5000, "investment_asset": "NIFTYBEES.NS", "start_date": "2014-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-5-aa0e5f',
+        name: 'SGB vs Physical Gold',
+        title: "What if I bought Sovereign Gold Bonds instead of physical gold?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 250000, "investment_asset": "GOLDBEES.NS", "start_date": "2015-11-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-6-529554',
+        name: 'POMIS Scheme',
+        title: "What if my POMIS (Post Office Scheme) was invested in banking?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 900000, "investment_asset": "HDFCBANK.NS", "start_date": "2010-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-7-84b6b8',
+        name: 'Atal Pension Yojana',
+        title: "What if my Atal Pension Yojana contribution went to high-growth tech?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 210, "investment_asset": "INFY.NS", "start_date": "2015-05-09"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-8-0b97c9',
+        name: 'Traditional LIC Premium',
+        title: "What if my traditional LIC Premium was invested in the market?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 8000, "investment_asset": "BAJFINANCE.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-govt_schemes-9-8abcbb',
+        name: 'ELSS Tax Savings',
+        title: "What if my ELSS tax-saving amount went into direct stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'govt_schemes',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 12500, "investment_asset": "LART.NS", "start_date": "2014-01-01"},
+        tags: ['New', 'Trending']
+      },
+    ]
+  },
+  {
+    categoryId: 'cultural',
+    name: 'Culture & Lifestyle',
+    icon: 'Home',
+    scenarios: [
+      {
+        uuid: 'gen-cultural-0-faa2b0',
+        name: 'Big Fat Indian Wedding',
+        title: "What if the Big Fat Indian Wedding budget was invested instead?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 2000000, "investment_asset": "TITAN.NS", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-1-eb4a2b',
+        name: 'Dhanteras Gold Buying',
+        title: "What if Dhanteras gold buying was put into equity every year?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 4000, "investment_asset": "ASIANPAINT.NS", "start_date": "2010-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-2-5c3c53',
+        name: 'Cash under the Mattress',
+        title: "What if the cash kept under the mattress was in the market?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 500000, "investment_asset": "^NSEI", "start_date": "2016-11-08"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-3-029c65',
+        name: 'Childs First Birthday',
+        title: "What if the budget for my child's lavish first birthday was invested?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 200000, "investment_asset": "PIDILITIND.NS", "start_date": "2013-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-4-f46ff8',
+        name: 'Shagun Envelopes',
+        title: "What if all the 'Shagun' envelope money was invested over time?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 1500, "investment_asset": "SBI.NS", "start_date": "2008-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-5-3a2a99',
+        name: 'Diwali New Car',
+        title: "What if the Diwali new car budget was invested in auto stocks?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 800000, "investment_asset": "MARUTI.NS", "start_date": "2014-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-6-a8e2cf',
+        name: 'Annual Family Trip',
+        title: "What if the annual family Dubai trip was skipped for investments?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 25000, "investment_asset": "IRCTC.NS", "start_date": "2019-10-14"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-7-bb398c',
+        name: 'Diwali Firecrackers',
+        title: "What if the massive Diwali firecrackers budget was saved?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 2000, "investment_asset": "HCLTECH.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-8-f76448',
+        name: 'Bitcoin vs Rolex',
+        title: "What if I bought Bitcoin instead of a Rolex watch?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 800000, "investment_asset": "BTC-INR", "start_date": "2016-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-cultural-9-2bf00e',
+        name: 'Royal Enfield Bullet',
+        title: "What if the Royal Enfield Bullet money went into Eicher Motors?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'cultural',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 250000, "investment_asset": "EICHERMOT.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+    ]
+  },
+  {
+    categoryId: 'career',
+    name: 'Career & Life Events',
+    icon: 'Briefcase',
+    scenarios: [
+      {
+        uuid: 'gen-career-0-8412a2',
+        name: 'I my very first salary cheque',
+        title: "What if I invested my very first salary cheque?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 25000, "investment_asset": "INFY.NS", "start_date": "2010-06-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-1-19af72',
+        name: 'Annual Diwali Bonus',
+        title: "What if my annual Diwali Bonus was invested every year?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 8000, "investment_asset": "WIPRO.NS", "start_date": "2014-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-2-d11561',
+        name: 'Appraisal Increment',
+        title: "What if I invested my entire appraisal increment amount?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 15000, "investment_asset": "KOTAKBANK.NS", "start_date": "2016-04-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-3-08bcc1',
+        name: 'MBA Fee vs QQQ',
+        title: "What if I skipped an expensive MBA and invested the fee?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'global',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 2500000, "investment_asset": "QQQ", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-4-4814f1',
+        name: 'Freelance Side Hustle',
+        title: "What if my freelance side-hustle income was consistently invested?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'global',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 20000, "investment_asset": "UPWK", "start_date": "2018-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-5-9fff8c',
+        name: 'Income Tax Refund',
+        title: "What if I invested my income tax refund every year?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 5000, "investment_asset": "ICICIBANK.NS", "start_date": "2013-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-6-335ce4',
+        name: 'Inherited Property',
+        title: "What if the inherited property downpayment went into the market?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 5000000, "investment_asset": "DLF.NS", "start_date": "2012-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-7-19d4d0',
+        name: 'Rent vs Buy EMI',
+        title: "What if I rented and invested the EMI difference?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'recurring_dca',
+        params: {"monthly_amount": 40000, "investment_asset": "NIFTYBEES.NS", "start_date": "2015-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-8-b86173',
+        name: 'Wedding Registry Gifts',
+        title: "What if all my wedding registry cash gifts were invested?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'india',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 500000, "investment_asset": "HDFCBANK.NS", "start_date": "2016-01-01"},
+        tags: ['New', 'Trending']
+      },
+      {
+        uuid: 'gen-career-9-2eadf4',
+        name: 'Old Car Sale',
+        title: "What if the money from selling my old car went into Tesla?",
+        description: "Explore what happens if you had made this financial choice.",
+        category: 'career',
+        region: 'global',
+        sim_type: 'lump_sum',
+        params: {"initial_amount": 400000, "investment_asset": "TSLA", "start_date": "2019-01-01"},
+        tags: ['New', 'Trending']
+      },
+    ]
+  },
 ];
+
+export const ASSET_NAMES: Record<string, string> = {
+  'BTC-USD': 'Bitcoin',
+  'ETH-USD': 'Ethereum',
+  'DOGE-USD': 'Dogecoin',
+  'SOL-USD': 'Solana',
+  'BTC-INR': 'Bitcoin (INR)',
+  'ETH-INR': 'Ethereum (INR)',
+  'SOL-INR': 'Solana (INR)',
+  'WRX-INR': 'WazirX',
+  'NIFTYBEES.NS': 'Nifty BeES ETF',
+  'RELIANCE.NS': 'Reliance Industries',
+  'SPY': 'S&P 500 ETF',
+  'INFY.NS': 'Infosys',
+  'BPCL.NS': 'BPCL',
+  'TATAMOTORS.NS': 'Tata Motors',
+  'HOMZ': 'Austin Housing Index',
+  'VNQ': 'Vanguard Real Estate ETF',
+  'TCS.NS': 'TCS',
+  'ZOMATO.NS': 'Zomato',
+  'ITC.NS': 'ITC',
+  'AAPL': 'Apple',
+  'NVDA': 'NVIDIA',
+  '^NSEI': 'Nifty 50 Index',
+  'HDFCBANK.NS': 'HDFC Bank',
+  'ASIANPAINT.NS': 'Asian Paints',
+  'IRCTC.NS': 'IRCTC',
+  'TSLA': 'Tesla',
+  'AMZN': 'Amazon',
+  'GOLDBEES.NS': 'Gold BeES ETF',
+  'TRENT.NS': 'Trent (Zara/Westside)',
+  'UNITEDSPR.NS': 'United Spirits (Diageo)',
+  'QQQ': 'Invesco QQQ Trust',
+  'EICHERMOT.NS': 'Eicher Motors (Royal Enfield)',
+  'SBI.NS': 'State Bank of India',
+  'DLF.NS': 'DLF Limited',
+  'DMART.NS': 'Avenue Supermarts (DMart)',
+  'SUNPHARMA.NS': 'Sun Pharma',
+  'SBUX': 'Starbucks',
+  'PIDILITIND.NS': 'Pidilite Industries',
+  'BAJFINANCE.NS': 'Bajaj Finance',
+  'KOTAKBANK.NS': 'Kotak Mahindra Bank',
+  'LART.NS': 'Larsen & Toubro',
+  'HINDUNILVR.NS': 'Hindustan Unilever',
+  'HCLTECH.NS': 'HCL Technologies',
+  'MSFT': 'Microsoft',
+  'ICICIBANK.NS': 'ICICI Bank',
+  'WIPRO.NS': 'Wipro',
+  'UPWK': 'Upwork',
+  'TITAN.NS': 'Titan Company',
+  'PIIND.NS': 'PI Industries',
+  'MARUTI.NS': 'Maruti Suzuki',
+  'NFLX': 'Netflix',
+  'PVRINOX.NS': 'PVR INOX'
+};
 
 export const getAllDropdownGroups = () => {
   return SCENARIO_CONFIG.map(category => {
@@ -828,7 +1406,7 @@ export const getAllDropdownGroups = () => {
       if (ticker && !uniqueOptionsMap.has(ticker)) {
         uniqueOptionsMap.set(ticker, {
           value: ticker,
-          label: s.name,
+          label: ASSET_NAMES[ticker] || s.name,
         });
       }
     });

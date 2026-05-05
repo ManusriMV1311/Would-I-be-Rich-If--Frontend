@@ -78,6 +78,8 @@ export interface SimulationResultData {
   difference: number;
   growth_pct: number;
   is_positive: boolean;
+  performance_label?: string;
+  display_currency: 'USD' | 'INR';  // currency the values are expressed in
   chart_data: ChartDataPoint[];
   commentary: string;
   cached: boolean;

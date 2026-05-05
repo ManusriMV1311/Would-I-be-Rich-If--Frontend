@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { simulateLumpSum, simulateDCA } from '@/services/api';
 import { SimulationResultData } from '@/types/scenario.types';
+import { detectCurrency } from '@/utils/currencyDetection';
+import { USD_TO_INR } from '@/utils/formatCurrency';
 
 /**
  * Custom simulation input (matches backend)
@@ -58,15 +60,41 @@ export function useCustomSimulation() {
         }
 
         // Both endpoints now return the same normalized shape from backend
-        const alternateValue: number = Number(result.alternate_value) || 0;
-        const realValue: number = Number(result.real_value) || 0;
-        const difference: number = Number(result.difference) || (alternateValue - realValue);
-        const growthPct: number = Number(result.growth_percentage) || 0;
+        const displayCurrency = detectCurrency(params.asset);
+        const isINR = displayCurrency === 'INR';
+        const rate = isINR ? USD_TO_INR : 1;
+
+        // Backend always returns USD values — convert to INR if the asset is Indian
+        const alternateValue: number = (Number(result.alternate_value) || 0) * rate;
+        const realValue: number = (Number(result.real_value) || 0) * rate;
+        const difference: number = (Number(result.difference) || (Number(result.alternate_value) - Number(result.real_value))) * rate;
+        const growthPct: number = Number(result.growth_percentage) || 0; // % is unchanged
         const isPositive: boolean = difference > 0;
 
-        // Commentary comes from the backend commentary engine
-        const commentary: string =
-          result.commentary || 'Real simulation based on historical market data.';
+        // Scale chart data to INR as well
+        const rawChartData: typeof result.chart_data = result.chart_data ?? [];
+        const chartData = isINR
+          ? rawChartData.map((p: { date: string; value: number }) => ({ ...p, value: Math.round(p.value * rate) }))
+          : rawChartData;
+
+        // Classify performance
+        // If positive and strong → Outperformed; weak positive = matched; negative = Underperformed
+        const performanceLabel: string = growthPct >= 50
+          ? 'Outperformed Market 🚀'
+          : growthPct >= 0
+          ? 'Matched Market 📊'
+          : 'Underperformed Market 📉';
+
+        // Enrich commentary
+        const rawCommentary: string = result.commentary ||
+          'Real simulation based on historical market data.';
+        const enrichedCommentary: string = growthPct < 0
+          ? `This investment underperformed the broader market average. ${rawCommentary}`
+          : growthPct >= 100
+          ? `This investment significantly outperformed the market! ${rawCommentary}`
+          : rawCommentary;
+
+        const commentary: string = enrichedCommentary;
 
         const resultId: string =
           result.result_id || `res_${Date.now()}`;
@@ -90,13 +118,15 @@ export function useCustomSimulation() {
               label: 'Real You',
               description:
                 params.sim_type === 'lump_sum'
-                  ? `Cash left uninvested since ${params.start_date}`
-                  : `Total cash invested over time`,
+                  ? `If you kept your money in cash (baseline)`
+                  : `Total cash you contributed over time (baseline)`,
             },
             difference,
             growth_pct: growthPct,
             is_positive: isPositive,
-            chart_data: result.chart_data ?? [],
+            performance_label: performanceLabel,
+            display_currency: displayCurrency,
+            chart_data: chartData,
             commentary,
             cached: false,
             duration_ms: 0,

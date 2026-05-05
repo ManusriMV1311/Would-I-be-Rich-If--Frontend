@@ -1,0 +1,460 @@
+{
+  "spending_habits": [
+    {
+      "title": "What if I invested my daily Swiggy/Zomato spending?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 9000,
+        "investment_asset": "ZOMATO.NS",
+        "start_date": "2021-07-23"
+      }
+    },
+    {
+      "title": "What if I invested my weekend pub hopping budget?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 12000,
+        "investment_asset": "UNITEDSPR.NS",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if my daily premium coffee went into the market?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 6000,
+        "investment_asset": "SBUX",
+        "start_date": "2016-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my Netflix and Spotify subscription fees?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 1000,
+        "investment_asset": "NFLX",
+        "start_date": "2016-01-01"
+      }
+    },
+    {
+      "title": "What if I invested the money I spend on cigarettes?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 6000,
+        "investment_asset": "ITC.NS",
+        "start_date": "2010-01-01"
+      }
+    },
+    {
+      "title": "What if I invested the cost of buying the latest iPhone every year?",
+      "category": "spending_habits",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 100000,
+        "investment_asset": "AAPL",
+        "start_date": "2018-01-01"
+      }
+    },
+    {
+      "title": "What if my fast-fashion Myntra/Zara budget was invested?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 5000,
+        "investment_asset": "TRENT.NS",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my monthly salon and grooming budget?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 3000,
+        "investment_asset": "HINDUNILVR.NS",
+        "start_date": "2012-01-01"
+      }
+    },
+    {
+      "title": "What if my expensive gym supplement stack went into stocks?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 8000,
+        "investment_asset": "SUNPHARMA.NS",
+        "start_date": "2018-01-01"
+      }
+    },
+    {
+      "title": "What if I took the metro and invested my Uber/Ola budget?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 10000,
+        "investment_asset": "TATAMOTORS.NS",
+        "start_date": "2016-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my weekend movie and popcorn budget?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 2500,
+        "investment_asset": "PVRINOX.NS",
+        "start_date": "2014-01-01"
+      }
+    },
+    {
+      "title": "What if my online gaming microtransactions were invested?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 2000,
+        "investment_asset": "MSFT",
+        "start_date": "2017-01-01"
+      }
+    },
+    {
+      "title": "What if my impulse Amazon purchases went to Amazon stock?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 7500,
+        "investment_asset": "AMZN",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my daily cutting chai and sutta money?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 1500,
+        "investment_asset": "NIFTYBEES.NS",
+        "start_date": "2010-01-01"
+      }
+    },
+    {
+      "title": "What if my weekend mall-hopping budget went into retail stocks?",
+      "category": "spending_habits",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 6000,
+        "investment_asset": "DMART.NS",
+        "start_date": "2017-03-21"
+      }
+    }
+  ],
+  "government_schemes": [
+    {
+      "title": "What if my PPF yearly contribution went into index funds?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 12500,
+        "investment_asset": "^NSEI",
+        "start_date": "2010-01-01"
+      }
+    },
+    {
+      "title": "What if Sukanya Samriddhi Yojana equivalent was put in IT stocks?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 5000,
+        "investment_asset": "TCS.NS",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if my EPF voluntary contribution went to direct equity?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 10000,
+        "investment_asset": "RELIANCE.NS",
+        "start_date": "2012-01-01"
+      }
+    },
+    {
+      "title": "What if PM Kisan ₹6000 yearly was invested in agriculture stocks?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 500,
+        "investment_asset": "PIIND.NS",
+        "start_date": "2018-01-01"
+      }
+    },
+    {
+      "title": "What if my NPS Tier 1 monthly contribution was purely in Nifty?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 5000,
+        "investment_asset": "NIFTYBEES.NS",
+        "start_date": "2014-01-01"
+      }
+    },
+    {
+      "title": "What if I bought Sovereign Gold Bonds instead of physical gold?",
+      "category": "government_schemes",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 250000,
+        "investment_asset": "GOLDBEES.NS",
+        "start_date": "2015-11-01"
+      }
+    },
+    {
+      "title": "What if my POMIS (Post Office Scheme) was invested in banking?",
+      "category": "government_schemes",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 900000,
+        "investment_asset": "HDFCBANK.NS",
+        "start_date": "2010-01-01"
+      }
+    },
+    {
+      "title": "What if my Atal Pension Yojana contribution went to high-growth tech?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 210,
+        "investment_asset": "INFY.NS",
+        "start_date": "2015-05-09"
+      }
+    },
+    {
+      "title": "What if my traditional LIC Premium was invested in the market?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 8000,
+        "investment_asset": "BAJFINANCE.NS",
+        "start_date": "2012-01-01"
+      }
+    },
+    {
+      "title": "What if my ELSS tax-saving amount went into direct stocks?",
+      "category": "government_schemes",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 12500,
+        "investment_asset": "LART.NS",
+        "start_date": "2014-01-01"
+      }
+    }
+  ],
+  "cultural_lifestyle": [
+    {
+      "title": "What if the Big Fat Indian Wedding budget was invested instead?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 2000000,
+        "investment_asset": "TITAN.NS",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if Dhanteras gold buying was put into equity every year?",
+      "category": "cultural_lifestyle",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 4000,
+        "investment_asset": "ASIANPAINT.NS",
+        "start_date": "2010-01-01"
+      }
+    },
+    {
+      "title": "What if the cash kept under the mattress was in the market?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 500000,
+        "investment_asset": "^NSEI",
+        "start_date": "2016-11-08"
+      }
+    },
+    {
+      "title": "What if the budget for my child's lavish first birthday was invested?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 200000,
+        "investment_asset": "PIDILITIND.NS",
+        "start_date": "2013-01-01"
+      }
+    },
+    {
+      "title": "What if all the 'Shagun' envelope money was invested over time?",
+      "category": "cultural_lifestyle",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 1500,
+        "investment_asset": "SBI.NS",
+        "start_date": "2008-01-01"
+      }
+    },
+    {
+      "title": "What if the Diwali new car budget was invested in auto stocks?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 800000,
+        "investment_asset": "MARUTI.NS",
+        "start_date": "2014-01-01"
+      }
+    },
+    {
+      "title": "What if the annual family Dubai trip was skipped for investments?",
+      "category": "cultural_lifestyle",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 25000,
+        "investment_asset": "IRCTC.NS",
+        "start_date": "2019-10-14"
+      }
+    },
+    {
+      "title": "What if the massive Diwali firecrackers budget was saved?",
+      "category": "cultural_lifestyle",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 2000,
+        "investment_asset": "HCLTECH.NS",
+        "start_date": "2012-01-01"
+      }
+    },
+    {
+      "title": "What if I bought Bitcoin instead of a Rolex watch?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 800000,
+        "investment_asset": "BTC-INR",
+        "start_date": "2016-01-01"
+      }
+    },
+    {
+      "title": "What if the Royal Enfield Bullet money went into Eicher Motors?",
+      "category": "cultural_lifestyle",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 250000,
+        "investment_asset": "EICHERMOT.NS",
+        "start_date": "2012-01-01"
+      }
+    }
+  ],
+  "career_life": [
+    {
+      "title": "What if I invested my very first salary cheque?",
+      "category": "career_life",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 25000,
+        "investment_asset": "INFY.NS",
+        "start_date": "2010-06-01"
+      }
+    },
+    {
+      "title": "What if my annual Diwali Bonus was invested every year?",
+      "category": "career_life",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 8000,
+        "investment_asset": "WIPRO.NS",
+        "start_date": "2014-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my entire appraisal increment amount?",
+      "category": "career_life",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 15000,
+        "investment_asset": "KOTAKBANK.NS",
+        "start_date": "2016-04-01"
+      }
+    },
+    {
+      "title": "What if I skipped an expensive MBA and invested the fee?",
+      "category": "career_life",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 2500000,
+        "investment_asset": "QQQ",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if my freelance side-hustle income was consistently invested?",
+      "category": "career_life",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 20000,
+        "investment_asset": "UPWK",
+        "start_date": "2018-01-01"
+      }
+    },
+    {
+      "title": "What if I invested my income tax refund every year?",
+      "category": "career_life",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 5000,
+        "investment_asset": "ICICIBANK.NS",
+        "start_date": "2013-01-01"
+      }
+    },
+    {
+      "title": "What if the inherited property downpayment went into the market?",
+      "category": "career_life",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 5000000,
+        "investment_asset": "DLF.NS",
+        "start_date": "2012-01-01"
+      }
+    },
+    {
+      "title": "What if I rented and invested the EMI difference?",
+      "category": "career_life",
+      "type": "recurring",
+      "params": {
+        "monthly_amount": 40000,
+        "investment_asset": "NIFTYBEES.NS",
+        "start_date": "2015-01-01"
+      }
+    },
+    {
+      "title": "What if all my wedding registry cash gifts were invested?",
+      "category": "career_life",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 500000,
+        "investment_asset": "HDFCBANK.NS",
+        "start_date": "2016-01-01"
+      }
+    },
+    {
+      "title": "What if the money from selling my old car went into Tesla?",
+      "category": "career_life",
+      "type": "lump_sum",
+      "params": {
+        "initial_amount": 400000,
+        "investment_asset": "TSLA",
+        "start_date": "2019-01-01"
+      }
+    }
+  ]
+}

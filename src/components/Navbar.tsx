@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 import { useEffect } from 'react';
-import CurrencyToggle from '@/components/ui/CurrencyToggle';
 import RegionToggle from '@/components/ui/RegionToggle';
 
 const NAV_LINKS = [
@@ -97,9 +96,6 @@ export default function Navbar() {
 
         {/* ── Desktop CTA & Theme ── */}
         <div className="hidden sm:flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md">
-            <CurrencyToggle />
-          </div>
           
           <button
             onClick={toggleTheme}
@@ -165,9 +161,6 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <div className="pt-4 flex items-center justify-center px-4">
-            <CurrencyToggle />
-          </div>
           <Link
             href="/scenarios"
             onClick={() => setMenuOpen(false)}
